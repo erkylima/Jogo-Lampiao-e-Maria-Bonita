@@ -30,27 +30,30 @@ public class GUI extends JFrame implements KeyListener{
 
 	}
 	public void pular(){
-		if(pula){
-			System.out.println("HE");
+		int y=lampiao.y;
 
-			int y=lampiao.y;
-			while (y<=(lampiao.y+100)) {
-				if(lampiao.y+100>=y) {
-
-					while (y>=(lampiao.y+100)) {
-						lampiao.y-=5;
-
-					}
-					pula = false;
-					break;
-				}
-
-				lampiao.y+= 5;
-			}
-		}
+//		if(pula){
+//			while ( y >= (y-100) ) {
+//
+//				if( lampiao.y == ( y-100 ) ) {
+//
+//					while ( y > ( lampiao.y ) ) {
+//						lampiao.y+=0.1;
+//
+//					}
+//					System.out.println( "HE " + y +" TO " + lampiao.y);
+//
+//					pula = false;
+//					break;
+//				}
+//
+//				lampiao.y-= 0.1;
+//			}
+//		}
 
 
 	}
+	
 	public void atualizar() {
 		mover();
 		pular();
