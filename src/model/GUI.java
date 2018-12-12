@@ -1,15 +1,15 @@
 package model;
 
 import java.awt.Graphics;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
+
 
 public class GUI extends JFrame implements KeyListener{
 	BufferedImage backBuffer;	
@@ -18,16 +18,49 @@ public class GUI extends JFrame implements KeyListener{
 	int janelaH = 960;
 	
 	Lampiao lampiao = new Lampiao(14, 40, 700);
+	Lampiao2 lampiao2;
 	ImageIcon fundo = new ImageIcon("Arquivos/BG.png");
 
 	boolean vai,volta,pula = false;
+	boolean parouD,parouE=true;
 	
 	
 	//ESSA VARI�VEL PODERIA ESTAR NA CLASSE Sprite
 	public void mover(){
-		if(vai && lampiao.x<700){  lampiao.x += 5;  vai=false;}
-		if(volta && lampiao.x>40){  lampiao.x -= 5;  volta=false;}
+		if(lampiao2.x<=1100&& lampiao2.x>=40) {
+			if(vai){
+				lampiao2.x += 5;
+				if(lampiao2.aparencia>=14) {
+					lampiao2.aparencia=0;
+				}
+				lampiao2.animacaoAndandoDireita();
+			}
+			else if(volta){ 
+				lampiao2.x -= 5;
+				if(lampiao2.aparencia<=23 || lampiao2.aparencia>37) {
+					lampiao2.aparencia=23;
+				}
+				lampiao2.animacaoAndandoEsquerda();
+			}
+			else if(!vai && !volta) {
+				if(lampiao2.aparencia>23&&lampiao2.aparencia<=37) {
+					lampiao2.aparencia=37;
+				} 
+				lampiao2.animacaoParadoEsquerda();
+			}
+			else if(!vai && !volta) {
+				if(lampiao2.aparencia >=0 && lampiao2.aparencia <=14) {
+					lampiao2.aparencia=15;
+				}
+				lampiao2.animacaoParadoDireita();
 
+			}
+			
+			System.out.println(vai+" volta "+volta + " aparencia " + lampiao2.aparencia);
+
+			vai=false;
+			volta=false;
+		}
 	}
 	public void pular(){
 		int y=lampiao.y;
@@ -55,7 +88,7 @@ public class GUI extends JFrame implements KeyListener{
 	}
 	
 	public void atualizar() {
-		mover();
+//		mover();
 		pular();
 	}
 	public void desenharGraficos() {
@@ -71,10 +104,13 @@ public class GUI extends JFrame implements KeyListener{
 //		bbg.drawImage(vilao.cenas[vilao.cena].getImage(), vilao.x, vilao.y, this);
 //		vilao.animar();	//AQUI CHAMEI O MÃ‰TODO ANIMAR
 		
-		
-		bbg.drawImage(lampiao.cenas[lampiao.cena].getImage(), lampiao.x, lampiao.y, this);
-		lampiao.andarMaisLento();	//AQUI CHAMEI O MÃ‰TODO ANIMAR MAIS LENTO
-		
+		bbg.drawImage(lampiao2.sprites[lampiao2.aparencia], lampiao2.x, lampiao2.y, this);
+		//bbg.drawImage(lampiao.cenas[lampiao.cena].getImage(), lampiao.x, lampiao.y, this);
+		//lampiao.andarMaisLento();	//AQUI CHAMEI O MÃ‰TODO ANIMAR MAIS LENTO
+		mover();
+		if(!vai && !volta) {
+//			lampiao2.animacaoParado();
+		}
 		//==================================================================================	
 		g.drawImage(backBuffer, 0, 0, this);//OBS: ISSO DEVE FICAR SEMPRE NO FINAL!
 	}
@@ -101,25 +137,14 @@ public class GUI extends JFrame implements KeyListener{
 		addKeyListener(this);
 
 		backBuffer = new BufferedImage(janelaW, janelaH, BufferedImage.TYPE_INT_RGB);
+		try{
+			lampiao2 = new Lampiao2(new File("Arquivos/lampiaosprite.png"), 15, 12, 4, 40, 700);
+		}catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("Não foi possível carregar a Sprite");
+		}
 		
-		//QUI CARREGAMOS AS IMAGENS DE NOSSA SPRITE!!!!!!!
-		//PARA O VETOR DE ImageIcon[] !!!
-		lampiao.cenas[0] = new ImageIcon("Arquivos/Andando/m1.png");
-		lampiao.cenas[1] = new ImageIcon("Arquivos/Andando/m2.png");
-		lampiao.cenas[2] = new ImageIcon("Arquivos/Andando/m3.png");
-		lampiao.cenas[3] = new ImageIcon("Arquivos/Andando/m4.png");
-		lampiao.cenas[4] = new ImageIcon("Arquivos/Andando/m5.png");
-		lampiao.cenas[5] = new ImageIcon("Arquivos/Andando/m6.png");
-		lampiao.cenas[6] = new ImageIcon("Arquivos/Andando/m7.png");
-		lampiao.cenas[7] = new ImageIcon("Arquivos/Andando/m8.png");
-		lampiao.cenas[8] = new ImageIcon("Arquivos/Andando/m9.png");
-		lampiao.cenas[9] = new ImageIcon("Arquivos/Andando/m10.png");
-		lampiao.cenas[10] = new ImageIcon("Arquivos/Andando/m11.png");
-		lampiao.cenas[11] = new ImageIcon("Arquivos/Andando/m12.png");
-		lampiao.cenas[12] = new ImageIcon("Arquivos/Andando/m13.png");
-		lampiao.cenas[13] = new ImageIcon("Arquivos/Andando/m14.png");
-		lampiao.largura = 107;	//LARGURA DO VILÃƒO
-		lampiao.altura =  111;	//ALTURA DO VILÃƒO , mas nÃ£o vou usar isso agora..
+
 		
 		setVisible(true);
 	}
@@ -128,18 +153,25 @@ public class GUI extends JFrame implements KeyListener{
 	public void keyPressed(KeyEvent e) {
 		if(e.getKeyCode() == e.VK_LEFT){
 			volta=true;
+//			System.out.println(lampiao2.aparencia);
 		}
 		if(e.getKeyCode() == e.VK_RIGHT){
 			vai=true;
+			
 		}
 		if(e.getKeyCode() == e.VK_UP){
 			pula=true;
 		}
 	}
 	@Override
-	public void keyReleased(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-		
+	public void keyReleased(KeyEvent e) {
+		if(e.getKeyCode() == e.VK_LEFT){
+			parouE=true;
+		}
+		if(e.getKeyCode() == e.VK_RIGHT){
+			parouD=true;
+
+		}
 	}
 	@Override
 	public void keyTyped(KeyEvent arg0) {
