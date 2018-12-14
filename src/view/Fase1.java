@@ -1,4 +1,4 @@
-package model;
+package view;
 
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
@@ -10,60 +10,82 @@ import java.io.IOException;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
+import controller.Som;
+import model.Lampiao;
+import model.Metralha;
 
-public class GUI extends JFrame implements KeyListener{
+
+public class Fase1 extends JFrame implements KeyListener{
 	BufferedImage backBuffer;	
 	int FPS = 30;
 	int janelaW = 1280;
 	int janelaH = 960;
+	int ap;
 	
-	Lampiao lampiao = new Lampiao(14, 40, 700);
-	Lampiao2 lampiao2;
+	Metralha metralha;
+	Lampiao lampiao;
+	
 	ImageIcon fundo = new ImageIcon("Arquivos/BG.png");
 
-	boolean vai,volta,pula = false;
+	boolean vai,volta,pula,tiro = false;
 	boolean parouD,parouE=true;
 	
 	
 	//ESSA VARI�VEL PODERIA ESTAR NA CLASSE Sprite
 	public void mover(){
-		if(lampiao2.x<=1100&& lampiao2.x>=40) {
+		if(lampiao.x>=10 && lampiao.x<=1100) {
+			
 			if(vai){
-				lampiao2.x += 5;
-				if(lampiao2.aparencia>=14) {
-					lampiao2.aparencia=0;
+				if(lampiao.x!=1100) {
+					lampiao.x += 10;					
 				}
-				lampiao2.animacaoAndandoDireita();
-			}
-			else if(volta){ 
-				lampiao2.x -= 5;
-				if(lampiao2.aparencia<=23 || lampiao2.aparencia>37) {
-					lampiao2.aparencia=23;
+				if(lampiao.aparencia>=14) {
+					lampiao.aparencia=0;
 				}
-				lampiao2.animacaoAndandoEsquerda();
+				lampiao.animacaoAndandoDireita();
 			}
-			else if(!vai && !volta) {
-				if(lampiao2.aparencia>23&&lampiao2.aparencia<=37) {
-					lampiao2.aparencia=37;
+			if(volta){ 
+				if(lampiao.x!=10) {
+					lampiao.x -= 10;	
+				}
+				if(lampiao.aparencia<=23 || lampiao.aparencia>37) {
+					lampiao.aparencia=23;
+				}
+				lampiao.animacaoAndandoEsquerda();
+			}
+			
+			if(!vai && !volta && !tiro) {
+				if(lampiao.aparencia>23&&lampiao.aparencia<=37) {
+					lampiao.aparencia=37;
 				} 
-				lampiao2.animacaoParadoEsquerda();
+				lampiao.animacaoParadoEsquerda();
 			}
-			else if(!vai && !volta) {
-				if(lampiao2.aparencia >=0 && lampiao2.aparencia <=14) {
-					lampiao2.aparencia=15;
+
+			if(!vai && !volta && !tiro) {
+				if(lampiao.aparencia >=0 && lampiao.aparencia <=14) {
+					lampiao.aparencia=15;
 				}
-				lampiao2.animacaoParadoDireita();
+				lampiao.animacaoParadoDireita();
 
 			}
 			
-			System.out.println(vai+" volta "+volta + " aparencia " + lampiao2.aparencia);
-
+			if(!vai && !volta && tiro) {
+				if(lampiao.aparencia>37 && lampiao.aparencia != 47 && lampiao.aparencia != 46 ) {
+					ap = lampiao.aparencia;
+					lampiao.aparencia = 47;
+				}
+				if(lampiao.aparencia <=37) {
+					ap = lampiao.aparencia;
+					lampiao.aparencia=46;
+				}
+				
+			}
 			vai=false;
 			volta=false;
+			tiro=false;
 		}
 	}
 	public void pular(){
-		int y=lampiao.y;
 
 //		if(pula){
 //			while ( y >= (y-100) ) {
@@ -104,12 +126,15 @@ public class GUI extends JFrame implements KeyListener{
 //		bbg.drawImage(vilao.cenas[vilao.cena].getImage(), vilao.x, vilao.y, this);
 //		vilao.animar();	//AQUI CHAMEI O MÃ‰TODO ANIMAR
 		
-		bbg.drawImage(lampiao2.sprites[lampiao2.aparencia], lampiao2.x, lampiao2.y, this);
+		bbg.drawImage(lampiao.sprites[lampiao.aparencia], lampiao.x, lampiao.y, this);
 		//bbg.drawImage(lampiao.cenas[lampiao.cena].getImage(), lampiao.x, lampiao.y, this);
 		//lampiao.andarMaisLento();	//AQUI CHAMEI O MÃ‰TODO ANIMAR MAIS LENTO
+		
 		mover();
+		if(metralha.getAparencia()!=60)
+		bbg.drawImage(metralha.getSprites()[metralha.getAparencia()], metralha.getX(), metralha.getY(), this);
 		if(!vai && !volta) {
-//			lampiao2.animacaoParado();
+//			lampiao.animacaoParado();
 		}
 		//==================================================================================	
 		g.drawImage(backBuffer, 0, 0, this);//OBS: ISSO DEVE FICAR SEMPRE NO FINAL!
@@ -126,7 +151,7 @@ public class GUI extends JFrame implements KeyListener{
 				}
 		}
 	}
-	public GUI(String titulo) {
+	public Fase1(String titulo) {
 		super(titulo);
 		setSize(janelaW,janelaH);
 		setResizable(false);
@@ -138,7 +163,8 @@ public class GUI extends JFrame implements KeyListener{
 
 		backBuffer = new BufferedImage(janelaW, janelaH, BufferedImage.TYPE_INT_RGB);
 		try{
-			lampiao2 = new Lampiao2(new File("Arquivos/lampiaosprite.png"), 15, 12, 4, 40, 700);
+			lampiao = new Lampiao(new File("Arquivos/lampiaosprite.png"), 15, 12, 4, 40, 700);
+			metralha = new Metralha(6, 2205, 296, 9, 2, 600, 700, "Arquivos/metralhasprite.png");
 		}catch (IOException e) {
 			e.printStackTrace();
 			System.out.println("Não foi possível carregar a Sprite");
@@ -149,19 +175,45 @@ public class GUI extends JFrame implements KeyListener{
 		setVisible(true);
 	}
 	
+
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if(e.getKeyCode() == e.VK_LEFT){
-			volta=true;
-//			System.out.println(lampiao2.aparencia);
-		}
-		if(e.getKeyCode() == e.VK_RIGHT){
-			vai=true;
-			
-		}
-		if(e.getKeyCode() == e.VK_UP){
-			pula=true;
-		}
+		new Thread() {
+			@Override
+			public void run() {
+				if(e.getKeyCode() == e.VK_LEFT){
+					volta=true;
+				}
+			}
+		}.start();
+
+		new Thread() {
+			@Override
+			public void run() {
+				if(e.getKeyCode() == e.VK_RIGHT){
+					vai=true;
+					
+				}
+			}
+		}.start();
+
+		new Thread() {
+			@Override
+			public void run() {
+				if(e.getKeyCode() == e.VK_UP){
+					pula=true;
+				}
+			}
+		}.start();
+
+		new Thread() {
+			@Override
+			public void run() {
+			if(e.getKeyCode() == e.VK_SPACE){
+				tiro=true;
+			}
+			}
+		}.start();
 	}
 	@Override
 	public void keyReleased(KeyEvent e) {
@@ -172,6 +224,18 @@ public class GUI extends JFrame implements KeyListener{
 			parouD=true;
 
 		}
+		new Thread() {
+			@Override
+			public void run() {
+				if(e.getKeyCode() == e.VK_SPACE) {
+					new Som().tiroSom();
+					lampiao.aparencia =ap;
+					if(metralha.getAparencia()!=60)
+							metralha.setAparencia(60);
+				}
+			}
+		}.start();
+
 	}
 	@Override
 	public void keyTyped(KeyEvent arg0) {

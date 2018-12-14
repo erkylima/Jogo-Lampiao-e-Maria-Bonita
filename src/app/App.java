@@ -1,10 +1,10 @@
 package app;
 
-import model.GUI;
+import view.Fase1;
 
 public class App {
 	public static void main(String[] args) {
-		GUI gui = new GUI("Lampião e Maria Bonita");
+		Fase1 gui = new Fase1("Lampião e Maria Bonita");
 		gui.run();
 	}
 	

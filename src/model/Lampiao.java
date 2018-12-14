@@ -1,54 +1,80 @@
 package model;
 
-import javax.swing.ImageIcon;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 public class Lampiao {
-	ImageIcon cenas[];	//VETOR DE IMAGENS,
-	int x;					//AQUI É A COORDENADA X
-	int y;					//AQUI É A COORDENADA Y
-	int largura;			//LARGURA DA IMAGEM, CASO QUEIRA DEFINIR UMA
-	int altura;				//ALTURA DA IMAGEM, CASO QUEIRA DEFINIR UMA
-	int cena = 0;			//O INDICE DA CENA DA NOSSA SPRITE ANIMADA
-	int controlaVelocidade = 0;
-	int velocidade = 5;
+	public BufferedImage spriteSheet;   
+	public int width, height;
+	public int rows, columns;
+	public int x, y;//� atributo de Personagem
+	public BufferedImage[] sprites;
+	public int aparencia;
+	public int controlaVelocidade = 0;
+	public int velocidade = 5;
 	
-	//ISSO AQUI EM BAIXO PRA QUEM NÃO SABE É UM CONSTRUTOR
-	//QUANDO FORMOS CRIAR UM OBJETO A PARTIR DESSA CLASSE
-	//TEREMOS QUE: INFORMAR O NÚMERO DE CENAS, E A SUA COORDENADA INICIAL
-	//+ OU - ASSIM: new Sprite(3, 200, 300);
-	
-	public Lampiao(int numeroDeCenas, int x, int y){
-		cenas = new ImageIcon[numeroDeCenas];
-		this.x = x;
-		this.y = y;
+	public Lampiao(File file, int aparencia, int columns, int rows, int posX, int posY) throws IOException {
+		spriteSheet = ImageIO.read(file);
+		this.aparencia=aparencia;
+//		this.width = width;
+//		this.height = height;
+		
+		this.width = spriteSheet.getWidth()/columns;
+		this.height = spriteSheet.getHeight()/rows;
+
+		this.rows = columns;
+		this.columns = rows;
+		this.x=posX;
+		this.y=posY;
+
+		sprites = new BufferedImage[columns * rows];
+			for(int i = 0; i < columns; i++) {
+			for(int j = 0; j < rows; j++) {
+				sprites[(j * columns) + i] = spriteSheet.getSubimage(i * width, j * height, width, height);
+			}
+		}
 	}
 	
+
 	
-	
-	//ESSE MÉTODO VAI ALTERNAR AS IMAGENS QUE COMPÕES NOSSA SPRITE
-	//DEPENDENDO DO QUE VC PRETENDER FAZER, ESSE MÉTODO PODERIA
-	//SER MAIS COMPLEXO!
-	//TIPO: animarCorrer() animarChutar() animarPular()
-	//E ESSES MÉTODOS SERIAM CHAMADOS AO CLICAR EM ALGUMA TECLA!!!
-	//ESSA ANIMAÇÃO VAI FICAR MUITO R�?PIDA, PQ ELE MUDAR A IMAGEM DA CENA
-	//A CADA 1/30 milissegundos
-	public void animar(){
-		cena += 1;
-		if(cena == cenas.length){ cena = 0; }
-	}
-	
-	//ESSE MÉTODO CONTROLA A VELOCIDADE DA ANIMAÇÃO
-	//TENTEN ENTENDER ISSO AI...:
-	//isso é um controle de tempo paralelo ao que já tem no game loop!!!!
-	//o game loop vai rodar isso 30x a cada segundo
-	//e esse método vai mudar a cena a cada, 5 vezes que o game loop for 
-	//executado!!!!
-	public void andarMaisLento(){
-		controlaVelocidade+=4;
-		if(controlaVelocidade>velocidade){
-			cena += 1;
+	public void animacaoAndandoDireita(){
+		controlaVelocidade+=5;
+		if(controlaVelocidade>velocidade && (aparencia >=0 && aparencia <=14)){
+			aparencia += 1;
 			controlaVelocidade = 0;
-			if(cena == cenas.length){ cena = 0; }
+			if(aparencia == 14){ aparencia = 0; }
+		}
+	}
+	
+	public void animacaoParadoDireita(){
+		controlaVelocidade+=1;
+		if(controlaVelocidade>velocidade && (aparencia >=15 && aparencia <= 22)){
+			aparencia += 1;
+			controlaVelocidade = 0;
+			if(aparencia == 22){ aparencia = 15; }
+		}
+	}
+
+	
+	public void animacaoAndandoEsquerda(){
+		controlaVelocidade+=5;
+//		System.out.println(aparencia);
+		if(controlaVelocidade>velocidade && (aparencia >= 23 && aparencia<=36)){
+			aparencia += 1;
+			controlaVelocidade = 0;
+			if(aparencia == 36){ aparencia = 23; }
+		}
+	}	
+	
+	public void animacaoParadoEsquerda(){
+		controlaVelocidade+=1;
+		if(controlaVelocidade>velocidade && (aparencia >=37 && aparencia <=45)){
+			aparencia += 1;
+			controlaVelocidade = 0;
+			if(aparencia == 45){ aparencia = 37; }
 		}
 	}
 }
