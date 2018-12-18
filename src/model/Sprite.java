@@ -58,15 +58,17 @@ public abstract class Sprite {
 	 * @param endereco
 	 * @throws IOException
 	 */
-	protected Sprite(int aparencia, int largura, int altura, int colunas, int linhas, int x, int y, String endereco) throws IOException {
+	protected Sprite(int aparencia, int colunas, int linhas, int x, int y, String endereco) throws IOException {
 
 		try {
 
 			this.personagem = ImageIO.read(new File(endereco));
 			this.aparencia = aparencia;
-			this.largura = largura;
-			this.altura = altura;
-
+			//this.largura = largura;
+			//this.altura = altura;
+			
+			this.largura = personagem.getWidth()/colunas;
+			this.altura = personagem.getHeight()/linhas;
 			this.linhas = colunas;
 			this.colunas = linhas;
 			this.x = x;
@@ -79,12 +81,12 @@ public abstract class Sprite {
 			 * cada recorte significa um estado da Sprite 
 			 * 
 			 */
-			for (int i = 0; i < colunas; i++) {
-				for (int j = 0; j < linhas; j++) {
-					sprites[(i * linhas) + j] = personagem.getSubimage(i * (largura/colunas), 
-							j * (altura/linhas), largura/colunas, altura/linhas);
-				}
+			sprites = new BufferedImage[colunas * linhas];
+			for(int i = 0; i < colunas; i++) {
+			for(int j = 0; j < linhas; j++) {
+				sprites[(j * colunas) + i] = personagem.getSubimage(i * largura, j * altura, largura, altura);
 			}
+		}
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.out.println("Nao foi possivel carregar a Sprite");
@@ -99,7 +101,7 @@ public abstract class Sprite {
 	 * Toda Sprite tem uma animação diferente dependendo da imagem.
 	 * @param direcao
 	 */
-	public abstract void animar(String direcao);
+	public abstract void animar(int acao);
 
 	/**
 	 * Metodo abstrato responsavel por desenhar a Sprite na tela,
@@ -110,8 +112,9 @@ public abstract class Sprite {
 	/**
 	 * Metodo abstrato reponsavel por definir como sera o movimento da Sprite
 	 * @param direcao
+	 * @return 
 	 */
-	public abstract void mover(String direcao);
+	public abstract int mover(int acao);
 
 	/*
 	 * Metodos Getters e Setters

@@ -15,7 +15,7 @@ import model.Lampiao;
 import model.Metralha;
 
 
-public class Fase1 extends JFrame implements KeyListener{
+public class Fase1 extends JFrame implements Runnable, KeyListener{
 	BufferedImage backBuffer;	
 	int FPS = 30;
 	int janelaW = 1280;
@@ -27,91 +27,14 @@ public class Fase1 extends JFrame implements KeyListener{
 	
 	ImageIcon fundo = new ImageIcon("Arquivos/BG.png");
 
-	boolean vai,volta,pula,tiro = false;
-	boolean parouD,parouE=true;
+	private int acao;
 	
 	
 	//ESSA VARI�VEL PODERIA ESTAR NA CLASSE Sprite
-	public void mover(){
-		if(lampiao.x>=10 && lampiao.x<=1100) {
-			
-			if(vai){
-				if(lampiao.x!=1100) {
-					lampiao.x += 10;					
-				}
-				if(lampiao.aparencia>=14) {
-					lampiao.aparencia=0;
-				}
-				lampiao.animacaoAndandoDireita();
-			}
-			if(volta){ 
-				if(lampiao.x!=10) {
-					lampiao.x -= 10;	
-				}
-				if(lampiao.aparencia<=23 || lampiao.aparencia>37) {
-					lampiao.aparencia=23;
-				}
-				lampiao.animacaoAndandoEsquerda();
-			}
-			
-			if(!vai && !volta && !tiro) {
-				if(lampiao.aparencia>23&&lampiao.aparencia<=37) {
-					lampiao.aparencia=37;
-				} 
-				lampiao.animacaoParadoEsquerda();
-			}
 
-			if(!vai && !volta && !tiro) {
-				if(lampiao.aparencia >=0 && lampiao.aparencia <=14) {
-					lampiao.aparencia=15;
-				}
-				lampiao.animacaoParadoDireita();
-
-			}
-			
-			if(!vai && !volta && tiro) {
-				if(lampiao.aparencia>37 && lampiao.aparencia != 47 && lampiao.aparencia != 46 ) {
-					ap = lampiao.aparencia;
-					lampiao.aparencia = 47;
-				}
-				if(lampiao.aparencia <=37) {
-					ap = lampiao.aparencia;
-					lampiao.aparencia=46;
-				}
-				
-			}
-			vai=false;
-			volta=false;
-			tiro=false;
-		}
-	}
-	public void pular(){
-
-//		if(pula){
-//			while ( y >= (y-100) ) {
-//
-//				if( lampiao.y == ( y-100 ) ) {
-//
-//					while ( y > ( lampiao.y ) ) {
-//						lampiao.y+=0.1;
-//
-//					}
-//					System.out.println( "HE " + y +" TO " + lampiao.y);
-//
-//					pula = false;
-//					break;
-//				}
-//
-//				lampiao.y-= 0.1;
-//			}
-//		}
-
-
-	}
 	
 	public void atualizar() {
-//		mover();
-		pular();
+
 	}
 	public void desenharGraficos() {
 		Graphics g = getGraphics();	//ISSO JÃ� ESTAVA AQUI
@@ -126,21 +49,19 @@ public class Fase1 extends JFrame implements KeyListener{
 //		bbg.drawImage(vilao.cenas[vilao.cena].getImage(), vilao.x, vilao.y, this);
 //		vilao.animar();	//AQUI CHAMEI O MÃ‰TODO ANIMAR
 		
-		bbg.drawImage(lampiao.sprites[lampiao.aparencia], lampiao.x, lampiao.y, this);
+		bbg.drawImage(lampiao.getSprites()[lampiao.getAparencia()], lampiao.getX(), lampiao.getY(), this);
 		//bbg.drawImage(lampiao.cenas[lampiao.cena].getImage(), lampiao.x, lampiao.y, this);
 		//lampiao.andarMaisLento();	//AQUI CHAMEI O MÃ‰TODO ANIMAR MAIS LENTO
 		
-		mover();
-		if(metralha.getAparencia()!=60)
-		bbg.drawImage(metralha.getSprites()[metralha.getAparencia()], metralha.getX(), metralha.getY(), this);
-		if(!vai && !volta) {
-//			lampiao.animacaoParado();
-		}
+		acao = lampiao.mover(acao);
+//		if(metralha.getAparencia()!=60)
+//		bbg.drawImage(metralha.getSprites()[metralha.getAparencia()], metralha.getX(), metralha.getY(), this);
+
 		//==================================================================================	
 		g.drawImage(backBuffer, 0, 0, this);//OBS: ISSO DEVE FICAR SEMPRE NO FINAL!
 	}
 	
-	public void run() {
+	public void start() {
 		while (true) {
 			atualizar();
 			desenharGraficos();
@@ -163,8 +84,8 @@ public class Fase1 extends JFrame implements KeyListener{
 
 		backBuffer = new BufferedImage(janelaW, janelaH, BufferedImage.TYPE_INT_RGB);
 		try{
-			lampiao = new Lampiao(new File("Arquivos/lampiaosprite.png"), 15, 12, 4, 40, 700);
-			metralha = new Metralha(6, 2205, 296, 9, 2, 600, 700, "Arquivos/metralhasprite.png");
+			lampiao = new Lampiao(15, 12, 4, 40, 700,"Arquivos/lampiaosprite.png");
+			metralha = new Metralha(6, 9, 2, 600, 700, "Arquivos/metralhasprite.png");
 		}catch (IOException e) {
 			e.printStackTrace();
 			System.out.println("Não foi possível carregar a Sprite");
@@ -178,67 +99,41 @@ public class Fase1 extends JFrame implements KeyListener{
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		new Thread() {
-			@Override
-			public void run() {
-				if(e.getKeyCode() == e.VK_LEFT){
-					volta=true;
-				}
-			}
-		}.start();
 
-		new Thread() {
-			@Override
-			public void run() {
-				if(e.getKeyCode() == e.VK_RIGHT){
-					vai=true;
-					
-				}
-			}
-		}.start();
+		if(e.getKeyCode() == e.VK_LEFT){
+			acao=e.VK_LEFT;
+		}
 
-		new Thread() {
-			@Override
-			public void run() {
-				if(e.getKeyCode() == e.VK_UP){
-					pula=true;
-				}
-			}
-		}.start();
 
-		new Thread() {
-			@Override
-			public void run() {
-			if(e.getKeyCode() == e.VK_SPACE){
-				tiro=true;
-			}
-			}
-		}.start();
+		if(e.getKeyCode() == e.VK_RIGHT){
+			acao=e.VK_RIGHT;
+		}
+
+
+		if(e.getKeyCode() == e.VK_UP){
+			acao=e.VK_UP;
+		}
+
+		if(e.getKeyCode() == e.VK_SPACE){
+			acao=e.VK_SPACE;
+
+		}
 	}
+			
 	@Override
 	public void keyReleased(KeyEvent e) {
-		if(e.getKeyCode() == e.VK_LEFT){
-			parouE=true;
-		}
-		if(e.getKeyCode() == e.VK_RIGHT){
-			parouD=true;
-
-		}
-		new Thread() {
-			@Override
-			public void run() {
-				if(e.getKeyCode() == e.VK_SPACE) {
-					new Som().tiroSom();
-					lampiao.aparencia =ap;
-					if(metralha.getAparencia()!=60)
-							metralha.setAparencia(60);
-				}
-			}
-		}.start();
 
 	}
+
+
+	
 	@Override
 	public void keyTyped(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void run() {
 		// TODO Auto-generated method stub
 		
 	}

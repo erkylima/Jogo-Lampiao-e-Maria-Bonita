@@ -5,14 +5,14 @@ import java.io.IOException;
 
 public class Metralha extends Sprite{
 
-	public Metralha(int aparencia, int largura, int altura, int colunas, int linhas, int x, int y, String endereco)
+	public Metralha(int aparencia, int colunas, int linhas, int x, int y, String endereco)
 			throws IOException {
-		super(aparencia, largura, altura, colunas, linhas, x, y, endereco);
+		super(aparencia,  colunas, linhas, x, y, endereco);
 		
 	}
 
 	@Override
-	public void animar(String direcao) {
+	public void animar(int direcao) {
 		
 	}
 
@@ -23,7 +23,8 @@ public class Metralha extends Sprite{
 	}
 
 	@Override
-	public void mover(String direcao) {
+	public int mover(int direcao) {
+		return 0;
 		
 	}
 
