@@ -16,7 +16,7 @@ public class Lampiao extends Sprite implements KeyListener,Runnable{
 	public int rows, columns;
 //	public int x, y;//é atributo de Personagem
 //	public BufferedImage[] sprites;
-	public int controlaVelocidade = 0;
+	public double controlaVelocidade = 0;
 	public int velocidade = 10;
 	private boolean direita,parado = false;
 	private Fase1 fase;
@@ -49,7 +49,7 @@ public class Lampiao extends Sprite implements KeyListener,Runnable{
 	}
 	
 	public void animacaoParadoDireita(){
-		controlaVelocidade+=1;
+		controlaVelocidade+=0.5;
 		if(controlaVelocidade>velocidade && (getAparencia() >=14 && getAparencia() <= 22)){
 			setAparencia(getAparencia()+1);
 			controlaVelocidade = 0;
@@ -61,7 +61,7 @@ public class Lampiao extends Sprite implements KeyListener,Runnable{
 		
 	
 	public void animacaoParadoEsquerda(){
-		controlaVelocidade+=1;
+		controlaVelocidade+=0.5;
 		if(controlaVelocidade>velocidade && (getAparencia() >=37 && getAparencia() <=45)){
 			setAparencia(getAparencia()+1);
 			controlaVelocidade = 0;
@@ -284,7 +284,7 @@ public class Lampiao extends Sprite implements KeyListener,Runnable{
 			}
 			try {
 
-				Thread.sleep(1000/100);
+				Thread.sleep(1000/40);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
