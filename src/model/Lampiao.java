@@ -31,29 +31,29 @@ public class Lampiao extends Sprite implements KeyListener,Runnable{
 	
 	public void animacaoAndandoDireita(){
 		controlaVelocidade+=5;
-		if(controlaVelocidade>velocidade && (getAparencia() >=0 && getAparencia() <=14)){
+		if(controlaVelocidade>velocidade && (getAparencia() >=0 && getAparencia() <=13)){
 			setAparencia(getAparencia()+1);
 			controlaVelocidade = 0;
-			if(getAparencia() == 14){ setAparencia(0); }
+			if(getAparencia() == 13){ setAparencia(0); }
 		}
 	}
 	
 	public void animacaoAndandoEsquerda(){
 		controlaVelocidade+=5;
-		if(controlaVelocidade>velocidade && (getAparencia() >= 24 && getAparencia() <= 35)){
+		if(controlaVelocidade>velocidade && (getAparencia() >= 23 && getAparencia() <= 36)){
 			setAparencia(getAparencia()+1);
 			controlaVelocidade = 0;
-			if(getAparencia() == 35){ setAparencia(24); 
+			if(getAparencia() == 36){ setAparencia(23); 
 			}
 		}
 	}
 	
 	public void animacaoParadoDireita(){
 		controlaVelocidade+=1;
-		if(controlaVelocidade>velocidade && (getAparencia() >=15 && getAparencia() <= 22)){
+		if(controlaVelocidade>velocidade && (getAparencia() >=14 && getAparencia() <= 22)){
 			setAparencia(getAparencia()+1);
 			controlaVelocidade = 0;
-			if(getAparencia() == 22){ setAparencia(15);  }
+			if(getAparencia() == 22){ setAparencia(14);  }
 		}
 	}
 
@@ -103,7 +103,7 @@ public class Lampiao extends Sprite implements KeyListener,Runnable{
 				}
 				animacaoParadoDireita();
 			}else {
-				if(getAparencia()>23&&getAparencia()<37||getAparencia() == 47) {
+				if(getAparencia()>=23&&getAparencia()<37||getAparencia() == 47) {
 					setAparencia(37);
 				} 
 				animacaoParadoEsquerda();
@@ -113,7 +113,7 @@ public class Lampiao extends Sprite implements KeyListener,Runnable{
 			direita = false;
 			
 			setX(getX()-4);
-			if(getAparencia()<=23 || getAparencia()>=37) {
+			if(getAparencia()<23 || getAparencia()>=37) {
 				setAparencia(24);
 			}
 			animacaoAndandoEsquerda();
@@ -251,7 +251,7 @@ public class Lampiao extends Sprite implements KeyListener,Runnable{
 	public void keyPressed(java.awt.event.KeyEvent e) {
 		setAcao(e.getKeyCode()) ;
 //		lampiao.setAcao(e.getKeyCode());
-		mover();
+//		mover();
 	}
 
 	@Override
