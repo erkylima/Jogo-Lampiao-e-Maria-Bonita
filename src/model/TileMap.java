@@ -4,6 +4,10 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -76,8 +80,8 @@ public class TileMap {
 	 */
 	public TileMap(int mapaLargura, int mapaAltura, int tileLargura, int tileAltura, String nomeTileSet, String nomeMapaMatriz) {
 		
-		this.mapaLargura = mapaLargura;
-		this.mapaAltura = mapaAltura;
+		this.mapaLargura = mapaAltura;
+		this.mapaAltura = mapaLargura;
 		this.tileLargura = tileLargura;
 		this.tileAltura = tileAltura;
 		
@@ -86,7 +90,7 @@ public class TileMap {
 		 */
 		larguraTela = mapaLargura * tileLargura;
 		AlturaTela = mapaAltura * tileAltura;
-		
+		System.out.println("Largura: " + larguraTela +"\n Altura: " + AlturaTela);
 		/*
 		 *Inicializa a imagem de fundo com aa largura e altura totais do mapa 
 		 */
@@ -101,7 +105,7 @@ public class TileMap {
 			/*
 			 * inicializa a imagem do tilset
 			 */
-			tileSet=ImageIO.read(getClass().getClassLoader().getResourceAsStream(nomeTileSet));
+			tileSet=ImageIO.read(new File(nomeTileSet));
 		} catch (IOException e) {
 			System.out.println("Não conseguiu ler o Tileset");
 			e.printStackTrace();
@@ -125,7 +129,6 @@ public class TileMap {
 		int tileRow;
 		int tileCol;
 		int colunasTileSet=tileSet.getWidth()/tileLargura; //quantidade de colunas do seu tileset
-		
 		for (int i = 0; i < mapaLargura; i++) {
 			for (int j = 0; j < mapaAltura; j++) {
 				tile = (camada[i][j] != 0) ? (camada[i][j] - 1) : 55;
@@ -146,7 +149,7 @@ public class TileMap {
 		List<Rectangle> tmp = new ArrayList<Rectangle>();
 		for (int i = 0; i < mapaLargura; i++) {
 			for (int j = 0; j < mapaAltura; j++) {
-				if(camada[i][j] != 0) {
+				if(camada[i][j] != 17) {
 					tmp.add(new Rectangle( (j * tileAltura), (i * tileLargura), tileLargura, tileAltura));
 				}		
 			}
@@ -162,11 +165,18 @@ public class TileMap {
 	 */
 	public int[][] carregarMatriz(String nomeMapa) {
 		int[][] matz = new int[mapaLargura][mapaAltura];
+		System.out.println("MAPA ALT: "+mapaAltura);
+		InputStream input;
+		BufferedReader br=null;
+		try {
+			input = new DataInputStream(new FileInputStream(nomeMapa));
+			br = new BufferedReader(new InputStreamReader(input));
 
-		InputStream input = getClass().getClassLoader().getResourceAsStream(nomeMapa);
-		BufferedReader br = new BufferedReader(new InputStreamReader(input));
-
-		List<String> linhas = new ArrayList<String>();
+		}catch (IOException e) {
+			System.out.println("Não carregou Matriz");
+			e.printStackTrace();
+		}
+		ArrayList<String> linhas = new ArrayList<>();
 		String linha = "";
 
 		try {
@@ -189,7 +199,7 @@ public class TileMap {
 			e.printStackTrace();
 		}
 
-		return matz;
+			return matz;
 	}
 
 	/*

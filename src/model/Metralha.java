@@ -23,7 +23,7 @@ public class Metralha extends Sprite{
 	}
 
 	@Override
-	public int mover(int direcao) {
+	public int mover() {
 		return 0;
 		
 	}

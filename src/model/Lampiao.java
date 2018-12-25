@@ -1,27 +1,29 @@
 package model;
 
 import java.awt.Graphics;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
-import javax.imageio.ImageIO;
+import javax.xml.stream.events.StartDocument;
 
 import com.sun.glass.events.KeyEvent;
 
 import view.Fase1;
 
-public class Lampiao extends Sprite implements Runnable{
+public class Lampiao extends Sprite implements KeyListener,Runnable{
 	public BufferedImage spriteSheet;   
 	public int rows, columns;
 //	public int x, y;//é atributo de Personagem
 //	public BufferedImage[] sprites;
 	public int controlaVelocidade = 0;
-	public int velocidade = 5;
-	private boolean direita,parado;
+	public int velocidade = 10;
+	private boolean direita,parado = false;
+	private Fase1 fase;
 	
-	public Lampiao(int aparencia,int columns, int rows, int posX, int posY,String caminho) throws IOException {
+	public Lampiao(int aparencia,int columns, int rows, int posX, int posY,String caminho,Fase1 fase) throws IOException {
 		super(aparencia, columns, rows, posX, posY, caminho);
+		this.fase = fase;		
 		
 	}
 	
@@ -36,6 +38,16 @@ public class Lampiao extends Sprite implements Runnable{
 		}
 	}
 	
+	public void animacaoAndandoEsquerda(){
+		controlaVelocidade+=5;
+		if(controlaVelocidade>velocidade && (getAparencia() >= 24 && getAparencia() <= 35)){
+			setAparencia(getAparencia()+1);
+			controlaVelocidade = 0;
+			if(getAparencia() == 35){ setAparencia(24); 
+			}
+		}
+	}
+	
 	public void animacaoParadoDireita(){
 		controlaVelocidade+=1;
 		if(controlaVelocidade>velocidade && (getAparencia() >=15 && getAparencia() <= 22)){
@@ -46,24 +58,14 @@ public class Lampiao extends Sprite implements Runnable{
 	}
 
 	
-	public void animacaoAndandoEsquerda(){
-		controlaVelocidade+=5;
-//		System.out.println(aparencia);
-		if(controlaVelocidade>velocidade && (getAparencia() >= 23 && getAparencia()<=36)){
-			setAparencia(getAparencia()+1);
-			controlaVelocidade = 0;
-			if(getAparencia() == 36){ setAparencia(23); 
-			}
-		}
-	}	
+		
 	
 	public void animacaoParadoEsquerda(){
 		controlaVelocidade+=1;
 		if(controlaVelocidade>velocidade && (getAparencia() >=37 && getAparencia() <=45)){
 			setAparencia(getAparencia()+1);
 			controlaVelocidade = 0;
-			if(getAparencia() == 45){ setAparencia(37);
-			}
+			if(getAparencia() == 45){ setAparencia(37);		}
 		}
 	}
 
@@ -86,14 +88,56 @@ public class Lampiao extends Sprite implements Runnable{
 
 
 	@Override
-	public int mover(int acao) {
-		andar(acao);
+	public int mover() {
+		andar();
 		return 918797917;
 	}
 	
-	public void andar(int acao){
-		if(getX()>=10 && getX()<=1100) {
-			switch(acao){
+	public void andar(){
+		
+		switch(getAcao()) {
+		case 0:
+			if(direita) {
+				if(getAparencia() >=0 && getAparencia() <=14 || getAparencia() == 46) {
+					setAparencia(15);
+				}
+				animacaoParadoDireita();
+			}else {
+				if(getAparencia()>23&&getAparencia()<37||getAparencia() == 47) {
+					setAparencia(37);
+				} 
+				animacaoParadoEsquerda();
+			}
+			break;
+		case KeyEvent.VK_A:{
+			direita = false;
+			
+			setX(getX()-4);
+			if(getAparencia()<=23 || getAparencia()>=37) {
+				setAparencia(24);
+			}
+			animacaoAndandoEsquerda();
+			
+
+			break;
+		}
+		case KeyEvent.VK_D:{
+			direita = true;
+			setX(getX()+4);
+			if(getAparencia()>=14) {
+				setAparencia(0);
+			}
+			animacaoAndandoDireita();
+
+			break;
+		}
+		
+	}
+		
+		
+		
+		/*if(getX()>=10 && getX()<=1100) {
+			switch(getAcao()){
 			case KeyEvent.VK_RIGHT:
 				if(getX()!=1100) {
 					setX(getX()+10);					
@@ -119,7 +163,8 @@ public class Lampiao extends Sprite implements Runnable{
 				
 				break;
 			case KeyEvent.VK_UP:
-
+				System.out.println("PULOU");
+				pular();
 				break;
 			case KeyEvent.VK_SPACE:
 				if(parado){
@@ -147,17 +192,108 @@ public class Lampiao extends Sprite implements Runnable{
 				parado=true;
 				break;
 			}	
-		}
+		}*/
 	}
-//	public void pular(){
+	
+	
+	public void pular(){
+		int anguloDoPulo = 45;
+		int anguloCorrente = anguloDoPulo;
+		boolean aux = direita;
+		double dy,dx;
+
+		setY(getY()-velocidade);
+		while(anguloCorrente != 300) {
+			if(anguloCorrente == 0)
+				anguloCorrente = 360;
+			dy = velocidade * Math.sin(Math.toRadians(anguloCorrente));
+			if(aux)
+				dx =((velocidade * Math.cos(Math.toRadians(anguloCorrente))) * 1);
+			else
+				dx =((velocidade * Math.cos(Math.toRadians(anguloCorrente))) * -1);
+			
+			anguloCorrente--;
+
+//			if(!level.isColidindo(this,(int) dx, (int) dy)) {
+//				setY(getY()-(int)dy);
+//				setX(getX()+(int)dx);
+//			}else {
+//				setY(getY()+(int)dy);
+//				setX(getX()-(int)dx);
+//				break;
+//			}
+//			try {
+//				Thread.sleep(1000/30);
+//			} catch (InterruptedException e) {
+//				e.printStackTrace();
+//			}
+
+		}
+		setY(getY()-getY()%velocidade);
+
+	}
+	
+	public void cair(){
+
+		setY(getY()+2);
+
+
+	}
+	
+	public void parar() {
+		setAcao(0);
+		parado=true;
+	}
 
 
 
 	@Override
-	public void run() {
-		
+	public void keyPressed(java.awt.event.KeyEvent e) {
+		setAcao(e.getKeyCode()) ;
+//		lampiao.setAcao(e.getKeyCode());
+		mover();
+	}
+
+	@Override
+	public void keyReleased(java.awt.event.KeyEvent e) {
+		parar();
+	}
+
+
+
+	@Override
+	public void keyTyped(java.awt.event.KeyEvent arg0) {
+		// TODO Auto-generated method stub
 		
 	}
+	
+	@Override
+	public void run() {
+		while(true) {
+			if(KeyEvent.VK_SPACE == getAcao()) {
+				pular();
+			}
+			else if(getAcao() != 0)
+				andar();
+			if(!fase.isColidindo(this) && getY()<820) {
+				cair();
+
+			}else {
+				setY(820);
+
+			}
+			try {
+
+				Thread.sleep(1000/100);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+        
+
+	}
+
+
 
 //		if(pula){
 //			while ( y >= (y-100) ) {

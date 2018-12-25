@@ -47,6 +47,10 @@ public abstract class Sprite {
 	 */
 	private int aparencia;
 
+	private int acao;
+	
+	
+
 	/**
 	 * @param aparencia
 	 * @param largura
@@ -114,7 +118,7 @@ public abstract class Sprite {
 	 * @param direcao
 	 * @return 
 	 */
-	public abstract int mover(int acao);
+	public abstract int mover();
 
 	/*
 	 * Metodos Getters e Setters
@@ -163,6 +167,14 @@ public abstract class Sprite {
 
 	public int getAlturaPersonagem() {
 		return alturaPersonagem;
+	}
+	
+	public int getAcao() {
+		return acao;
+	}
+
+	public void setAcao(int acao) {
+		this.acao = acao;
 	}
 
 	/**
