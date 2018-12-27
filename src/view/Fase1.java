@@ -41,30 +41,23 @@ public class Fase1 extends JFrame{
 	
 	public void atualizar() {
 		tile.montarMapa();
-//		bg.montarMapa();
+		bg.montarMapa();
 	}
 	public void desenharGraficos() {
 		Graphics2D g = (Graphics2D) getGraphics();	//ISSO JÃ� ESTAVA AQUI
 		Graphics2D bbg = (Graphics2D) backBuffer.getGraphics();//ISSO TAMBÃ‰M JÃ� ESTAVA AQUI...
-		//AQUI VAMOS MANDAR DESENHAR ALGUNS IMAGENS NA TELA
-		bbg.drawImage(fundo.getImage(), 0, 0,this);
-		bbg.drawImage(tile.getMapa(),0,0,null);//QUI DESENHAMOS O FUNDO
+		bbg.drawImage(bg.getMapa(), 0, 0,this);
+		bbg.drawImage(tile.getMapa(),0,0,this);//QUI DESENHAMOS O FUNDO
 
-		//AS DIMENSÃ•ES ORIGINAIS DO FUNDO SÃƒO: 500X500 QUE Ã‰ O TAMANHO DA NOSSA TELA!
-		//AQUI TO DESENHANDO A O NOSSO PERSONAGEM
-		//VEJA QUE NOSSO vilÃ£o tem tudo que agente precisa!
-		//SUAS COORDENADAS, LARGURA, ALTURA, E AS IMAGENS!!!
-//		bbg.drawImage(vilao.cenas[vilao.cena].getImage(), vilao.x, vilao.y, this);
-//		vilao.animar();	//AQUI CHAMEI O MÃ‰TODO ANIMAR
 		
-		bbg.drawImage(lampiao.getSprites()[lampiao.getAparencia()], lampiao.getX(), lampiao.getY(), this);
+		lampiao.draw(bbg);
 		//bbg.drawImage(lampiao.cenas[lampiao.cena].getImage(), lampiao.x, lampiao.y, this);
 		//lampiao.andarMaisLento();	//AQUI CHAMEI O MÃ‰TODO ANIMAR MAIS LENTO
 		
 		//acao = lampiao.mover();
 //		if(metralha.getAparencia()!=60)
-//		bbg.drawImage(metralha.getSprites()[metralha.getAparencia()], metralha.getX(), metralha.getY(), this);
-
+		bbg.drawImage(metralha.getSprites()[metralha.getAparencia()], metralha.getX(), metralha.getY(), this);
+		metralha.animar(1);
 		//==================================================================================	
 		g.drawImage(backBuffer, 0, 0, this);//OBS: ISSO DEVE FICAR SEMPRE NO FINAL!
 	}
@@ -93,9 +86,9 @@ public class Fase1 extends JFrame{
 		backBuffer = new BufferedImage(janelaW, janelaH, BufferedImage.TYPE_INT_RGB);
 		try{
 			lampiao = new Lampiao(15, 12, 4, 40, 820,"Arquivos/lampiaosprite.png",this);
-			metralha = new Metralha(6, 9, 2, 600, 700, "Arquivos/metralhasprite.png");
+			metralha = new Metralha(6, 9, 2, 600, 820, "Arquivos/metralhasprite.png");
 			tile = new TileMap(120, 30, 32, 32, "Arquivos/Tile.png", "Arquivos/SerraTile.txt");
-//			bg = new TileMap(120, 30, 32, 32, "Arquivos/BG.png", "Arquivos/BGSerraTile.txt");
+			bg = new TileMap(3, 1, 1280, 960, "Arquivos/BG.png", "Arquivos/BGSerraTile.txt");
 
 		}catch (IOException e) {
 			e.printStackTrace();
@@ -133,5 +126,26 @@ public class Fase1 extends JFrame{
 					}
 		return false;
 	}
+//	public boolean isColidindo(Sprite player,int X,int Y) {
+//		Rectangle playerDirecionado = new Rectangle(player.getX() + X,
+//				player.getY() + Y, player.getLarguraPersonagem(), player.getAlturaPersonagem());
+//		
+//				for(Rectangle entidade : tile.montarColisao())
+//					if(playerDirecionado.getBounds().intersects(entidade)) {
+//						System.out.println("Player\nMin Y: "+playerDirecionado.getBounds().getMinY()
+//								+ "\nMin X: " + playerDirecionado.getBounds().getMinX()
+//								+ "\nMax Y: " + playerDirecionado.getBounds().getMaxY()
+//								+ "\nMax X: " + playerDirecionado.getBounds().getMaxX()
+//								+ "\nPos Y: " + playerDirecionado.getBounds().y);
+//						
+//						System.out.println("Entidade\nMin Y: "+entidade.getMinY()
+//								+ "\nMin X: " + entidade.getMinX()
+//								+ "\nMax Y: " + entidade.getMaxY()
+//								+ "\nMax X: " + entidade.getMaxX());
+//						System.out.println("Colidiu");
+//						return true;
+//					}
+//		return false;
+//	}
 }
 

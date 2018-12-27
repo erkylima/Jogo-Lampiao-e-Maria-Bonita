@@ -11,14 +11,14 @@ import com.sun.glass.events.KeyEvent;
 
 import view.Fase1;
 
-public class Lampiao extends Sprite {
+public class Lampiao extends Sprite implements Runnable{
 	public BufferedImage spriteSheet;   
 	public int rows, columns;
 //	public int x, y;//é atributo de Personagem
 //	public BufferedImage[] sprites;
 	public double controlaVelocidade = 0;
 	public int velocidade = 10;
-	private boolean direita,parado = false;
+	private boolean direita,parado = true;
 	private Fase1 fase;
 	
 	public Lampiao(int aparencia,int columns, int rows, int posX, int posY,String caminho,Fase1 fase) throws IOException {
@@ -81,8 +81,7 @@ public class Lampiao extends Sprite {
 
 	@Override
 	public void draw(Graphics g) {
-		// TODO Auto-generated method stub
-		
+		g.drawImage(getSprites()[getAparencia()], getX(), getY(), null);
 	}
 
 
@@ -196,11 +195,21 @@ public class Lampiao extends Sprite {
 	
 	
 	public void pular(){
-		int anguloDoPulo = 45;
+		int anguloDoPulo = 25;
 		int anguloCorrente = anguloDoPulo;
 		boolean aux = direita;
 		double dy,dx;
-
+		if(aux) {
+			if(getAparencia()>=14) {
+				setAparencia(0);
+			}
+			animacaoAndandoDireita();
+		}else {
+			if(getAparencia()<23 || getAparencia()>=37) {
+				setAparencia(24);
+			}
+			animacaoAndandoEsquerda();
+		}
 		setY(getY()-velocidade);
 		while(anguloCorrente != 300) {
 			if(anguloCorrente == 0)
@@ -213,19 +222,19 @@ public class Lampiao extends Sprite {
 			
 			anguloCorrente--;
 
-//			if(!level.isColidindo(this,(int) dx, (int) dy)) {
-//				setY(getY()-(int)dy);
-//				setX(getX()+(int)dx);
-//			}else {
-//				setY(getY()+(int)dy);
-//				setX(getX()-(int)dx);
-//				break;
-//			}
-//			try {
-//				Thread.sleep(1000/30);
-//			} catch (InterruptedException e) {
-//				e.printStackTrace();
-//			}
+			if(!fase.isColidindo(this)) {
+				setY(getY()-(int)dy);
+				setX(getX()+(int)dx);
+			}else {
+				setY(getY()+(int)dy);
+				setX(getX()-(int)dx);
+				break;
+			}
+			try {
+				Thread.sleep(1000/30);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 
 		}
 		setY(getY()-getY()%velocidade);
@@ -242,6 +251,14 @@ public class Lampiao extends Sprite {
 	public void parar() {
 		setAcao(0);
 		parado=true;
+	}
+
+
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		
 	}
 
 
