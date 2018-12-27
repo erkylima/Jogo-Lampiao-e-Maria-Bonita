@@ -101,11 +101,11 @@ public class Fase1 extends JFrame{
 			e.printStackTrace();
 			System.out.println("Não foi possível carregar a Sprite");
 		}
-		Movimento m = new Movimento(lampiao);
+		Movimento m = new Movimento(lampiao,this);
+//		Thread t = new Thread(lampiao);
+//		t.start();
+		addKeyListener(m);
 		
-		addKeyListener(lampiao);
-		Thread t = new Thread(lampiao);
-		t.start();
 		
 		setVisible(true);
 	}

@@ -11,7 +11,7 @@ import com.sun.glass.events.KeyEvent;
 
 import view.Fase1;
 
-public class Lampiao extends Sprite implements KeyListener,Runnable{
+public class Lampiao extends Sprite {
 	public BufferedImage spriteSheet;   
 	public int rows, columns;
 //	public int x, y;//é atributo de Personagem
@@ -94,7 +94,6 @@ public class Lampiao extends Sprite implements KeyListener,Runnable{
 	}
 	
 	public void andar(){
-		
 		switch(getAcao()) {
 		case 0:
 			if(direita) {
@@ -246,74 +245,51 @@ public class Lampiao extends Sprite implements KeyListener,Runnable{
 	}
 
 
-
-	@Override
-	public void keyPressed(java.awt.event.KeyEvent e) {
-		setAcao(e.getKeyCode()) ;
-//		lampiao.setAcao(e.getKeyCode());
+//
+//	@Override
+//	public void keyPressed(java.awt.event.KeyEvent e) {
+//		setAcao(e.getKeyCode()) ;
+////		lampiao.setAcao(e.getKeyCode());
 //		mover();
-	}
-
-	@Override
-	public void keyReleased(java.awt.event.KeyEvent e) {
-		parar();
-	}
-
-
-
-	@Override
-	public void keyTyped(java.awt.event.KeyEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	@Override
-	public void run() {
-		while(true) {
-			if(KeyEvent.VK_SPACE == getAcao()) {
-				pular();
-			}
-			else if(getAcao() != 0)
-				andar();
-			if(!fase.isColidindo(this) && getY()<820) {
-				cair();
-
-			}else {
-				setY(820);
-
-			}
-			try {
-
-				Thread.sleep(1000/40);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-        
-
-	}
-
-
-
-//		if(pula){
-//			while ( y >= (y-100) ) {
+//	}
 //
-//				if( y == ( y-100 ) ) {
+//	@Override
+//	public void keyReleased(java.awt.event.KeyEvent e) {
+//		parar();
+//	}
 //
-//					while ( y > ( y ) ) {
-//						y+=0.1;
 //
-//					}
-//					System.out.println( "HE " + y +" TO " + y);
 //
-//					pula = false;
-//					break;
-//				}
+//	@Override
+//	public void keyTyped(java.awt.event.KeyEvent arg0) {
+//		// TODO Auto-generated method stub
+//		
+//	}
+//	
+//	@Override
+//	public void run() {
+//		while(true) {
+//			if(KeyEvent.VK_SPACE == getAcao()) {
+//				pular();
+//			}
+//			else if(getAcao() != KeyEvent.VK_SPACE)
+//				andar();
+//			if(!fase.isColidindo(this) && getY()<817) {
+//				cair();
 //
-//				y-= 0.1;
+//			}else {
+//				setY(817);
+//
+//			}
+//			try {
+//
+//				Thread.sleep(1000/40);
+//			} catch (Exception e) {
+//				e.printStackTrace();
 //			}
 //		}
-
-
+//        
+//
 //	}
+
 }
