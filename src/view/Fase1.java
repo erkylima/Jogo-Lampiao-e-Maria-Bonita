@@ -1,7 +1,10 @@
 package view;
 
+import java.awt.DisplayMode;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -23,8 +26,8 @@ import model.TileMap;
 public class Fase1 extends JFrame{
 	BufferedImage backBuffer;	
 	int FPS = 30;
-	int janelaW = 1280;
-	int janelaH = 960;
+	int janelaW = 1024;
+	int janelaH = 768;
 	int ap;
 	
 	Metralha metralha;
@@ -41,23 +44,18 @@ public class Fase1 extends JFrame{
 	
 	public void atualizar() {
 		tile.montarMapa();
-		bg.montarMapa();
 	}
 	public void desenharGraficos() {
-		Graphics2D g = (Graphics2D) getGraphics();	//ISSO JÃ� ESTAVA AQUI
-		Graphics2D bbg = (Graphics2D) backBuffer.getGraphics();//ISSO TAMBÃ‰M JÃ� ESTAVA AQUI...
+		Graphics2D g = (Graphics2D) getGraphics();
+		Graphics2D bbg = (Graphics2D) backBuffer.getGraphics();
 		bbg.drawImage(bg.getMapa(), 0, 0,this);
-		bbg.drawImage(tile.getMapa(),0,0,this);//QUI DESENHAMOS O FUNDO
+		bbg.drawImage(tile.getMapa(),0,0,this);
 
-		
+
 		lampiao.draw(bbg);
-		//bbg.drawImage(lampiao.cenas[lampiao.cena].getImage(), lampiao.x, lampiao.y, this);
-		//lampiao.andarMaisLento();	//AQUI CHAMEI O MÃ‰TODO ANIMAR MAIS LENTO
-		
-		//acao = lampiao.mover();
-//		if(metralha.getAparencia()!=60)
+
 		bbg.drawImage(metralha.getSprites()[metralha.getAparencia()], metralha.getX(), metralha.getY(), this);
-		metralha.animar(1);
+		metralha.animar();
 		//==================================================================================	
 		g.drawImage(backBuffer, 0, 0, this);//OBS: ISSO DEVE FICAR SEMPRE NO FINAL!
 	}
@@ -78,17 +76,24 @@ public class Fase1 extends JFrame{
 		setSize(janelaW,janelaH);
 		setResizable(false);
 		setLayout(null);
-//		setUndecorated(true);
+		setUndecorated(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		
+//		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
+//		GraphicsDevice device = env.getScreenDevices()[0];
+//		DisplayMode oldMode = device.getDisplayMode();
+//		DisplayMode newMode = new DisplayMode(1024,768,oldMode.getBitDepth(),oldMode.getRefreshRate());
+//		device.setFullScreenWindow(this);
+//		device.setDisplayMode(newMode);
 		
 		backBuffer = new BufferedImage(janelaW, janelaH, BufferedImage.TYPE_INT_RGB);
 		try{
-			lampiao = new Lampiao(15, 12, 4, 40, 820,"Arquivos/lampiaosprite.png",this);
-			metralha = new Metralha(6, 9, 2, 600, 820, "Arquivos/metralhasprite.png");
-			tile = new TileMap(120, 30, 32, 32, "Arquivos/Tile.png", "Arquivos/SerraTile.txt");
-			bg = new TileMap(3, 1, 1280, 960, "Arquivos/BG.png", "Arquivos/BGSerraTile.txt");
+			lampiao = new Lampiao(15, 12, 4, 40, 644,"Arquivos/lampiaosprite.png",this,100);
+			metralha = new Metralha(6, 9, 2, 600, 625, "Arquivos/metralhasprite.png",30);
+			tile = new TileMap(128, 24, 32, 32, "Arquivos/Tile.png", "Arquivos/SerraTile.txt");
+			bg = new TileMap(4, 1, 1024, 768, "Arquivos/BG2.png", "Arquivos/BGSerraTile.txt");
+			bg.montarMapa();
 
 		}catch (IOException e) {
 			e.printStackTrace();
@@ -99,53 +104,50 @@ public class Fase1 extends JFrame{
 //		t.start();
 		addKeyListener(m);
 		
-		
 		setVisible(true);
 	}
 	
-
-
 	public boolean isColidindo(Sprite player) {
-//		Rectangle playerDirecionado = new Rectangle(player.getX() + x,
-//				player.getY() + y, player.getLarguraPersonagem(), player.getAlturaPersonagem());
-		
-				for(Rectangle entidade : tile.montarColisao())
-					if(player.getBounds().intersects(entidade)) {
-						System.out.println("Player\nMin Y: "+player.getBounds().getMinY()
-								+ "\nMin X: " + player.getBounds().getMinX()
-								+ "\nMax Y: " + player.getBounds().getMaxY()
-								+ "\nMax X: " + player.getBounds().getMaxX()
-								+ "\nPos Y: " + player.getBounds().y);
-						
-						System.out.println("Entidade\nMin Y: "+entidade.getMinY()
-								+ "\nMin X: " + entidade.getMinX()
-								+ "\nMax Y: " + entidade.getMaxY()
-								+ "\nMax X: " + entidade.getMaxX());
-						System.out.println("Colidiu");
-						return true;
-					}
-		return false;
+		for(Rectangle entidade : tile.montarColisao())
+			if(player.getBounds().intersects(entidade)) {
+				
+				return true;				
+			}		
+		return false;		
 	}
-//	public boolean isColidindo(Sprite player,int X,int Y) {
-//		Rectangle playerDirecionado = new Rectangle(player.getX() + X,
-//				player.getY() + Y, player.getLarguraPersonagem(), player.getAlturaPersonagem());
-//		
-//				for(Rectangle entidade : tile.montarColisao())
-//					if(playerDirecionado.getBounds().intersects(entidade)) {
-//						System.out.println("Player\nMin Y: "+playerDirecionado.getBounds().getMinY()
-//								+ "\nMin X: " + playerDirecionado.getBounds().getMinX()
-//								+ "\nMax Y: " + playerDirecionado.getBounds().getMaxY()
-//								+ "\nMax X: " + playerDirecionado.getBounds().getMaxX()
-//								+ "\nPos Y: " + playerDirecionado.getBounds().y);
-//						
-//						System.out.println("Entidade\nMin Y: "+entidade.getMinY()
-//								+ "\nMin X: " + entidade.getMinX()
-//								+ "\nMax Y: " + entidade.getMaxY()
-//								+ "\nMax X: " + entidade.getMaxX());
-//						System.out.println("Colidiu");
-//						return true;
-//					}
-//		return false;
-//	}
+	
+	public boolean isTopo(Sprite player) {
+
+		for(Rectangle entidade : tile.montarColisao())
+			if(player.getBounds().intersects(entidade)) {
+				if(entidade.getMaxY()>=player.getBounds().getMinY()) {
+					
+					return true;	
+				}				
+			}		
+		return false;		
+	}
+	
+	public boolean isCantoEsquerdo(Sprite player) {
+
+		for(Rectangle entidade : tile.montarColisao())
+			if(player.getBounds().intersects(entidade)) {
+				if(entidade.getMinX()-10<=player.getBounds().getBounds().getMaxX()) {					
+					return true;	
+				}							
+			}		
+		return false;		
+	}
+	
+	public boolean isCantoDireito(Sprite player) {
+
+		for(Rectangle entidade : tile.montarColisao())
+			if(player.getBounds().intersects(entidade)) {
+				if(entidade.getMaxX()-10<=player.getBounds().getBounds().getMinX()) {					
+					return true;	
+				}							
+			}		
+		return false;		
+	}
 }
 

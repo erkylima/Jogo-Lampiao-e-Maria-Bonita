@@ -17,12 +17,11 @@ public class Lampiao extends Sprite implements Runnable{
 //	public int x, y;//é atributo de Personagem
 //	public BufferedImage[] sprites;
 	public double controlaVelocidade = 0;
-	public int velocidade = 10;
-	private boolean direita,parado = true;
+	public int velocidade = 5;
 	private Fase1 fase;
 	
-	public Lampiao(int aparencia,int columns, int rows, int posX, int posY,String caminho,Fase1 fase) throws IOException {
-		super(aparencia, columns, rows, posX, posY, caminho);
+	public Lampiao(int aparencia,int columns, int rows, int posX, int posY,String caminho,Fase1 fase,int vida) throws IOException {
+		super(aparencia, columns, rows, posX, posY, caminho,vida);
 		this.fase = fase;		
 		
 	}
@@ -56,9 +55,8 @@ public class Lampiao extends Sprite implements Runnable{
 			if(getAparencia() == 22){ setAparencia(14);  }
 		}
 	}
-
 	
-		
+
 	
 	public void animacaoParadoEsquerda(){
 		controlaVelocidade+=0.5;
@@ -68,15 +66,6 @@ public class Lampiao extends Sprite implements Runnable{
 			if(getAparencia() == 45){ setAparencia(37);		}
 		}
 	}
-
-
-
-	@Override
-	public void animar(int direcao) {
-		// TODO Auto-generated method stub
-		
-	}
-
 
 
 	@Override
@@ -94,8 +83,31 @@ public class Lampiao extends Sprite implements Runnable{
 	
 	public void andar(){
 		switch(getAcao()) {
+		case KeyEvent.VK_D:{
+			setDireita(true);
+			setX(getX()+4);
+			if(getAparencia()>=14) {
+				setAparencia(0);
+			}
+			animacaoAndandoDireita();
+
+			break;
+		}
+		case KeyEvent.VK_A:{
+			setDireita(false);;
+			
+			setX(getX()-4);
+			if(getAparencia()<23 || getAparencia()>=37) {
+				setAparencia(24);
+			}
+			animacaoAndandoEsquerda();
+			
+
+			break;
+		}
+		
 		case 0:
-			if(direita) {
+			if(isDireita()) {
 				if(getAparencia() >=0 && getAparencia() <=14 || getAparencia() == 46) {
 					setAparencia(15);
 				}
@@ -107,28 +119,7 @@ public class Lampiao extends Sprite implements Runnable{
 				animacaoParadoEsquerda();
 			}
 			break;
-		case KeyEvent.VK_A:{
-			direita = false;
 			
-			setX(getX()-4);
-			if(getAparencia()<23 || getAparencia()>=37) {
-				setAparencia(24);
-			}
-			animacaoAndandoEsquerda();
-			
-
-			break;
-		}
-		case KeyEvent.VK_D:{
-			direita = true;
-			setX(getX()+4);
-			if(getAparencia()>=14) {
-				setAparencia(0);
-			}
-			animacaoAndandoDireita();
-
-			break;
-		}
 		
 	}
 		
@@ -195,9 +186,9 @@ public class Lampiao extends Sprite implements Runnable{
 	
 	
 	public void pular(){
-		int anguloDoPulo = 25;
+		int anguloDoPulo = 45;
 		int anguloCorrente = anguloDoPulo;
-		boolean aux = direita;
+		boolean aux = isDireita();
 		double dy,dx;
 		if(aux) {
 			if(getAparencia()>=14) {
@@ -242,17 +233,14 @@ public class Lampiao extends Sprite implements Runnable{
 	}
 	
 	public void cair(){
-
-		setY(getY()+2);
-
-
+		if(!fase.isTopo(this)) {
+			setY(getY()+5);
+		}
 	}
 	
 	public void parar() {
 		setAcao(0);
-		parado=true;
 	}
-
 
 
 	@Override
@@ -266,7 +254,7 @@ public class Lampiao extends Sprite implements Runnable{
 //	@Override
 //	public void keyPressed(java.awt.event.KeyEvent e) {
 //		setAcao(e.getKeyCode()) ;
-////		lampiao.setAcao(e.getKeyCode());
+//		lampiao.setAcao(e.getKeyCode());
 //		mover();
 //	}
 //
@@ -309,4 +297,5 @@ public class Lampiao extends Sprite implements Runnable{
 //
 //	}
 
+	
 }

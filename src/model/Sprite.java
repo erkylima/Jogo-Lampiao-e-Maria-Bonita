@@ -31,6 +31,8 @@ public abstract class Sprite {
 	/**
 	 * Corresponde a quantidade de linhas e colunas de sua imagem personagem
 	 */
+	private boolean direita = true;
+
 	protected int linhas, colunas;
 	/**
 	 * Localização x e y da tela 
@@ -49,6 +51,7 @@ public abstract class Sprite {
 
 	private int acao;
 	
+	private int vida;
 	
 
 	/**
@@ -62,7 +65,7 @@ public abstract class Sprite {
 	 * @param endereco
 	 * @throws IOException
 	 */
-	protected Sprite(int aparencia, int colunas, int linhas, int x, int y, String endereco) throws IOException {
+	protected Sprite(int aparencia, int colunas, int linhas, int x, int y, String endereco,int vida) throws IOException {
 
 		try {
 
@@ -77,7 +80,8 @@ public abstract class Sprite {
 			this.colunas = linhas;
 			this.x = x;
 			this.y = y;
-
+			this.vida = vida;
+			
 			sprites = new BufferedImage[colunas * linhas];
 
 			/*
@@ -105,7 +109,11 @@ public abstract class Sprite {
 	 * Toda Sprite tem uma animação diferente dependendo da imagem.
 	 * @param direcao
 	 */
-	public abstract void animar(int acao);
+	public abstract void animacaoAndandoDireita();
+	public abstract void animacaoAndandoEsquerda();
+	public abstract void animacaoParadoDireita();
+	public abstract void animacaoParadoEsquerda();
+
 
 	/**
 	 * Metodo abstrato responsavel por desenhar a Sprite na tela,
@@ -176,12 +184,28 @@ public abstract class Sprite {
 	public void setAcao(int acao) {
 		this.acao = acao;
 	}
+	
+	public int getVida() {
+		return vida;
+	}
+
+	public void setVida(int vida) {
+		this.vida = vida;
+	}
+	
+	public boolean isDireita() {
+		return direita;
+	}
+
+	public void setDireita(boolean direita) {
+		this.direita = direita;
+	}
 
 	/**
 	 * @return Rectangle 
 	 */
 	public Rectangle getBounds()
 	{
-		return new Rectangle(x+5, y+5, larguraPersonagem-10, alturaPersonagem-10);
+		return new Rectangle(x, y, larguraPersonagem, alturaPersonagem);
 	}
 }

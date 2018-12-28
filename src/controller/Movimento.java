@@ -35,18 +35,30 @@ public class Movimento extends KeyAdapter implements Runnable{
 	@Override
 	public void run() {
 		while(true) {
+			if(fase.isTopo(lampiao))
+				lampiao.setY(lampiao.getY()-5);
+			
+			if(fase.isCantoEsquerdo(lampiao))
+				lampiao.setX(lampiao.getX()-5);
+			
+			if(fase.isCantoDireito(lampiao))
+				lampiao.setX(lampiao.getX()+5);
+			
+			if(!fase.isColidindo(lampiao)) {
+				lampiao.cair();
+			}
 			if(KeyEvent.VK_SPACE == lampiao.getAcao()) {
 				lampiao.pular();
 			}
-			else if(lampiao.getAcao() != KeyEvent.VK_SPACE)
+			else if(lampiao.getAcao() != KeyEvent.VK_SPACE) {
 				lampiao.andar();
-			if(!fase.isColidindo(lampiao) && lampiao.getY()<817) {
-				lampiao.cair();
-
-			}else {
-				lampiao.setY(817);
 
 			}
+			
+			
+			
+
+			
 			try {
 
 				Thread.sleep(1000/40);
