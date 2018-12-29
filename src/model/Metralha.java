@@ -26,7 +26,7 @@ public class Metralha extends Sprite{
 
 	@Override
 	public void draw(Graphics g) {
-		// TODO Auto-generated method stub
+		g.drawImage(getSprites()[getAparencia()], getX(), getY(), null);
 		
 	}
 

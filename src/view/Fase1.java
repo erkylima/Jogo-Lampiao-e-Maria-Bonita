@@ -20,46 +20,53 @@ import controller.Som;
 import model.Lampiao;
 import model.Metralha;
 import model.Sprite;
+import model.Status;
 import model.TileMap;
 
 
 public class Fase1 extends JFrame{
 	BufferedImage backBuffer;	
 	int FPS = 30;
-	int janelaW = 1024;
-	int janelaH = 768;
+	static int janelaW = 1024;
+	static int janelaH = 768;
 	int ap;
 	
 	Metralha metralha;
 	Lampiao lampiao;
 	TileMap tile;
 	TileMap bg;
+	Status status;
 	ImageIcon fundo = new ImageIcon("Arquivos/BG.png");
-
+	Camera camera;
+	
 	private int acao;
 	
 	
 	//ESSA VARI�VEL PODERIA ESTAR NA CLASSE Sprite
 
 	
-	public void atualizar() {
-		tile.montarMapa();
-	}
+
 	public void desenharGraficos() {
+		
 		Graphics2D g = (Graphics2D) getGraphics();
-		Graphics2D bbg = (Graphics2D) backBuffer.getGraphics();
-		bbg.drawImage(bg.getMapa(), 0, 0,this);
-		bbg.drawImage(tile.getMapa(),0,0,this);
-
-
-		lampiao.draw(bbg);
-
-		bbg.drawImage(metralha.getSprites()[metralha.getAparencia()], metralha.getX(), metralha.getY(), this);
-		metralha.animar();
-		//==================================================================================	
-		g.drawImage(backBuffer, 0, 0, this);//OBS: ISSO DEVE FICAR SEMPRE NO FINAL!
+		
+		camera.draw(g);
+		
+//		Graphics2D bbg = (Graphics2D) backBuffer.getGraphics();
+//		bbg.drawImage(bg.getMapa(), 0, 0,this);
+//		bbg.drawImage(tile.getMapa(),0,0,this);
+//
+//
+//		lampiao.draw(bbg);
+//
+//		bbg.drawImage(metralha.getSprites()[metralha.getAparencia()], metralha.getX(), metralha.getY(), this);
+//		metralha.animar();
+//		//==================================================================================	
+//		g.drawImage(backBuffer, 0, 0, this);//OBS: ISSO DEVE FICAR SEMPRE NO FINAL!
 	}
-	
+	public void atualizar() {
+		camera.renderizar();
+	}
 	public void start() {
 		while (true) {
 			atualizar();
@@ -89,16 +96,22 @@ public class Fase1 extends JFrame{
 		
 		backBuffer = new BufferedImage(janelaW, janelaH, BufferedImage.TYPE_INT_RGB);
 		try{
-			lampiao = new Lampiao(15, 12, 4, 40, 644,"Arquivos/lampiaosprite.png",this,100);
+			
+			lampiao = new Lampiao(15, 12, 4, 40, 644,"Arquivos/lampiaosprite.png",this,120);
 			metralha = new Metralha(6, 9, 2, 600, 625, "Arquivos/metralhasprite.png",30);
-			tile = new TileMap(128, 24, 32, 32, "Arquivos/Tile.png", "Arquivos/SerraTile.txt");
-			bg = new TileMap(4, 1, 1024, 768, "Arquivos/BG2.png", "Arquivos/BGSerraTile.txt");
+			tile = new TileMap(160, 24, 32, 32, "Arquivos/Tile.png", "Arquivos/SerraTile.txt");
+			bg = new TileMap(5, 1, 1024, 1024, "Arquivos/BG.png", "Arquivos/BGSerraTile.txt");
+			status = new Status(0,7,2,20,20,"Arquivos/status.png",120,lampiao);
 			bg.montarMapa();
+			tile.montarMapa();
 
 		}catch (IOException e) {
 			e.printStackTrace();
 			System.out.println("Não foi possível carregar a Sprite");
 		}
+		
+		camera = new Camera(lampiao,bg,tile);
+
 		Movimento m = new Movimento(lampiao,this);
 //		Thread t = new Thread(lampiao);
 //		t.start();

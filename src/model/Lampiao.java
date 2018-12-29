@@ -17,7 +17,7 @@ public class Lampiao extends Sprite implements Runnable{
 //	public int x, y;//é atributo de Personagem
 //	public BufferedImage[] sprites;
 	public double controlaVelocidade = 0;
-	public int velocidade = 5;
+	public int velocidade = 10;
 	private Fase1 fase;
 	
 	public Lampiao(int aparencia,int columns, int rows, int posX, int posY,String caminho,Fase1 fase,int vida) throws IOException {
@@ -105,7 +105,10 @@ public class Lampiao extends Sprite implements Runnable{
 
 			break;
 		}
-		
+		case KeyEvent.VK_RIGHT:
+			System.out.println("papai");
+			setVida(getVida()-10);
+			break;
 		case 0:
 			if(isDireita()) {
 				if(getAparencia() >=0 && getAparencia() <=14 || getAparencia() == 46) {
@@ -214,11 +217,11 @@ public class Lampiao extends Sprite implements Runnable{
 			anguloCorrente--;
 
 			if(!fase.isColidindo(this)) {
-				setY(getY()-(int)dy);
-				setX(getX()+(int)dx);
+				setY(getY()-((int)dy));
+				setX(getX()+((int)dx));
 			}else {
-				setY(getY()+(int)dy);
-				setX(getX()-(int)dx);
+				setY(getY()+((int)dy));
+				setX(getX()-((int)dx));
 				break;
 			}
 			try {
