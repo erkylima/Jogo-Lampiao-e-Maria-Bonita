@@ -90,7 +90,6 @@ public class TileMap {
 		 */
 		larguraTela = mapaLargura * tileLargura;
 		AlturaTela = mapaAltura * tileAltura;
-		System.out.println("Largura: " + larguraTela +"\n Altura: " + AlturaTela);
 		/*
 		 *Inicializa a imagem de fundo com aa largura e altura totais do mapa 
 		 */
@@ -165,7 +164,6 @@ public class TileMap {
 	 */
 	public int[][] carregarMatriz(String nomeMapa) {
 		int[][] matz = new int[mapaLargura][mapaAltura];
-		System.out.println("MAPA ALT: "+mapaAltura);
 		InputStream input;
 		BufferedReader br=null;
 		try {

@@ -12,10 +12,6 @@ import com.sun.glass.events.KeyEvent;
 import view.Fase1;
 
 public class Lampiao extends Sprite implements Runnable{
-	public BufferedImage spriteSheet;   
-	public int rows, columns;
-//	public int x, y;//é atributo de Personagem
-//	public BufferedImage[] sprites;
 	public double controlaVelocidade = 0;
 	public int velocidade = 10;
 	private Fase1 fase;
@@ -23,7 +19,9 @@ public class Lampiao extends Sprite implements Runnable{
 	public Lampiao(int aparencia,int columns, int rows, int posX, int posY,String caminho,Fase1 fase,int vida) throws IOException {
 		super(aparencia, columns, rows, posX, posY, caminho,vida);
 		this.fase = fase;		
-		
+		Thread lampThread = new Thread(this);
+		lampThread.start();
+			
 	}
 	
 
@@ -76,9 +74,8 @@ public class Lampiao extends Sprite implements Runnable{
 
 
 	@Override
-	public int mover() {
+	public void mover() {
 		andar();
-		return 918797917;
 	}
 	
 	public void andar(){
@@ -100,13 +97,20 @@ public class Lampiao extends Sprite implements Runnable{
 			if(getAparencia()<23 || getAparencia()>=37) {
 				setAparencia(24);
 			}
-			animacaoAndandoEsquerda();
-			
+			animacaoAndandoEsquerda();		
+			break;
+		}
+		case KeyEvent.VK_T:{
+			if(isDireita()) {
+				setAparencia(46);
+			}else {
+				setAparencia(47);
 
+			}
+					
 			break;
 		}
 		case KeyEvent.VK_RIGHT:
-			System.out.println("papai");
 			setVida(getVida()-10);
 			break;
 		case 0:
@@ -126,70 +130,11 @@ public class Lampiao extends Sprite implements Runnable{
 		
 	}
 		
-		
-		
-		/*if(getX()>=10 && getX()<=1100) {
-			switch(getAcao()){
-			case KeyEvent.VK_RIGHT:
-				if(getX()!=1100) {
-					setX(getX()+10);					
-				}
-				if(getAparencia()>=14) {
-					setAparencia(0);
-				}
-				direita=true;
-				parado=false;
-				animacaoAndandoDireita();
-				
-				break;
-			case KeyEvent.VK_LEFT: 
-				if(getX()!=10) {
-					setX(getX()-10);	
-				}
-				if(getAparencia()<=23 || getAparencia()>37) {
-					setAparencia(23);
-				}
-				direita=false;
-				parado=false;
-				animacaoAndandoEsquerda();
-				
-				break;
-			case KeyEvent.VK_UP:
-				System.out.println("PULOU");
-				pular();
-				break;
-			case KeyEvent.VK_SPACE:
-				if(parado){
-					if(getAparencia()>37 && getAparencia() != 47 && getAparencia() != 46 ) {
-
-						setAparencia(47); 
-					}
-					if(getAparencia() <=37) {
-						setAparencia(46);
-					}
-				}
-				break;
-			default:
-				if(direita){
-					if(getAparencia() >=0 && getAparencia() <=14 || getAparencia() == 46) {
-						setAparencia(15);
-					}
-					animacaoParadoDireita();
-				}else{
-					if(getAparencia()>23&&getAparencia()<=37||getAparencia() == 47) {
-						setAparencia(37);
-					} 
-					animacaoParadoEsquerda();
-				}
-				parado=true;
-				break;
-			}	
-		}*/
 	}
 	
 	
 	public void pular(){
-		int anguloDoPulo = 45;
+		int anguloDoPulo = 25;
 		int anguloCorrente = anguloDoPulo;
 		boolean aux = isDireita();
 		double dy,dx;
@@ -245,60 +190,31 @@ public class Lampiao extends Sprite implements Runnable{
 		setAcao(0);
 	}
 
-
+	public boolean isVivo() {
+		if(getVida()>0) {
+			return true;
+		}
+		return false;
+	}
+	
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
 		
 	}
 
 
-//
-//	@Override
-//	public void keyPressed(java.awt.event.KeyEvent e) {
-//		setAcao(e.getKeyCode()) ;
-//		lampiao.setAcao(e.getKeyCode());
-//		mover();
-//	}
-//
-//	@Override
-//	public void keyReleased(java.awt.event.KeyEvent e) {
-//		parar();
-//	}
-//
-//
-//
-//	@Override
-//	public void keyTyped(java.awt.event.KeyEvent arg0) {
-//		// TODO Auto-generated method stub
-//		
-//	}
-//	
-//	@Override
-//	public void run() {
-//		while(true) {
-//			if(KeyEvent.VK_SPACE == getAcao()) {
-//				pular();
-//			}
-//			else if(getAcao() != KeyEvent.VK_SPACE)
-//				andar();
-//			if(!fase.isColidindo(this) && getY()<817) {
-//				cair();
-//
-//			}else {
-//				setY(817);
-//
-//			}
-//			try {
-//
-//				Thread.sleep(1000/40);
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
-//		}
-//        
-//
-//	}
+
+	public Fase1 getFase() {
+		return fase;
+	}
+
+
+
+	public void setFase(Fase1 fase) {
+		this.fase = fase;
+	}
+
+
 
 	
 }

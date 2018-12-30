@@ -126,7 +126,7 @@ public abstract class Sprite {
 	 * @param direcao
 	 * @return 
 	 */
-	public abstract int mover();
+	public abstract void mover();
 
 	/*
 	 * Metodos Getters e Setters

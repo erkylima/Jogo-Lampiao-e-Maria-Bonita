@@ -38,24 +38,29 @@ public class Movimento extends KeyAdapter implements Runnable{
 			if(fase.isTopo(lampiao))
 				lampiao.setY(lampiao.getY()-5);
 			
-			if(fase.isCantoEsquerdo(lampiao))
+			if(fase.isCantoDireito(lampiao))
 				lampiao.setX(lampiao.getX()-5);
 			
-			if(fase.isCantoDireito(lampiao))
-				lampiao.setX(lampiao.getX()+5);
-			
+			if(fase.isCantoEsquerdo(lampiao)) {
+				lampiao.setX(lampiao.getX()+10);
+			}
 			if(!fase.isColidindo(lampiao)) {
 				lampiao.cair();
 			}
-			if(KeyEvent.VK_SPACE == lampiao.getAcao()) {
+			if(KeyEvent.VK_SPACE == lampiao.getAcao() && lampiao.isVivo()) {
 				lampiao.pular();
 			}
-			else if(lampiao.getAcao() != KeyEvent.VK_SPACE) {
+			else if(lampiao.getAcao() != KeyEvent.VK_SPACE && lampiao.isVivo()) {
 				lampiao.andar();
 
 			}
+			if(lampiao.getAcao() == KeyEvent.VK_ESCAPE) {
+				System.exit(0);
+			}
 			
-			
+			if(lampiao.getY()>=768 && lampiao.getVida()>0) {
+				lampiao.setVida(lampiao.getVida()-10);
+			}
 			
 
 			
