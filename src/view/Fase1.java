@@ -26,7 +26,6 @@ public class Fase1 extends JFrame{
 	private Lampiao lampiao;
 	private TileMap tile;
 	private TileMap bg;
-	private Status status;
 	private Camera camera;	
 
 
@@ -38,6 +37,7 @@ public class Fase1 extends JFrame{
 
 	public void atualizar() {
 		Graphics2D g = (Graphics2D) getGraphics();
+		lampiao.getStatus().setX(20);
 		camera.draw(g);
 //		status.draw(g);
 
@@ -77,7 +77,6 @@ public class Fase1 extends JFrame{
 			lampiao = new Lampiao(15, 48, 1, 40, 644,"Arquivos/lampiaosprite.png",this,120);
 			tile = new TileMap(160, 24, 32, 32, "Arquivos/Tile.png", "Arquivos/SerraTile.txt");
 			bg = new TileMap(5, 1, 1024, 1024, "Arquivos/BG.png", "Arquivos/BGSerraTile.txt");
-			status = new Status(0,7,2,20,20,"Arquivos/status.png",120,lampiao);
 			bg.montarMapa();
 			tile.montarMapa();
 		}catch (IOException e) {
@@ -107,7 +106,6 @@ public class Fase1 extends JFrame{
 		for(Rectangle entidade : tile.montarColisao())
 			if(player.getBounds().intersects(entidade)) {
 				if(entidade.getMaxY()>=player.getBounds().getMinY()) {
-
 					return true;	
 				}				
 			}		

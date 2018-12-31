@@ -15,10 +15,13 @@ public class Lampiao extends Sprite implements Runnable{
 	public double controlaVelocidade = 0;
 	public int velocidade = 10;
 	private Fase1 fase;
-	
+	private Status status;
+
 	public Lampiao(int aparencia,int columns, int rows, int posX, int posY,String caminho,Fase1 fase,int vida) throws IOException {
 		super(aparencia, columns, rows, posX, posY, caminho,vida);
 		this.fase = fase;		
+		status = new Status(0,7,2,20,20,"Arquivos/status.png",120,this);
+
 		Thread lampThread = new Thread(this);
 		lampThread.start();
 			
@@ -69,6 +72,7 @@ public class Lampiao extends Sprite implements Runnable{
 	@Override
 	public void draw(Graphics g) {
 		g.drawImage(getSprites()[getAparencia()], getX(), getY(), null);
+		status.draw(g);
 	}
 
 
@@ -200,6 +204,10 @@ public class Lampiao extends Sprite implements Runnable{
 	@Override
 	public void run() {
 		
+	}
+
+	public Status getStatus() {
+		return status;
 	}
 
 
