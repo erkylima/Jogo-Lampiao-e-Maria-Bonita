@@ -24,27 +24,28 @@ public class Camera {
 	private int x,y;
 	private Metralha metralha;
 	private Volante volante;
-	private ArrayList<Volante> volanteA;
+	private ArrayList<Sprite> volanteA;
 
 	private BufferedImage tela;
 	private Graphics g;
 	private Fase1 fase;
 	
-	public Camera(Lampiao lampiao,TileMap camada1,TileMap camada2,Fase1 fase) {
+	public Camera(Lampiao lampiao,ArrayList<Sprite> inimigos,TileMap camada1,TileMap camada2,Fase1 fase) {
 		this.lampiao = lampiao;
 		this.camada1 = camada1;
 		this.camada2 = camada2;
 		this.fase = fase;
-		tela = new BufferedImage(camada1.getLarguraTela(), camada1.getAlturaTela(), BufferedImage.TYPE_4BYTE_ABGR);
+		tela = new BufferedImage(camada2.getLarguraTela(), camada2.getAlturaTela(), BufferedImage.TYPE_4BYTE_ABGR);
 		g = tela.getGraphics();
-		volanteA = new ArrayList<>();
+		volanteA = inimigos;
 
 		try {
-			metralha = new Metralha(6, 9, 3, 1200, 620, "Arquivos/metralhasprite.png",lampiao,fase,30);
-			volante = new Volante(0, 40, 1, 1600, 5, "Arquivos/volantesprite.png", lampiao, fase, 30);
-			volanteA.add(new Volante(0, 40, 1, 1400, 500, "Arquivos/volantesprite.png", lampiao, fase, 30));
-			volanteA.add(new Volante(0, 40, 1, 1200, 500, "Arquivos/volantesprite.png", lampiao, fase, 30));
-			volanteA.add(new Volante(0, 40, 1, 1800, 630, "Arquivos/volantesprite.png", lampiao, fase, 30));
+			volanteA.add(new Metralha(0, 22, 1, 1200, 500, "Arquivos/metralhasprite.png",lampiao,fase,20));
+			volanteA.add(new Volante(0, 40, 1, 2000, 500, "Arquivos/volantesprite.png", lampiao, fase, 20));
+			volanteA.add(new Volante(0, 40, 1, 1600, 500, "Arquivos/volantesprite.png", lampiao, fase, 20));
+			volanteA.add(new Volante(0, 40, 1, 2200, 500, "Arquivos/volantesprite.png", lampiao, fase, 20));
+			volanteA.add(new Volante(0, 40, 1, 3000, 630, "Arquivos/volantesprite.png", lampiao, fase, 20));
+			status = new Status(0, 7, 2, x, 20, "Arquivos/status.png", lampiao.getVida(), lampiao);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -56,37 +57,54 @@ public class Camera {
 	
 	
 	public void renderizar() {
-		g.drawImage(camada1.getMapa(), 0, 0, null);
-		g.drawImage(camada2.getMapa(), 0, 0, null);
+		this.g.drawImage(camada1.getMapa(), 0, 0, null);
+		this.g.drawImage(camada2.getMapa(), 0, 0, null);
+		status.draw(g);
 
-//		status.animacaoAndandoDireita();
-		lampiao.draw(g);
-		volante.draw(g);
-		for(Volante v : volanteA) {
-			v.draw(g);
+
+		lampiao.draw(this.g);
+
+		for(Sprite v : volanteA) {
+			if(v.getVida()>=0) {
+				v.draw(this.g);
+				
+			}
 		}
-//		metralha.draw(g);
-//		metralha.animar();
+
+		
 		
 	}
 	
 	public void draw(Graphics g) {
-		if(lampiao.getX()>Fase1.janelaW/2) {
-			if(lampiao.getX()<(camada1.getLarguraTela()-Fase1.janelaW)) {
-				x=lampiao.getX()-Fase1.janelaW/2;
-			}
-			switch(lampiao.getAcao()) {
-			case KeyEvent.VK_D:
-//				status.setX(lampiao.getX()-460);	
-				break;
-			case 0:
-//				status.setX(lampiao.getX()-Fase1.janelaW/2);	
-			}
-		}
-		g.drawImage(tela, -x, -y, null);
+		if(lampiao.getX()>Fase1.LARGURA/2) 
+			if(lampiao.getX()<(camada1.getLarguraTela()-Fase1.LARGURA/2))
+				x=lampiao.getX()-(Fase1.LARGURA/2);
+			
+		
+		status.setX(x);
+		g.drawImage(tela, -x, -y, null);	
 
 	}
-	
+
+
+	public ArrayList<Sprite> getVolanteA() {
+		return volanteA;
+	}
+
+
+	public int getX() {
+		return x;
+	}
+
+
+	public int getY() {
+		return y;
+	}
+
+
+	public Graphics getGraphics() {
+		return g;
+	}	
 	
 	
 	

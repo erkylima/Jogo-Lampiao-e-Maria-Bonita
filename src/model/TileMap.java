@@ -84,12 +84,14 @@ public class TileMap {
 		this.mapaAltura = mapaLargura;
 		this.tileLargura = tileLargura;
 		this.tileAltura = tileAltura;
-		
 		/*
 		 * Calcula Largura e Altura totais da tela
 		 */
 		larguraTela = mapaLargura * tileLargura;
 		AlturaTela = mapaAltura * tileAltura;
+		
+		System.out.println("LARGURA: " + AlturaTela);
+
 		/*
 		 *Inicializa a imagem de fundo com aa largura e altura totais do mapa 
 		 */

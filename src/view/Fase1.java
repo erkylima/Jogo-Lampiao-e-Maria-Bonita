@@ -1,9 +1,13 @@
 package view;
 
+import java.awt.DisplayMode;
 import java.awt.Graphics2D;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
@@ -17,12 +21,9 @@ import model.TileMap;
 
 public class Fase1 extends JFrame{
 
-	BufferedImage backBuffer;	
 	int FPS = 30;
-	static int janelaW = 1024;
-	static int janelaH = 768;
-	int ap;
-
+	static int LARGURA = 1024;
+	static int ALTURA = 768;
 	private Lampiao lampiao;
 	private TileMap tile;
 	private TileMap bg;
@@ -37,10 +38,7 @@ public class Fase1 extends JFrame{
 
 	public void atualizar() {
 		Graphics2D g = (Graphics2D) getGraphics();
-		lampiao.getStatus().setX(20);
 		camera.draw(g);
-//		status.draw(g);
-
 	}
 
 	public void start() {
@@ -57,34 +55,34 @@ public class Fase1 extends JFrame{
 
 	public Fase1(String titulo) {
 		super(titulo);
-		setSize(janelaW,janelaH);
+		setSize(LARGURA,ALTURA);
 		setResizable(false);
 		setLayout(null);
 		setUndecorated(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 
-		//		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
-		//		GraphicsDevice device = env.getScreenDevices()[0];
-		//		DisplayMode oldMode = device.getDisplayMode();
-		//		DisplayMode newMode = new DisplayMode(1024,768,oldMode.getBitDepth(),oldMode.getRefreshRate());
-		//		device.setFullScreenWindow(this);
-		//		device.setDisplayMode(newMode);
+				GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
+				GraphicsDevice device = env.getScreenDevices()[0];
+				DisplayMode oldMode = device.getDisplayMode();
+				DisplayMode newMode = new DisplayMode(1024,768,oldMode.getBitDepth(),oldMode.getRefreshRate());
+				device.setFullScreenWindow(this);
+				device.setDisplayMode(newMode);
 
-		backBuffer = new BufferedImage(janelaW, janelaH, BufferedImage.TYPE_INT_RGB);
 		try{
 
 			lampiao = new Lampiao(15, 48, 1, 40, 644,"Arquivos/lampiaosprite.png",this,120);
+			bg = new TileMap(6, 1, 768, 1024, "Arquivos/BG.png", "Arquivos/BGSerraTile.txt");
 			tile = new TileMap(160, 24, 32, 32, "Arquivos/Tile.png", "Arquivos/SerraTile.txt");
-			bg = new TileMap(5, 1, 1024, 1024, "Arquivos/BG.png", "Arquivos/BGSerraTile.txt");
 			bg.montarMapa();
 			tile.montarMapa();
+
 		}catch (IOException e) {
 			e.printStackTrace();
 			System.out.println("Não foi possível carregar a Sprite");
 		}
 
-		camera = new Camera(lampiao,bg,tile,this);
+		camera = new Camera(lampiao,new ArrayList<Sprite>(),bg,tile,this);
 
 		Movimento m = new Movimento(lampiao,this);
 		addKeyListener(m);
@@ -134,5 +132,16 @@ public class Fase1 extends JFrame{
 			}		
 		return false;		
 	}
+
+	public Camera getCamera() {
+		return camera;
+	}
+
+	public TileMap getTile() {
+		return tile;
+	}
+
+	
+	
 }
 

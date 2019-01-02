@@ -11,19 +11,15 @@ import com.sun.glass.events.KeyEvent;
 
 import view.Fase1;
 
-public class Lampiao extends Sprite implements Runnable{
+public class Lampiao extends Sprite{
 	public double controlaVelocidade = 0;
 	public int velocidade = 10;
 	private Fase1 fase;
-	private Status status;
 
 	public Lampiao(int aparencia,int columns, int rows, int posX, int posY,String caminho,Fase1 fase,int vida) throws IOException {
 		super(aparencia, columns, rows, posX, posY, caminho,vida);
 		this.fase = fase;		
-		status = new Status(0,7,2,20,20,"Arquivos/status.png",120,this);
 
-		Thread lampThread = new Thread(this);
-		lampThread.start();
 			
 	}
 	
@@ -72,7 +68,6 @@ public class Lampiao extends Sprite implements Runnable{
 	@Override
 	public void draw(Graphics g) {
 		g.drawImage(getSprites()[getAparencia()], getX(), getY(), null);
-		status.draw(g);
 	}
 
 
@@ -107,10 +102,28 @@ public class Lampiao extends Sprite implements Runnable{
 		case KeyEvent.VK_T:{
 			if(isDireita()) {
 				setAparencia(46);
+				try {
+					new Tiro(0, 2, 1, getX()+60, getY()+40, "Arquivos/tiro.png", this,fase.getCamera().getVolanteA(), 10).draw(fase.getCamera().getGraphics());;
+					Thread.sleep(1000/2);				
+				} catch (IOException e) {
+					e.printStackTrace();
+				}catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}else {
 				setAparencia(47);
-
+				try {
+					new Tiro(1, 2, 1, getX()-60, getY()+40, "Arquivos/tiro.png", this,fase.getCamera().getVolanteA(), 10).draw(fase.getCamera().getGraphics());;
+					Thread.sleep(1000/2);				
+				} catch (IOException e) {
+					e.printStackTrace();
+				}catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
+			
 					
 			break;
 		}
@@ -201,17 +214,6 @@ public class Lampiao extends Sprite implements Runnable{
 		return false;
 	}
 	
-	@Override
-	public void run() {
-		
-	}
-
-	public Status getStatus() {
-		return status;
-	}
-
-
-
 	public Fase1 getFase() {
 		return fase;
 	}

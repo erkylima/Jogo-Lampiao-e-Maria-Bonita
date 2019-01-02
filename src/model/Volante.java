@@ -2,18 +2,19 @@ package model;
 
 import java.awt.Graphics;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Random;
 
 import view.Fase1;
 
 public class Volante extends Sprite implements Runnable{
 	private int distanciaTiro,distanciaAndar;
-	private Sprite inimigo;
+	private Lampiao inimigo;
 	private Fase1 fase;
-	public double controlaVelocidade = 0;
-	public int velocidade = 10;
-	
-	public Volante(int aparencia, int colunas, int linhas, int x, int y, String endereco,Sprite inimigo,Fase1 fase,int vida)
+	private double controlaVelocidade = 0;
+	private int velocidade = 10;
+	private Thread volanteThread;
+	public Volante(int aparencia, int colunas, int linhas, int x, int y, String endereco,Lampiao inimigo,Fase1 fase,int vida)
 			throws IOException {
 		super(aparencia,  colunas, linhas, x, y, endereco,vida);
 		this.inimigo = inimigo;
@@ -22,8 +23,9 @@ public class Volante extends Sprite implements Runnable{
         Random gerador = new Random();		
         distanciaTiro = gerador.nextInt(400)+100;
         distanciaAndar = gerador.nextInt(200)+800;
-		Thread volante = new Thread(this);
-		volante.start();	}
+        volanteThread = new Thread(this);
+        volanteThread.start();
+		}
 
 	@Override
 	public void animacaoAndandoDireita() {
@@ -104,11 +106,26 @@ public class Volante extends Sprite implements Runnable{
 					setAparencia(6);
 				}
 				animacaoParadoDireita();
+				
 			}else {
 				if(getAparencia()<18 || getAparencia()>24) {
 					setAparencia(18);
 				}
 				animacaoParadoEsquerda();
+				
+			}
+			if(inimigo.getVida()>0){
+				try {
+					ArrayList<Sprite> alvo = new ArrayList<Sprite>();
+					alvo.add(inimigo);
+					new Tiro(0, 2, 1, getX()+60, getY()+40, "Arquivos/tiro.png", inimigo, alvo, 5).draw(fase.getCamera().getGraphics());;
+					Thread.sleep(1000/2);				
+				} catch (IOException e) {
+					e.printStackTrace();
+				}catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 		if(fase.isTopo(this)) {
@@ -180,6 +197,12 @@ public class Volante extends Sprite implements Runnable{
 			}else if(inimigo.getX() > getX()) {
 				setDireita(true);
 			}
+			if(getVida()<10) {
+				destroier(this);
+			}
+			if(getY()>750) {
+				setVida(getVida()-10);
+			}
 			try {
 
 				Thread.sleep(1000/25);
@@ -187,5 +210,13 @@ public class Volante extends Sprite implements Runnable{
 				e.printStackTrace();
 			}
 		}
+		
 	}
+	public void destroier(Volante volante){
+		volante.setY(getY()+500);
+		volante = null;
+		this.volanteThread.stop();
+		System.gc();
+	}
+	
 }
