@@ -2,7 +2,6 @@ package controller;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 import model.Lampiao;
 import view.Fase1;
@@ -12,11 +11,11 @@ public class Movimento extends KeyAdapter implements Runnable{
 	private Lampiao lampiao;
 //	private int acao;
 	private Fase1 fase;
-	
+	private Thread t;
 	public Movimento(Lampiao lampiao,Fase1 fase) {
 		this.lampiao = lampiao;
 		this.fase = fase;
-		Thread t = new Thread(this);
+		t = new Thread(this);
 		t.start();
 	}
 
@@ -49,6 +48,7 @@ public class Movimento extends KeyAdapter implements Runnable{
 			}
 			if(KeyEvent.VK_SPACE == lampiao.getAcao() && lampiao.isVivo()) {
 				lampiao.pular();
+				
 			}
 			else if(lampiao.getAcao() != KeyEvent.VK_SPACE && lampiao.isVivo()) {
 				lampiao.andar();
@@ -61,8 +61,6 @@ public class Movimento extends KeyAdapter implements Runnable{
 			if(lampiao.getY()>=768 && lampiao.getVida()>0) {
 				lampiao.setVida(lampiao.getVida()-10);
 			}
-			
-
 			
 			try {
 

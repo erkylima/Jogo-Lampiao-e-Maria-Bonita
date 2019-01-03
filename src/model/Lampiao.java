@@ -1,11 +1,7 @@
 package model;
 
 import java.awt.Graphics;
-import java.awt.event.KeyListener;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
-
-import javax.xml.stream.events.StartDocument;
 
 import com.sun.glass.events.KeyEvent;
 
@@ -19,7 +15,6 @@ public class Lampiao extends Sprite{
 	public Lampiao(int aparencia,int columns, int rows, int posX, int posY,String caminho,Fase1 fase,int vida) throws IOException {
 		super(aparencia, columns, rows, posX, posY, caminho,vida);
 		this.fase = fase;		
-
 			
 	}
 	
@@ -103,7 +98,7 @@ public class Lampiao extends Sprite{
 			if(isDireita()) {
 				setAparencia(46);
 				try {
-					new Tiro(0, 2, 1, getX()+60, getY()+40, "Arquivos/tiro.png", this,fase.getCamera().getVolanteA(), 10).draw(fase.getCamera().getGraphics());;
+					new Tiro(0, 2, 1, getX()+60, getY()+40, "Arquivos/tiro.png", this,fase.getCamera().getInimigos(), 10,60).draw(fase.getCamera().getGraphics());;
 					Thread.sleep(1000/2);				
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -114,7 +109,7 @@ public class Lampiao extends Sprite{
 			}else {
 				setAparencia(47);
 				try {
-					new Tiro(1, 2, 1, getX()-60, getY()+40, "Arquivos/tiro.png", this,fase.getCamera().getVolanteA(), 10).draw(fase.getCamera().getGraphics());;
+					new Tiro(1, 2, 1, getX()-60, getY()+40, "Arquivos/tiro.png", this,fase.getCamera().getInimigos(), 10,60).draw(fase.getCamera().getGraphics());;
 					Thread.sleep(1000/2);				
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -170,11 +165,11 @@ public class Lampiao extends Sprite{
 		while(anguloCorrente != 300) {
 			if(anguloCorrente == 0)
 				anguloCorrente = 360;
-			dy = velocidade * Math.sin(Math.toRadians(anguloCorrente));
+			dy = velocidade * Math.sin(Math.toRadians(anguloCorrente))+1;
 			if(aux)
-				dx =((velocidade * Math.cos(Math.toRadians(anguloCorrente))) * 1);
+				dx =((velocidade * Math.cos(Math.toRadians(anguloCorrente))) * 1)-5;
 			else
-				dx =((velocidade * Math.cos(Math.toRadians(anguloCorrente))) * -1);
+				dx =((velocidade * Math.cos(Math.toRadians(anguloCorrente))) * -1)+5;
 			
 			anguloCorrente--;
 
@@ -182,12 +177,12 @@ public class Lampiao extends Sprite{
 				setY(getY()-((int)dy));
 				setX(getX()+((int)dx));
 			}else {
-				setY(getY()+((int)dy));
+				setY(getY()+5+((int)dy));
 				setX(getX()-((int)dx));
 				break;
 			}
 			try {
-				Thread.sleep(1000/30);
+				Thread.sleep(1000/50);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

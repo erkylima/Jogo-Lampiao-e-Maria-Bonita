@@ -13,12 +13,16 @@ public class Tiro extends Sprite implements Runnable{
 	private Thread tiro;
 	private boolean aux;
 	private Graphics graphic;
-	public Tiro(int aparencia, int colunas, int linhas, int x, int y, String endereco,Lampiao personagem,ArrayList<Sprite> alvo, int vida) throws IOException {
+	private int velocidade;
+	public Tiro(int aparencia, int colunas, int linhas, int x, int y, String endereco,Lampiao personagem,ArrayList<Sprite> alvo, int vida,int velocidade) throws IOException {
 		super(aparencia, colunas, linhas, x, y, endereco, vida);
 		this.alvo = alvo;
 		this.personagem = personagem;
+		this.velocidade = velocidade;
 		aux = personagem.isDireita();
 		new Som().tiroSom();
+		
+		
 		tiro = new Thread(this);
 		tiro.start();
 	}
@@ -61,10 +65,18 @@ public class Tiro extends Sprite implements Runnable{
 	@Override
 	public void run() {
 		while(true) {
-			if(aux && personagem!=alvo.get(0)) {
-				setX(getX()+10);
+			if(personagem!=alvo.get(0)) {
+				if(aux) {
+					setX(getX()+10);
+				}else {
+					setX(getX()-10);
+				}
 			}else {
-				setX(getX()-10);
+				if(aux) {
+					setX(getX()-10);
+				}else {
+					setX(getX()+10);
+				}
 			}
 			for(Sprite a : alvo) {
 				if(getBounds().intersects(a.getBounds())) {
@@ -85,7 +97,7 @@ public class Tiro extends Sprite implements Runnable{
 			}
 			try {
 
-				Thread.sleep(1000/60);
+				Thread.sleep(1000/velocidade);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -98,7 +110,7 @@ public class Tiro extends Sprite implements Runnable{
 	}
 
 	public boolean isColidindo() {
-		for(Rectangle entidade : personagem.getFase().getTile().montarColisao())
+		for(Rectangle entidade : personagem.getFase().getInit().getTileSerra().montarColisao())
 			if(getBounds().intersects(entidade)) {
 				return true;				
 			}		

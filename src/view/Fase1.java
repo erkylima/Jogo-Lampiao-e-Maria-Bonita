@@ -1,32 +1,24 @@
 package view;
 
-import java.awt.DisplayMode;
 import java.awt.Graphics2D;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
+import controller.Inicializa;
 import controller.Movimento;
-import model.Lampiao;
 import model.Metralha;
 import model.Sprite;
-import model.Status;
 import model.TileMap;
+import model.Volante;
 
 
 public class Fase1 extends JFrame{
 
-	int FPS = 30;
-	static int LARGURA = 1024;
-	static int ALTURA = 768;
-	private Lampiao lampiao;
-	private TileMap tile;
-	private TileMap bg;
+	public static int FPS = 30;
+
+	private Inicializa init;
 	private Camera camera;	
 
 
@@ -53,45 +45,45 @@ public class Fase1 extends JFrame{
 		}
 	}
 
-	public Fase1(String titulo) {
+	public Fase1(String titulo, Inicializa init) {
 		super(titulo);
-		setSize(LARGURA,ALTURA);
+		this.init = init;
+		this.init.getLampiao().setFase(this);
+		
+		setSize(this.init.getLARGURA(),this.init.getALTURA());
 		setResizable(false);
 		setLayout(null);
 		setUndecorated(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
+		try {
+			this.init.getInimigosF1().add(new Metralha(0, 22, 1, 3000, 500, "Arquivos/metralhasprite.png",init.getLampiao(),20));
+			this.init.getInimigosF1().add(new Volante(0, 40, 1, 2000, 500, "Arquivos/volantesprite.png", init.getLampiao(), 20));
+			this.init.getInimigosF1().add(new Volante(0, 40, 1, 1600, 500, "Arquivos/volantesprite.png", init.getLampiao(), 20));
+			this.init.getInimigosF1().add(new Volante(0, 40, 1, 2200, 500, "Arquivos/volantesprite.png", init.getLampiao(), 20));
+			this.init.getInimigosF1().add(new Volante(0, 40, 1, 3000, 630, "Arquivos/volantesprite.png", init.getLampiao(), 20));
+			this.init.getInimigosF1().add(new Volante(0, 40, 1, 3400, 630, "Arquivos/volantesprite.png", init.getLampiao(), 20));
+			this.init.getInimigosF1().add(new Volante(0, 40, 1, 3200, 630, "Arquivos/volantesprite.png", init.getLampiao(), 20));
+			this.init.getInimigosF1().add(new Metralha(0, 22, 1, 3600, 500, "Arquivos/metralhasprite.png",init.getLampiao(),20));
+			this.init.getInimigosF1().add(new Metralha(0, 22, 1, 4000, 500, "Arquivos/metralhasprite.png",init.getLampiao(),20));
+			this.init.getInimigosF1().add(new Volante(0, 40, 1, 4600, 630, "Arquivos/volantesprite.png", init.getLampiao(), 20));
+			this.init.getInimigosF1().add(new Metralha(0, 22, 1, 5000, 600, "Arquivos/metralhasprite.png",init.getLampiao(),20));
 
-				GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
-				GraphicsDevice device = env.getScreenDevices()[0];
-				DisplayMode oldMode = device.getDisplayMode();
-				DisplayMode newMode = new DisplayMode(1024,768,oldMode.getBitDepth(),oldMode.getRefreshRate());
-				device.setFullScreenWindow(this);
-				device.setDisplayMode(newMode);
-
-		try{
-
-			lampiao = new Lampiao(15, 48, 1, 40, 644,"Arquivos/lampiaosprite.png",this,120);
-			bg = new TileMap(6, 1, 768, 1024, "Arquivos/BG.png", "Arquivos/BGSerraTile.txt");
-			tile = new TileMap(160, 24, 32, 32, "Arquivos/Tile.png", "Arquivos/SerraTile.txt");
-			bg.montarMapa();
-			tile.montarMapa();
-
-		}catch (IOException e) {
+			} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
-			System.out.println("Não foi possível carregar a Sprite");
 		}
 
-		camera = new Camera(lampiao,new ArrayList<Sprite>(),bg,tile,this);
-
-		Movimento m = new Movimento(lampiao,this);
+		Movimento m = new Movimento(this.init.getLampiao(),this);
 		addKeyListener(m);
+		camera = new Camera(this.init.getLampiao(),this.init.getInimigosF1(),this.init.getCamadasF1(),this.init.getStatus());
+		
 
 		setVisible(true);
 	}
 
 	public boolean isColidindo(Sprite player) {
-		for(Rectangle entidade : tile.montarColisao())
+		for(Rectangle entidade : init.getTileSerra().montarColisao()) // camada de objetos
 			if(player.getBounds().intersects(entidade)) {
 
 				return true;				
@@ -101,18 +93,19 @@ public class Fase1 extends JFrame{
 
 	public boolean isTopo(Sprite player) {
 
-		for(Rectangle entidade : tile.montarColisao())
+		for(Rectangle entidade : init.getTileSerra().montarColisao()) // camada de objetos
 			if(player.getBounds().intersects(entidade)) {
 				if(entidade.getMaxY()>=player.getBounds().getMinY()) {
 					return true;	
 				}				
 			}		
+
 		return false;		
 	}
 
 	public boolean isCantoDireito(Sprite player) {
 
-		for(Rectangle entidade : tile.montarColisao())
+		for(Rectangle entidade : init.getTileSerra().montarColisao()) // camada de objetos
 			if(player.getBounds().intersects(entidade)) {
 				if(entidade.getMinX()-10<=player.getBounds().getBounds().getMaxX()) {					
 					return true;
@@ -124,7 +117,7 @@ public class Fase1 extends JFrame{
 
 	public boolean isCantoEsquerdo(Sprite player) {
 
-		for(Rectangle entidade : tile.montarColisao())
+		for(Rectangle entidade : init.getTileSerra().montarColisao())
 			if(player.getBounds().intersects(entidade)) {
 				if(entidade.getMaxX()+10>=player.getBounds().getBounds().getMinX()) {						
 					return true;	
@@ -132,13 +125,25 @@ public class Fase1 extends JFrame{
 			}		
 		return false;		
 	}
+	
+	public boolean isPulo(Sprite player) {
+
+		for(Rectangle entidade : init.getEnteiteSerra().montarPulo())
+			if(player.getBounds().intersects(entidade)) {
+				if(entidade.getMaxX()+10>=player.getBounds().getBounds().getMinX()) {
+					return true;	
+				}							
+			}		
+		return false;		
+	}
+	
 
 	public Camera getCamera() {
 		return camera;
 	}
 
-	public TileMap getTile() {
-		return tile;
+	public Inicializa getInit() {
+		return init;
 	}
 
 	

@@ -5,35 +5,26 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
-import view.Fase1;
-
 public class Metralha extends Sprite implements Runnable{
 
 	private int distanciaTiro,distanciaAndar;
 	private Lampiao inimigo;
-	private Fase1 fase;
 	private double controlaVelocidade = 0;
-	private int velocidade = 5;
+	private int velocidade = 10;
 	private Thread metralhaThread;
-	public Metralha(int aparencia, int colunas, int linhas, int x, int y, String endereco,Lampiao inimigo,Fase1 fase,int vida)
+	
+	public Metralha(int aparencia, int colunas, int linhas, int x, int y, String endereco,Lampiao inimigo,int vida)
 			throws IOException {
 		super(aparencia,  colunas, linhas, x, y, endereco,vida);
 		this.inimigo = inimigo;
-		this.fase = fase;
-		
 		setDireita(false);
-        Random gerador = new Random();
-        distanciaTiro = gerador.nextInt(400)+150;
+        Random gerador = new Random();		
+        distanciaTiro = gerador.nextInt(400)+100;
         distanciaAndar = gerador.nextInt(200)+800;
+       
         metralhaThread = new Thread(this);
         metralhaThread.start();
         
-	}
-
-
-	@Override
-	public void draw(Graphics g) {
-		g.drawImage(getSprites()[getAparencia()], getX(), getY(), null);					
 	}
 
 	@Override
@@ -81,26 +72,31 @@ public class Metralha extends Sprite implements Runnable{
 	}
 	
 	@Override
+	public void draw(Graphics g) {
+		g.drawImage(getSprites()[getAparencia()], getX(), getY(), null);					
+	}
+	
+	@Override
 	public void mover() {
 		if(inimigo.getX() < getX()-distanciaTiro && inimigo.getX()<getX()+600) {
-			setX(getX()-11);
+			setX(getX()-15);
 			if(getAparencia()<16 || getAparencia()>21) {
 				setAparencia(16);
 			}
 			animacaoAndandoEsquerda();
-			if(fase.isCantoDireito(this)){
-				setX(getX()+11);
+			if(inimigo.getFase().isCantoDireito(this)){
+				setX(getX()+15);
 			}
 			
 		}else if(inimigo.getX() > getX()+distanciaTiro && inimigo.getX()>getX()-600) {
-			setX(getX()+11);
+			setX(getX()+15);
 			if(getAparencia()<5 || getAparencia() >10) {
 				setAparencia(5);
 			}
 			animacaoAndandoDireita();
 			
-			if(fase.isCantoEsquerdo(this)){
-				setX(getX()-11);
+			if(inimigo.getFase().isCantoEsquerdo(this)){
+				setX(getX()-15);
 			}
 
 		}else {
@@ -109,30 +105,31 @@ public class Metralha extends Sprite implements Runnable{
 					setAparencia(0);
 				}
 				animacaoParadoDireita();
+				
 			}else {
 				if(getAparencia()<11 || getAparencia()>15) {
 					setAparencia(11);
 				}
 				animacaoParadoEsquerda();
+				
 			}
 			if(inimigo.getVida()>0){
 				try {
 					ArrayList<Sprite> alvo = new ArrayList<Sprite>();
 					alvo.add(inimigo);
-					new Tiro(0, 2, 1, getX()+60, getY()+40, "Arquivos/tiro.png", inimigo, alvo, 10).draw(fase.getCamera().getGraphics());;
-					Thread.sleep(1000/2);				
+					new Tiro(0, 2, 1, getX()+60, getY()+40, "Arquivos/tiro.png", inimigo, alvo, 5,30).draw(inimigo.getFase().getCamera().getGraphics());
+					Thread.sleep(1000/10);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
 		}
 		
-		if(fase.isTopo(this)) {
+		if(inimigo.getFase().isTopo(this)) {
 			setY(getY()-4);
-			if(fase.isTopo(this)) {
+			if(inimigo.getFase().isTopo(this)) {
 				pular();
 			}
 		}else {
@@ -168,7 +165,7 @@ public class Metralha extends Sprite implements Runnable{
 			
 			anguloCorrente--;
 
-			if(!fase.isColidindo(this)) {
+			if(!inimigo.getFase().isColidindo(this)) {
 				setY(getY()-((int)dy));
 				setX(getX()+((int)dx));
 			}else {
@@ -177,7 +174,7 @@ public class Metralha extends Sprite implements Runnable{
 				break;
 			}
 			try {
-				Thread.sleep(1000/30);
+				Thread.sleep(1000/40);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -190,8 +187,7 @@ public class Metralha extends Sprite implements Runnable{
 
 	@Override
 	public void run() {
-		while(getVida()>=0) {
-			mover();
+		while(true) {
 			if((inimigo.getX()>getX()-distanciaAndar) || (inimigo.getX()>getX()-distanciaAndar) ) {
 				mover();
 			}
@@ -201,8 +197,14 @@ public class Metralha extends Sprite implements Runnable{
 			}else if(inimigo.getX() > getX()) {
 				setDireita(true);
 			}
+			if(getVida()<10) {
+				destroier(this);
+			}
 			if(getY()>750) {
 				setVida(getVida()-10);
+			}
+			if(inimigo.getFase().isPulo(this)) {
+				pular();
 			}
 			try {
 
@@ -211,11 +213,9 @@ public class Metralha extends Sprite implements Runnable{
 				e.printStackTrace();
 			}
 		}
-		destroir(this);
-
 	}
 
-	public void destroir(Metralha metralha){
+	public void destroier(Metralha metralha){
 		metralha.setY(getY()+500);
 		metralha = null;
 		metralhaThread.stop();

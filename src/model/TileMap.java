@@ -158,6 +158,18 @@ public class TileMap {
 		return tmp;
 	}
 	
+	public List<Rectangle> montarPulo() {
+		List<Rectangle> tmp = new ArrayList<Rectangle>();
+		for (int i = 0; i < mapaLargura; i++) {
+			for (int j = 0; j < mapaAltura; j++) {
+				if(camada[i][j] == 9) {
+					tmp.add(new Rectangle( (j * tileAltura), (i * tileLargura), tileLargura, tileAltura));
+				}		
+			}
+		}
+		return tmp;
+	}
+	
 	/**
 	 * Carrega a matriz correspondente da sua camada
 	 * 
