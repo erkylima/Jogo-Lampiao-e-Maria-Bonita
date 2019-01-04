@@ -5,14 +5,15 @@ import java.awt.event.KeyEvent;
 
 import model.Lampiao;
 import view.Fase1;
+import view.Tela;
 
 public class Movimento extends KeyAdapter implements Runnable{
 
 	private Lampiao lampiao;
 //	private int acao;
-	private Fase1 fase;
+	private Tela fase;
 	private Thread t;
-	public Movimento(Lampiao lampiao,Fase1 fase) {
+	public Movimento(Lampiao lampiao,Tela fase) {
 		this.lampiao = lampiao;
 		this.fase = fase;
 		t = new Thread(this);
@@ -35,7 +36,7 @@ public class Movimento extends KeyAdapter implements Runnable{
 	public void run() {
 		while(true) {
 			if(fase.isTopo(lampiao))
-				lampiao.setY(lampiao.getY()-5);
+				lampiao.setY(lampiao.getY()-8);
 			
 			if(fase.isCantoDireito(lampiao))
 				lampiao.setX(lampiao.getX()-5);
@@ -58,7 +59,7 @@ public class Movimento extends KeyAdapter implements Runnable{
 				System.exit(0);
 			}
 			
-			if(lampiao.getY()>=768 && lampiao.getVida()>0) {
+			if(lampiao.getY()>=640 && lampiao.getVida()>0) {
 				lampiao.setVida(lampiao.getVida()-10);
 			}
 			

@@ -22,7 +22,7 @@ public class Volante extends Sprite implements Runnable{
 		setDireita(false);
         Random gerador = new Random();		
         distanciaTiro = gerador.nextInt(400)+100;
-        distanciaAndar = gerador.nextInt(200)+800;
+        distanciaAndar = gerador.nextInt(200)+700;
         
         volanteThread = new Thread(this);
         volanteThread.start();
@@ -121,7 +121,8 @@ public class Volante extends Sprite implements Runnable{
 				try {
 					ArrayList<Sprite> alvo = new ArrayList<Sprite>();
 					alvo.add(inimigo);
-					new Tiro(0, 2, 1, getX()+60, getY()+40, "Arquivos/tiro.png", inimigo, alvo, 5,30).draw(inimigo.getFase().getCamera().getGraphics());
+					alvo.add(this);
+					new Tiro(0, 2, 1, getX(), getY()+40, "Arquivos/tiro.png", inimigo, alvo, 5,30).draw(inimigo.getFase().getCamera().getGraphics());
 					Thread.sleep(1000/2);				
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -132,15 +133,15 @@ public class Volante extends Sprite implements Runnable{
 		}
 		
 		if(inimigo.getFase().isTopo(this)) {
-			setY(getY()-4);
+			setY(getY()-8);
 			if(inimigo.getFase().isTopo(this)) {
 				pular();
 			}
 		}else {
-			setY(getY()+4);
+			setY(getY()+8);
 		}
 	}
-	
+
 	public void pular(){
 		int anguloDoPulo = 25;
 		int anguloCorrente = anguloDoPulo;
@@ -161,11 +162,11 @@ public class Volante extends Sprite implements Runnable{
 		while(anguloCorrente != 300) {
 			if(anguloCorrente == 0)
 				anguloCorrente = 360;
-			dy = velocidade * Math.sin(Math.toRadians(anguloCorrente));
+			dy = velocidade * Math.sin(Math.toRadians(anguloCorrente))+1;
 			if(aux)
-				dx =((velocidade * Math.cos(Math.toRadians(anguloCorrente))) * 1);
+				dx =((velocidade * Math.cos(Math.toRadians(anguloCorrente))) * 1)-3;
 			else
-				dx =((velocidade * Math.cos(Math.toRadians(anguloCorrente))) * -1);
+				dx =((velocidade * Math.cos(Math.toRadians(anguloCorrente))) * -1)+3;
 			
 			anguloCorrente--;
 
@@ -203,15 +204,15 @@ public class Volante extends Sprite implements Runnable{
 			if(getVida()<10) {
 				destroier(this);
 			}
-			if(getY()>750) {
+			if(getY()>640) {
 				setVida(getVida()-10);
 			}
 			if(inimigo.getFase().isPulo(this)) {
 				pular();
 			}
 			try {
-
-				Thread.sleep(1000/25);
+				if(!volanteThread.isInterrupted()) 
+					Thread.sleep(1000/25);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -222,6 +223,8 @@ public class Volante extends Sprite implements Runnable{
 		volante.setY(getY()+500);
 		volante = null;
 		this.volanteThread.stop();
+		volanteThread.interrupt();;
+		this.volanteThread = null;
 		System.gc();
 	}
 	

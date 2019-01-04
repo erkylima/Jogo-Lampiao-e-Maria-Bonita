@@ -3,6 +3,7 @@ package view;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
@@ -48,7 +49,7 @@ public class Fase1 extends JFrame{
 	public Fase1(String titulo, Inicializa init) {
 		super(titulo);
 		this.init = init;
-		this.init.getLampiao().setFase(this);
+//		this.init.getLampiao().setFase(this);
 		
 		setSize(this.init.getLARGURA(),this.init.getALTURA());
 		setResizable(false);
@@ -56,27 +57,12 @@ public class Fase1 extends JFrame{
 		setUndecorated(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
-		try {
-			this.init.getInimigosF1().add(new Metralha(0, 22, 1, 3000, 500, "Arquivos/metralhasprite.png",init.getLampiao(),20));
-			this.init.getInimigosF1().add(new Volante(0, 40, 1, 2000, 500, "Arquivos/volantesprite.png", init.getLampiao(), 20));
-			this.init.getInimigosF1().add(new Volante(0, 40, 1, 1600, 500, "Arquivos/volantesprite.png", init.getLampiao(), 20));
-			this.init.getInimigosF1().add(new Volante(0, 40, 1, 2200, 500, "Arquivos/volantesprite.png", init.getLampiao(), 20));
-			this.init.getInimigosF1().add(new Volante(0, 40, 1, 3000, 630, "Arquivos/volantesprite.png", init.getLampiao(), 20));
-			this.init.getInimigosF1().add(new Volante(0, 40, 1, 3400, 630, "Arquivos/volantesprite.png", init.getLampiao(), 20));
-			this.init.getInimigosF1().add(new Volante(0, 40, 1, 3200, 630, "Arquivos/volantesprite.png", init.getLampiao(), 20));
-			this.init.getInimigosF1().add(new Metralha(0, 22, 1, 3600, 500, "Arquivos/metralhasprite.png",init.getLampiao(),20));
-			this.init.getInimigosF1().add(new Metralha(0, 22, 1, 4000, 500, "Arquivos/metralhasprite.png",init.getLampiao(),20));
-			this.init.getInimigosF1().add(new Volante(0, 40, 1, 4600, 630, "Arquivos/volantesprite.png", init.getLampiao(), 20));
-			this.init.getInimigosF1().add(new Metralha(0, 22, 1, 5000, 600, "Arquivos/metralhasprite.png",init.getLampiao(),20));
+		
 
-			} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		Movimento m = new Movimento(this.init.getLampiao(),this);
-		addKeyListener(m);
-		camera = new Camera(this.init.getLampiao(),this.init.getInimigosF1(),this.init.getCamadasF1(),this.init.getStatus());
+//		Movimento m = new Movimento(this.init.getLampiao(),this);
+//		addKeyListener(m);
+		
+		camera = new Camera(this.init.getLampiao(),this.init.getInimigosF1(),this.init.getCamadasF1());
 		
 
 		setVisible(true);

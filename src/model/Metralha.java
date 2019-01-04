@@ -117,7 +117,8 @@ public class Metralha extends Sprite implements Runnable{
 				try {
 					ArrayList<Sprite> alvo = new ArrayList<Sprite>();
 					alvo.add(inimigo);
-					new Tiro(0, 2, 1, getX()+60, getY()+40, "Arquivos/tiro.png", inimigo, alvo, 5,30).draw(inimigo.getFase().getCamera().getGraphics());
+					alvo.add(this);
+					new Tiro(0, 2, 1, getX(), getY()+40, "Arquivos/tiro.png", inimigo, alvo, 5,30).draw(inimigo.getFase().getCamera().getGraphics());
 					Thread.sleep(1000/10);
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -128,12 +129,12 @@ public class Metralha extends Sprite implements Runnable{
 		}
 		
 		if(inimigo.getFase().isTopo(this)) {
-			setY(getY()-4);
+			setY(getY()-8);
 			if(inimigo.getFase().isTopo(this)) {
 				pular();
 			}
 		}else {
-			setY(getY()+4);
+			setY(getY()+8);
 		}
 	}
 	
@@ -200,7 +201,7 @@ public class Metralha extends Sprite implements Runnable{
 			if(getVida()<10) {
 				destroier(this);
 			}
-			if(getY()>750) {
+			if(getY()>640) {
 				setVida(getVida()-10);
 			}
 			if(inimigo.getFase().isPulo(this)) {

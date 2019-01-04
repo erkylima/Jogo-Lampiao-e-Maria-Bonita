@@ -17,13 +17,12 @@ public class Camera {
 
 	private BufferedImage tela;
 	private Graphics g;
-	private Status status;
+//	private Status status;
 	
-	public Camera(Lampiao lampiao,ArrayList<Sprite> inimigos,ArrayList<TileMap> camadas,Status status) {
+	public Camera(Lampiao lampiao,ArrayList<Sprite> inimigos,ArrayList<TileMap> camadas) {
 		this.lampiao = lampiao;
 		this.inimigos = inimigos;
 		this.camadas = camadas;
-		this.status = status;
 		tela = new BufferedImage(camadas.get(0).getLarguraTela(), camadas.get(0).getAlturaTela(), BufferedImage.TYPE_4BYTE_ABGR);
 		g = tela.getGraphics();
 		
@@ -34,11 +33,8 @@ public class Camera {
 		for(TileMap t : this.camadas) {
 			this.g.drawImage(t.getMapa(), 0, 0, null);
 		}
-		status.draw(g);
 		lampiao.draw(this.g);
-		if(lampiao.getX()>=(camadas.get(1).getLarguraTela()-((lampiao.getFase().getInit().getLARGURA()/2)+1510))) {
-			System.out.println("PARABÉns");
-		}
+		
 		for(Sprite v : inimigos) {
 			if(v.getVida()>=0) {
 				v.draw(this.g);
@@ -52,11 +48,10 @@ public class Camera {
 	
 	public void draw(Graphics g) {
 		if(lampiao.getX()>lampiao.getFase().getInit().getLARGURA()/2) 
-			if(lampiao.getX()<(camadas.get(1).getLarguraTela()-((lampiao.getFase().getInit().getLARGURA()/2)+1510))) {
+			if(lampiao.getX()<(camadas.get(1).getLarguraTela()-((lampiao.getFase().getInit().getLARGURA()/2)))) {
 				x=lampiao.getX()-(lampiao.getFase().getInit().getLARGURA()/2);
 			}
 		
-		status.setX(x+20);
 		g.drawImage(tela, -x, -y, null);	
 
 	}

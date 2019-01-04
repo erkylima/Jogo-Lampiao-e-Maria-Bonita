@@ -4,7 +4,6 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
-import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -80,18 +79,17 @@ public class TileMap {
 	 */
 	public TileMap(int mapaLargura, int mapaAltura, int tileLargura, int tileAltura, String nomeTileSet, String nomeMapaMatriz) {
 		
-		this.mapaLargura = mapaAltura;
-		this.mapaAltura = mapaLargura;
+		this.mapaAltura = mapaAltura;
+		this.mapaLargura = mapaLargura;
 		this.tileLargura = tileLargura;
 		this.tileAltura = tileAltura;
+		
 		/*
 		 * Calcula Largura e Altura totais da tela
 		 */
 		larguraTela = mapaLargura * tileLargura;
 		AlturaTela = mapaAltura * tileAltura;
 		
-		System.out.println("LARGURA: " + AlturaTela);
-
 		/*
 		 *Inicializa a imagem de fundo com aa largura e altura totais do mapa 
 		 */
@@ -125,13 +123,14 @@ public class TileMap {
 	 * Metodo responsavel por calcular e desenhar no lugar correto os tiles de sua camada
 	 */
 	public void montarMapa() {
-
+		
 		int tile;
 		int tileRow;
 		int tileCol;
 		int colunasTileSet=tileSet.getWidth()/tileLargura; //quantidade de colunas do seu tileset
-		for (int i = 0; i < mapaLargura; i++) {
-			for (int j = 0; j < mapaAltura; j++) {
+		System.out.println(colunasTileSet);
+		for (int i = 0; i < mapaAltura; i++) {
+			for (int j = 0; j < mapaLargura; j++) {
 				tile = (camada[i][j] != 0) ? (camada[i][j] - 1) : 55;
 				tileRow = (tile / colunasTileSet) | 0;
 				tileCol = (tile % colunasTileSet) | 0;
@@ -148,8 +147,8 @@ public class TileMap {
 	 */
 	public List<Rectangle> montarColisao() {
 		List<Rectangle> tmp = new ArrayList<Rectangle>();
-		for (int i = 0; i < mapaLargura; i++) {
-			for (int j = 0; j < mapaAltura; j++) {
+		for (int i = 0; i < mapaAltura; i++) {
+			for (int j = 0; j < mapaLargura; j++) {
 				if(camada[i][j] != 17) {
 					tmp.add(new Rectangle( (j * tileAltura), (i * tileLargura), tileLargura, tileAltura));
 				}		
@@ -157,18 +156,21 @@ public class TileMap {
 		}
 		return tmp;
 	}
-	
+	/**
+	 * @return lista de Rectangle para calculo do pulo dos inimigos 
+	 */
 	public List<Rectangle> montarPulo() {
 		List<Rectangle> tmp = new ArrayList<Rectangle>();
-		for (int i = 0; i < mapaLargura; i++) {
-			for (int j = 0; j < mapaAltura; j++) {
-				if(camada[i][j] == 9) {
+		for (int i = 0; i < mapaAltura; i++) {
+			for (int j = 0; j < mapaLargura; j++) {
+				if(camada[i][j] == 18) {
 					tmp.add(new Rectangle( (j * tileAltura), (i * tileLargura), tileLargura, tileAltura));
 				}		
 			}
 		}
 		return tmp;
 	}
+	
 	
 	/**
 	 * Carrega a matriz correspondente da sua camada
@@ -177,17 +179,17 @@ public class TileMap {
 	 * @return Matriz de inteiros (int) correspondentes a sua camada 
 	 */
 	public int[][] carregarMatriz(String nomeMapa) {
-		int[][] matz = new int[mapaLargura][mapaAltura];
-		InputStream input;
-		BufferedReader br=null;
-		try {
-			input = new DataInputStream(new FileInputStream(nomeMapa));
-			br = new BufferedReader(new InputStreamReader(input));
+		int[][] matz = new int[mapaAltura][mapaLargura];
 
-		}catch (IOException e) {
-			System.out.println("Não carregou Matriz");
-			e.printStackTrace();
+		FileInputStream input;
+		BufferedReader br= null;
+		try {
+			input = new FileInputStream(nomeMapa);
+			br = new BufferedReader(new InputStreamReader(input));
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
 		}
+
 		ArrayList<String> linhas = new ArrayList<>();
 		String linha = "";
 
@@ -211,7 +213,7 @@ public class TileMap {
 			e.printStackTrace();
 		}
 
-			return matz;
+		return matz;
 	}
 
 	/*
@@ -220,6 +222,7 @@ public class TileMap {
 	public BufferedImage getMapa() {
 		return mapa;
 	}
+	
 	public int getLarguraTela() {
 		return larguraTela;
 	}
