@@ -5,7 +5,6 @@ import java.io.IOException;
 
 import com.sun.glass.events.KeyEvent;
 
-import view.Fase1;
 import view.Tela;
 
 public class Lampiao extends Sprite{
@@ -98,8 +97,6 @@ public class Lampiao extends Sprite{
 		}
 		case KeyEvent.VK_T:{
 			if(isDireita()) {
-				System.out.println(getX() +"X Y" +getY());
-
 				setAparencia(46);
 				try {
 					new Tiro(0, 2, 1, getX(), getY()+40, "Arquivos/tiro.png", this,fase.getCamera().getInimigos(), 10,60).draw(fase.getCamera().getGraphics());;

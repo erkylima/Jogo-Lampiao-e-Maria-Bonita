@@ -223,7 +223,6 @@ public class Volante extends Sprite implements Runnable{
 		volante.setY(getY()+500);
 		volante = null;
 		this.volanteThread.stop();
-		volanteThread.interrupt();;
 		this.volanteThread = null;
 		System.gc();
 	}

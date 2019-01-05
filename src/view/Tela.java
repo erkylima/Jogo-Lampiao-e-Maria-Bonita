@@ -25,7 +25,7 @@ public abstract class Tela extends JPanel implements Runnable{
 	private boolean running;
 	private BufferedImage image;
 	protected Graphics2D g;
-	private int FPS = 30;
+	private int FPS;
 	@SuppressWarnings("unused")
 	private Inicializa init;
 	private Camera camera;	
@@ -42,6 +42,7 @@ public abstract class Tela extends JPanel implements Runnable{
 		this.largura = largura;
 		this.altura = altura;
 		this.init = init;
+		setFPS(init.getFps());
 		setPreferredSize(new Dimension(largura,altura));
 		setSize(largura,altura);
 		setLayout(null);
@@ -116,8 +117,15 @@ public abstract class Tela extends JPanel implements Runnable{
 
 	private void gameDraw() {
 		Graphics2D g2 = (Graphics2D) this.getGraphics();
-		g2.drawImage(image, 0, 0, null);
-		g2.dispose();
+		if(image==null)
+			System.out.println("asd");
+		try{
+			g2.drawImage(image, 0, 0, null);
+			g2.dispose();
+		}catch (NullPointerException e) {
+			
+		}
+
 	}
 	
 	public Inicializa getInit() {
@@ -130,6 +138,15 @@ public abstract class Tela extends JPanel implements Runnable{
 	
 	public void setCamera(Camera camera) {
 		this.camera = camera;
+	}
+
+	public int getFPS() {
+		return FPS;
+	}
+
+
+	public void setFPS(int fPS) {
+		FPS = fPS;
 	}
 
 

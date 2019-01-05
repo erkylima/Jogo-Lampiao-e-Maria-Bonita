@@ -14,10 +14,8 @@ public class Camera {
 	private Lampiao lampiao;
 	private int x,y;
 	private ArrayList<Sprite> inimigos;
-
 	private BufferedImage tela;
 	private Graphics g;
-//	private Status status;
 	
 	public Camera(Lampiao lampiao,ArrayList<Sprite> inimigos,ArrayList<TileMap> camadas) {
 		this.lampiao = lampiao;

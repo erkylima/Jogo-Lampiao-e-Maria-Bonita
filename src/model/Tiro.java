@@ -128,7 +128,6 @@ public class Tiro extends Sprite implements Runnable{
 		som = null;
 		tiro = null;
 		this.tiro.stop();
-		this.tiro.interrupt();
 		this.tiro = null;
 		System.gc();
 	}

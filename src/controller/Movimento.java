@@ -4,7 +4,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 import model.Lampiao;
-import view.Fase1;
+import model.Volante;
 import view.Tela;
 
 public class Movimento extends KeyAdapter implements Runnable{
@@ -13,6 +13,7 @@ public class Movimento extends KeyAdapter implements Runnable{
 //	private int acao;
 	private Tela fase;
 	private Thread t;
+	
 	public Movimento(Lampiao lampiao,Tela fase) {
 		this.lampiao = lampiao;
 		this.fase = fase;
@@ -64,14 +65,23 @@ public class Movimento extends KeyAdapter implements Runnable{
 			}
 			
 			try {
-
-				Thread.sleep(1000/40);
+				if(!t.isInterrupted()) {
+					Thread.sleep(1000/lampiao.getFase().getFPS()+10);
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
         
 
+	}
+	public void destroier(Movimento mov){
+		
+		this.t.stop();
+		t.interrupt();;
+		this.t = null;
+		mov = null;
+		System.gc();
 	}
 
 }
