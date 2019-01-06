@@ -1,7 +1,5 @@
 package controller;
 
-import java.applet.Applet;
-import java.applet.AudioClip;
 import java.io.File;
 import java.io.IOException;
 
@@ -42,5 +40,17 @@ public class Som {
 
 	public void tiroSom(){
 		clip.start();
+	}
+	public void destroier(Som som) {
+		try {
+			tiro.close();
+			tiro = null;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		clip.close();
+		clip = null;
+		som = null;
 	}
 }

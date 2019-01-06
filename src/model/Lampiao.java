@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import com.sun.glass.events.KeyEvent;
 
+import controller.Movimento;
 import view.Tela;
 
 public class Lampiao extends Sprite{
@@ -12,11 +13,13 @@ public class Lampiao extends Sprite{
 	public int velocidade = 10;
 	private Tela fase;
 	private boolean podeAtirar = true;
+	private boolean reiniciar = false;
+
 
 	public Lampiao(int aparencia,int columns, int rows, int posX, int posY,String caminho,Tela fase,int vida) throws IOException {
 		super(aparencia, columns, rows, posX, posY, caminho,vida);
 		this.fase = fase;		
-			
+
 	}
 	
 
@@ -99,8 +102,13 @@ public class Lampiao extends Sprite{
 			if(isDireita()) {
 				setAparencia(46);
 				try {
-					new Tiro(0, 2, 1, getX(), getY()+40, "Arquivos/tiro.png", this,fase.getCamera().getInimigos(), 10,60).draw(fase.getCamera().getGraphics());;
-					Thread.sleep(1000/2);				
+					if(podeAtirar) {
+						new Tiro(0, 2, 1, getX(), getY()+40, "Arquivos/tiro.png", this,fase.getCamera().getInimigos(), 10).draw(fase.getCamera().getGraphics());;
+					}
+					podeAtirar = false;
+					Thread.sleep(1000/(getFase().getFPS()-58));	
+					podeAtirar = true;
+
 				} catch (IOException e) {
 					e.printStackTrace();
 				}catch (InterruptedException e) {
@@ -111,10 +119,11 @@ public class Lampiao extends Sprite{
 				setAparencia(47);
 				try {
 					if(podeAtirar) {
-						new Tiro(1, 2, 1, getX(), getY()+40, "Arquivos/tiro.png", this,fase.getCamera().getInimigos(), 10,60).draw(fase.getCamera().getGraphics());
+						new Tiro(1, 2, 1, getX(), getY()+40, "Arquivos/tiro.png", this,fase.getCamera().getInimigos(), 10).draw(fase.getCamera().getGraphics());
 					}
 					podeAtirar = false;
-					Thread.sleep(1000/2);				
+					
+					Thread.sleep(1000/(getFase().getFPS()-58));				
 					podeAtirar = true;
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -187,7 +196,7 @@ public class Lampiao extends Sprite{
 				break;
 			}
 			try {
-				Thread.sleep(1000/50);
+				Thread.sleep(1000/(getFase().getFPS()-10));
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -223,6 +232,9 @@ public class Lampiao extends Sprite{
 	public void setFase(Tela fase) {
 		this.fase = fase;
 	}
+
+
+
 
 
 

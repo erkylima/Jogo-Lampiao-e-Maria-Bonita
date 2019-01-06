@@ -4,13 +4,11 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 import model.Lampiao;
-import model.Volante;
 import view.Tela;
 
 public class Movimento extends KeyAdapter implements Runnable{
 
 	private Lampiao lampiao;
-//	private int acao;
 	private Tela fase;
 	private Thread t;
 	
@@ -56,6 +54,7 @@ public class Movimento extends KeyAdapter implements Runnable{
 				lampiao.andar();
 
 			}
+
 			if(lampiao.getAcao() == KeyEvent.VK_ESCAPE) {
 				System.exit(0);
 			}
@@ -66,7 +65,7 @@ public class Movimento extends KeyAdapter implements Runnable{
 			
 			try {
 				if(!t.isInterrupted()) {
-					Thread.sleep(1000/lampiao.getFase().getFPS()+10);
+					Thread.sleep(1000/(lampiao.getFase().getFPS()-10));
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -75,6 +74,7 @@ public class Movimento extends KeyAdapter implements Runnable{
         
 
 	}
+	@SuppressWarnings("deprecation")
 	public void destroier(Movimento mov){
 		
 		this.t.stop();
@@ -84,4 +84,5 @@ public class Movimento extends KeyAdapter implements Runnable{
 		System.gc();
 	}
 
+	
 }

@@ -5,7 +5,6 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import controller.Inicializa;
@@ -25,7 +24,7 @@ public abstract class Tela extends JPanel implements Runnable{
 	private boolean running;
 	private BufferedImage image;
 	protected Graphics2D g;
-	private int FPS;
+	private int FPS = 30;
 	@SuppressWarnings("unused")
 	private Inicializa init;
 	private Camera camera;	
@@ -42,7 +41,7 @@ public abstract class Tela extends JPanel implements Runnable{
 		this.largura = largura;
 		this.altura = altura;
 		this.init = init;
-		setFPS(init.getFps());
+		setFPS(init.getFPS()+30);
 		setPreferredSize(new Dimension(largura,altura));
 		setSize(largura,altura);
 		setLayout(null);
@@ -117,8 +116,7 @@ public abstract class Tela extends JPanel implements Runnable{
 
 	private void gameDraw() {
 		Graphics2D g2 = (Graphics2D) this.getGraphics();
-		if(image==null)
-			System.out.println("asd");
+
 		try{
 			g2.drawImage(image, 0, 0, null);
 			g2.dispose();
@@ -126,6 +124,13 @@ public abstract class Tela extends JPanel implements Runnable{
 			
 		}
 
+	}
+	
+	public void destroier(Tela tela){
+		running = false;
+		thread.stop();
+		tela = null;
+		System.gc();
 	}
 	
 	public Inicializa getInit() {

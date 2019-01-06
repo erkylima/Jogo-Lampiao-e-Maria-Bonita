@@ -4,17 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.ArrayList;
-
-import javax.swing.JFrame;
 
 import controller.Inicializa;
 import model.ButtonsMainMenu;
-import model.Inventario;
-import model.Lampiao;
-import model.Sprite;
-import model.Status;
-import model.TileMap;
 
 public class Menu {
 	private Inicializa init;
@@ -24,7 +16,7 @@ public class Menu {
 	private double xLampiaoVolante = -60;
 	private ButtonsMainMenu jogar,multiplayer,config,sobre;
 	private int selected;
-	
+	private boolean sobreAtivo = false;
 	private F1 fase1;
 	private MainMenu main;
 
@@ -57,9 +49,10 @@ public class Menu {
 				// TODO: handle exception
 			}
 		}
+		g.drawString("FPS: "+init.getFPS(), 40, 40);
 		g.drawImage(init.getPassaro1().getImage(),200,350,null);
-		g.drawImage(init.getPassaro2().getImage(),880,410,null);
-		g.drawImage(init.getMaria().getImage(),880,10,null);
+		g.drawImage(init.getPassaro2().getImage(),880,30,null);
+		g.drawImage(init.getMariaImg().getImage(),840,440,null);
 		if(selected!=0 && jogar.getAparencia()!=0) {
 			jogar.setAparencia(0);
 		}
@@ -94,6 +87,11 @@ public class Menu {
 		default:
 			break;
 		}
+		if(sobreAtivo) {
+
+			g.drawImage(init.getSobreimg().getImage(), 161, 134, null);
+
+		}
 	}
 	
 	public int getSelected() {
@@ -102,7 +100,11 @@ public class Menu {
 
 
 	public void setSelected(int selected) {
-		this.selected = selected;
+		if(!sobreAtivo) {
+			this.selected = selected;
+		}else {
+			sobreAtivo = false;
+		}
 	}
 
 
@@ -117,7 +119,7 @@ public class Menu {
 		init.getLampiao().setFase(fase1);
 		main.setVisible(false);
 		init.getJogo().remove(main);
-		
+		main.destroier(main);
 		init.getJogo().add(init.getInventario(),BorderLayout.PAGE_END);
 
 		init.getJogo().add(init.getLampiao().getFase(),BorderLayout.PAGE_START);	
@@ -125,6 +127,19 @@ public class Menu {
 
 	}
 
+	public void config() {
+		if(init.getFPS()<90)
+		init.setFPS(init.getFPS()+5);
+		else
+			init.setFPS(30);
+	}
+	public void sobre() {
+		if(sobreAtivo) {
+			sobreAtivo = false;
+		}else {
+			sobreAtivo = true;
+		}
+	}
 
 	public Graphics getGraphics() {
 		return g;

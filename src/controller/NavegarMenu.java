@@ -31,10 +31,10 @@ public class NavegarMenu extends KeyAdapter {
 				
 				break;
 			case 2:
-				
+				menu.config();
 				break;
 			case 3:
-				
+				menu.sobre();
 				break;
 			}
 		}

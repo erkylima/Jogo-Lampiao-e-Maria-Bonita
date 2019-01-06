@@ -1,24 +1,22 @@
 package view;
 
-import java.io.IOException;
-
-import javax.swing.JFrame;
-
 import controller.Inicializa;
 import controller.NavegarMenu;
-import model.ButtonsMainMenu;
-import model.Volante;
 
 public class MainMenu extends Tela {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Menu menu;
-	private JFrame frame;
 	public MainMenu(String titulo, int largura, int altura, Inicializa init) {
 		super(titulo, largura, altura, init);
-		this.frame = frame;
 		setFPS(15);
 		menu = new Menu(largura, altura, init,this);
 		addKeyListener(new NavegarMenu(menu));
+
+		
 	}
 
 	@Override
@@ -39,10 +37,7 @@ public class MainMenu extends Tela {
 
 	}
 	
-	public void destroier(MainMenu main){
-		main = null;
-		System.gc();
-	}
+	
 
 	
 	

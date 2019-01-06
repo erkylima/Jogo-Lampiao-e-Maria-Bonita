@@ -22,30 +22,31 @@ public class F1 extends Tela {
 	private Lampiao lamp;
 	public F1(String titulo, int largura, int altura,Inicializa init) {
 		super(titulo, largura, altura,init);
-		setFPS(60);
+		
 	}
 
 	@Override
 	public void init() {
+		getInit().F1();
 		getInit().getLampiao().setFase(this);
 		camera = new Camera(getInit().getLampiao(), getInit().getInimigos(), getInit().getCamadasF1());
 		getInit().getLampiao().getFase().setCamera(camera);;
 		m = new Movimento(getInit().getLampiao(),this);
 		addKeyListener(m);
 		try {
-			getInit().getInimigos().add(new Volante(0, 40, 1, 1191, 500, "Arquivos/volantesprite.png", getInit().getLampiao(), 0));
-			getInit().getInimigos().add(new Volante(0, 40, 1, 2044, 500, "Arquivos/volantesprite.png", getInit().getLampiao(), 20));
-			getInit().getInimigos().add(new Volante(0, 40, 1, 2200, 500, "Arquivos/volantesprite.png", getInit().getLampiao(), 20));
-			getInit().getInimigos().add(new Volante(0, 40, 1, 3000, 630, "Arquivos/volantesprite.png", getInit().getLampiao(), 20));
-			getInit().getInimigos().add(new Metralha(0, 22, 1, 3000, 500, "Arquivos/metralhasprite.png",getInit().getLampiao(),20));
-			getInit().getInimigos().add(new Metralha(0, 22, 1, 2800, 500, "Arquivos/metralhasprite.png",getInit().getLampiao(),20));
-
-			getInit().getInimigos().add(new Volante(0, 40, 1, 3631, 390, "Arquivos/volantesprite.png", getInit().getLampiao(), 20));
-			getInit().getInimigos().add(new Volante(0, 40, 1, 3200, 630, "Arquivos/volantesprite.png", getInit().getLampiao(), 20));
-			getInit().getInimigos().add(new Metralha(0, 22, 1, 4804, 325, "Arquivos/metralhasprite.png",getInit().getLampiao(),20));
-			
-			getInit().getInimigos().add(new Volante(0, 40, 1, 6048, 520, "Arquivos/volantesprite.png", getInit().getLampiao(), 20));
-			getInit().getInimigos().add(new Metralha(0, 22, 1, 6048, 520, "Arquivos/metralhasprite.png",getInit().getLampiao(),20));
+//			getInit().getInimigos().add(new Volante(0, 40, 1, 1191, 500, "Arquivos/volantesprite.png", getInit().getLampiao(), 0));
+//			getInit().getInimigos().add(new Volante(0, 40, 1, 2044, 500, "Arquivos/volantesprite.png", getInit().getLampiao(), 20));
+//			getInit().getInimigos().add(new Volante(0, 40, 1, 2200, 500, "Arquivos/volantesprite.png", getInit().getLampiao(), 20));
+//			getInit().getInimigos().add(new Volante(0, 40, 1, 3000, 630, "Arquivos/volantesprite.png", getInit().getLampiao(), 20));
+//			getInit().getInimigos().add(new Metralha(0, 22, 1, 3000, 500, "Arquivos/metralhasprite.png",getInit().getLampiao(),20));
+//			getInit().getInimigos().add(new Metralha(0, 22, 1, 2800, 500, "Arquivos/metralhasprite.png",getInit().getLampiao(),20));
+//
+//			getInit().getInimigos().add(new Volante(0, 40, 1, 3631, 390, "Arquivos/volantesprite.png", getInit().getLampiao(), 20));
+//			getInit().getInimigos().add(new Volante(0, 40, 1, 3200, 630, "Arquivos/volantesprite.png", getInit().getLampiao(), 20));
+//			getInit().getInimigos().add(new Metralha(0, 22, 1, 4804, 325, "Arquivos/metralhasprite.png",getInit().getLampiao(),20));
+//			
+//			getInit().getInimigos().add(new Volante(0, 40, 1, 6048, 520, "Arquivos/volantesprite.png", getInit().getLampiao(), 20));
+//			getInit().getInimigos().add(new Metralha(0, 22, 1, 6048, 520, "Arquivos/metralhasprite.png",getInit().getLampiao(),20));
 			getInit().getInimigos().add(new Metralha(0, 22, 1, 6987, 320, "Arquivos/metralhasprite.png",getInit().getLampiao(),20));
 
 			} catch (Exception e) {
@@ -56,21 +57,25 @@ public class F1 extends Tela {
 
 	@Override
 	public void gameUpdate() {
+
 		camera.draw(g);
+		
 	}
 
 	@Override
 	public void gameRender() {
+		
 		camera.renderizar();
 		
 		if(getInit().getLampiao().getX()>=6987 && completou()) {
 			System.out.println(getInit().getInventario());
 			getInit().getLampiao().setAcao(0);
 			this.setVisible(false);
-			m.destroier(m);
 			removeKeyListener(m);
+			m.destroier(m);
+			getInit().getInimigos().clear();
 			F2 f= new F2("Lampião e Maria Bonita",1024,640,getInit());
-			
+
 			getInit().getJogo().remove(this);
 			getInit().getJogo().add(getInit().getLampiao().getFase(),BorderLayout.PAGE_START);
 //			getInit().getJogo().add(getInit().getInventario(),BorderLayout.PAGE_END);

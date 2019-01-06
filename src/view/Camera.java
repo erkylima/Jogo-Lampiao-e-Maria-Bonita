@@ -32,15 +32,21 @@ public class Camera {
 			this.g.drawImage(t.getMapa(), 0, 0, null);
 		}
 		lampiao.draw(this.g);
+		lampiao.getFase().getInit().getMaria().draw(g);
 		
+		
+		if(lampiao.getX()>6600) {
+			if(lampiao.getFase().getInit().getMaria().getAparencia()>9) {
+				lampiao.getFase().getInit().getMaria().setAcao(0);
+			}
+			lampiao.getFase().getInit().getMaria().animacaoParadoEsquerda();
+		}
 		for(Sprite v : inimigos) {
 			if(v.getVida()>=0) {
 				v.draw(this.g);
 				
 			}
 		}
-
-		
 		
 	}
 	

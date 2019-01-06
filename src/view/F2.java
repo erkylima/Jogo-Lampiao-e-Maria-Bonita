@@ -6,7 +6,7 @@ import model.Lampiao;
 import model.Metralha;
 import model.Volante;
 
-public class F2 extends Tela implements Runnable {
+public class F2 extends Tela {
 	private Camera camera;
 	private Lampiao lamp;
 	public F2(String titulo, int largura, int altura, Inicializa init) {

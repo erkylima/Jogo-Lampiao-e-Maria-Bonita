@@ -122,7 +122,7 @@ public class Volante extends Sprite implements Runnable{
 					ArrayList<Sprite> alvo = new ArrayList<Sprite>();
 					alvo.add(inimigo);
 					alvo.add(this);
-					new Tiro(0, 2, 1, getX(), getY()+40, "Arquivos/tiro.png", inimigo, alvo, 5,30).draw(inimigo.getFase().getCamera().getGraphics());
+					new Tiro(0, 2, 1, getX(), getY()+40, "Arquivos/tiro.png", inimigo, alvo, 5).draw(inimigo.getFase().getCamera().getGraphics());
 					Thread.sleep(1000/2);				
 				} catch (IOException e) {
 					e.printStackTrace();
