@@ -215,7 +215,9 @@ public class Metralha extends Sprite implements Runnable{
 			}
 		}
 	}
-
+	
+	
+	
 	public void destroier(Metralha metralha){
 		metralha.setY(getY()+500);
 		metralha = null;

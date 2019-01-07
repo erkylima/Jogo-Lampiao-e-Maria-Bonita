@@ -3,7 +3,13 @@ package controller;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import model.Lampiao;
+import view.IniciarJogo;
 import view.Tela;
 
 public class Movimento extends KeyAdapter implements Runnable{
@@ -54,9 +60,14 @@ public class Movimento extends KeyAdapter implements Runnable{
 				lampiao.andar();
 
 			}
-
+			if(!lampiao.isVivo()) {
+				if(!lampiao.getFase().getInit().retornarInicio("Você morreu!", "Deseja reiniciar o jogo?")) {
+					destroier(this);
+				}
+			}
 			if(lampiao.getAcao() == KeyEvent.VK_ESCAPE) {
-				System.exit(0);
+				lampiao.getFase().getInit().retornarMenu("Voltar","Deseja voltar ao menu?");
+			
 			}
 			
 			if(lampiao.getY()>=640 && lampiao.getVida()>0) {

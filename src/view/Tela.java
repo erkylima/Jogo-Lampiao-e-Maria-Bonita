@@ -41,6 +41,7 @@ public abstract class Tela extends JPanel implements Runnable{
 		this.largura = largura;
 		this.altura = altura;
 		this.init = init;
+		setBounds(0, 0, largura, altura);
 		setFPS(init.getFPS()+30);
 		setPreferredSize(new Dimension(largura,altura));
 		setSize(largura,altura);
@@ -106,7 +107,7 @@ public abstract class Tela extends JPanel implements Runnable{
 				totalTime = 0;
 			}
 		}
-
+		
 		gameDraw();
 	}
 
@@ -127,6 +128,12 @@ public abstract class Tela extends JPanel implements Runnable{
 	}
 	
 	public void destroier(Tela tela){
+		if(!init.getInimigos().isEmpty()) {
+			for (Sprite g : init.getInimigos()) {
+				System.out.println("PEgou o :"+ g);
+				g.destroier(g);
+			}
+		}
 		running = false;
 		thread.stop();
 		tela = null;

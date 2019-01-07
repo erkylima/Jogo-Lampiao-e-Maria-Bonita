@@ -34,13 +34,6 @@ public class Camera {
 		lampiao.draw(this.g);
 		lampiao.getFase().getInit().getMaria().draw(g);
 		
-		
-		if(lampiao.getX()>6600) {
-			if(lampiao.getFase().getInit().getMaria().getAparencia()>9) {
-				lampiao.getFase().getInit().getMaria().setAcao(0);
-			}
-			lampiao.getFase().getInit().getMaria().animacaoParadoEsquerda();
-		}
 		for(Sprite v : inimigos) {
 			if(v.getVida()>=0) {
 				v.draw(this.g);
@@ -73,6 +66,11 @@ public class Camera {
 
 	public int getY() {
 		return y;
+	}
+
+
+	public void setX(int x) {
+		this.x = x;
 	}
 
 

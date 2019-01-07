@@ -128,8 +128,7 @@ public class Tiro extends Sprite implements Runnable{
 			
 			try {
 				if(!tiro.isInterrupted()) {
-					
-					Thread.sleep(1000/40);
+					tiro.sleep(1000/(personagem.getFase().getFPS()-20));
 				}
 			} catch (Exception e) {
 				e.printStackTrace();

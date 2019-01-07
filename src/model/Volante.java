@@ -123,7 +123,7 @@ public class Volante extends Sprite implements Runnable{
 					alvo.add(inimigo);
 					alvo.add(this);
 					new Tiro(0, 2, 1, getX(), getY()+40, "Arquivos/tiro.png", inimigo, alvo, 5).draw(inimigo.getFase().getCamera().getGraphics());
-					Thread.sleep(1000/2);				
+					Thread.sleep(1000/(inimigo.getFase().getFPS()-57));				
 				} catch (IOException e) {
 					e.printStackTrace();
 				}catch (InterruptedException e) {
@@ -179,7 +179,7 @@ public class Volante extends Sprite implements Runnable{
 				break;
 			}
 			try {
-				Thread.sleep(1000/30);
+				Thread.sleep(1000/(inimigo.getFase().getFPS()-30));
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -212,7 +212,7 @@ public class Volante extends Sprite implements Runnable{
 			}
 			try {
 				if(!volanteThread.isInterrupted()) 
-					Thread.sleep(1000/25);
+					Thread.sleep(1000/(inimigo.getFase().getFPS()-35));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

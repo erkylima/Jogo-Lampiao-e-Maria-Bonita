@@ -4,12 +4,14 @@ import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import model.Lampiao;
 import model.Maria;
 import model.Sprite;
 import model.Status;
 import model.TileMap;
+import view.IniciarJogo;
 import view.Inventario;
 
 public class Inicializa {
@@ -20,7 +22,9 @@ public class Inicializa {
 	private TileMap enteiteSerra;
 	private JFrame jogo;
 	private ImageIcon backgroundMain,lampiaoVolante,passaro1,passaro2,mariaimg,sobreimg,morreu;
-	
+	private int xInicial = 40;
+	private int yInicial = 450;
+	private int vidaInicial = 200;
 	private ArrayList<TileMap> camadasF1 = new ArrayList<TileMap>();
 	private ArrayList<Sprite> inimigos = new ArrayList<Sprite>();
 	private Status status;
@@ -31,8 +35,8 @@ public class Inicializa {
 
 	public Inicializa() {
 		try {
-			lampiao = new Lampiao(15, 48, 1, 6000, 450,"Arquivos/lampiaosprite.png",null,200);
-			maria = new Maria(0,20,1,7040,350,"Arquivos/mariasprite.png",200);
+			lampiao = new Lampiao(15, 48, 1, getxInicial(), getyInicial(),"Arquivos/lampiaosprite.png",null,getVidaInicial());
+			maria = new Maria(0,20,1,7040,345,"Arquivos/mariasprite.png",200);
 			status = new Status(0, 14, 1, 20, 5, "Arquivos/status.png", lampiao.getVida(), lampiao);
 			backgroundMain = new ImageIcon("Arquivos/backgroundMain.jpg");
 			lampiaoVolante = new ImageIcon("Arquivos/lampiaoVolante.png");
@@ -127,6 +131,14 @@ public class Inicializa {
 		return passaro2;
 	}
 
+	public int getxInicial() {
+		return xInicial;
+	}
+
+	public int getyInicial() {
+		return yInicial;
+	}
+
 	public JFrame getJogo() {
 		return jogo;
 	}
@@ -143,10 +155,51 @@ public class Inicializa {
 		this.fps = fps;
 	}
 
+	public int getVidaInicial() {
+		return vidaInicial;
+	}
+
 	public Inventario getInventario() {
 		return inventario;
 	}
-	
-	
-	
+	public void retornarMenu(String titulo, String msg) {
+		int input = JOptionPane.showOptionDialog(null, msg, titulo, JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
+
+		if(input == JOptionPane.OK_OPTION)
+		{
+			getLampiao().getFase().destroier(getLampiao().getFase());
+			getLampiao().getFase().getInit().getMaria().destroier(getLampiao().getFase().getInit().getMaria());
+			getLampiao().getFase().getInit().getJogo().dispose();
+			getLampiao().setAcao(0);
+			Inicializa init = new Inicializa();		
+			new IniciarJogo("Lampião e Maria Bonita", init);
+		}
+		else if(input == JOptionPane.CANCEL_OPTION) {
+			getLampiao().setAcao(0);
+		}
+	}
+	public boolean retornarInicio(String titulo, String msg) {
+		int input = JOptionPane.showOptionDialog(null, msg, titulo, JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
+
+		if(input == JOptionPane.OK_OPTION)
+		{
+			getLampiao().setAcao(0);
+			getLampiao().setX(getxInicial());
+			getLampiao().setY(getyInicial());
+			getLampiao().getFase().getCamera().setX(0);
+			getLampiao().setVida(getVidaInicial()/2);
+			return true;
+			
+		}
+		else if(input == JOptionPane.CANCEL_OPTION) {
+			getLampiao().getFase().destroier(getLampiao().getFase());
+			
+			getLampiao().getFase().getInit().getMaria().destroier(getLampiao().getFase().getInit().getMaria());
+			getLampiao().getFase().getInit().getJogo().dispose();
+			getLampiao().setAcao(0);
+			Inicializa init = new Inicializa();		
+			new IniciarJogo("Lampião e Maria Bonita", init);
+			}
+		return false;
+	}
 }

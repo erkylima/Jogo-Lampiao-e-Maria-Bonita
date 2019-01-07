@@ -208,4 +208,9 @@ public abstract class Sprite {
 	{
 		return new Rectangle(x, y, larguraPersonagem, alturaPersonagem);
 	}
+	
+	public void destroier(Sprite sprite) {
+		sprite = null;
+		System.gc();
+	}
 }
