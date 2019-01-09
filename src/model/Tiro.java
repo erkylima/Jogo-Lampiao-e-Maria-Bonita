@@ -14,7 +14,6 @@ public class Tiro extends Sprite implements Runnable{
 	private boolean aux, aux2;
 	private Graphics graphic;
 	private int velocidade;
-	private Som som;
 	private boolean running;
 	public Tiro(int aparencia, int colunas, int linhas, int x, int y, String endereco,Lampiao personagem,ArrayList<Sprite> alvo, int vida) throws IOException {
 		super(aparencia, colunas, linhas, x, y, endereco, vida);
@@ -25,8 +24,7 @@ public class Tiro extends Sprite implements Runnable{
 		if(personagem==alvo.get(0)) {
 			aux2=alvo.get(1).isDireita();
 		}
-		som = new Som();
-		som.tiroSom();
+		Som.tiroSom();
 		running = true;
 
 		if(aux) {
@@ -87,7 +85,12 @@ public class Tiro extends Sprite implements Runnable{
 					setVida(0);
 					setY(790);
 
-				}else if(personagem.getX() > getX()+900 ||personagem.getX() < getX()-900){
+				}else if(personagem.getBounds().intersects(a.getBounds())) {
+					a.setVida(a.getVida()-getVida());
+					setY(790);
+					setVida(0);
+				}
+				else if(personagem.getX() > getX()+900 ||personagem.getX() < getX()-900){
 					destroier(this);
 				}else {
 					draw(graphic);
@@ -107,6 +110,10 @@ public class Tiro extends Sprite implements Runnable{
 				setVida(0);
 				setY(790);
 				
+			}else if(alvo.get(0).getBounds().intersects(alvo.get(1).getBounds())) {
+				alvo.get(0).setVida(alvo.get(0).getVida()-getVida());
+				setY(790);
+				setVida(0);
 			}else if(alvo.get(1).getX() > getX()+900 ||alvo.get(1).getX() < getX()-900){
 				destroier(this);
 			}else {
@@ -139,9 +146,6 @@ public class Tiro extends Sprite implements Runnable{
 	public void destroier(Tiro tiro){
 		tiro = null;
 		running = false;
-		som.destroier(som);
-		this.tiro.stop();
-		this.tiro = null;
 		System.gc();
 	}
 

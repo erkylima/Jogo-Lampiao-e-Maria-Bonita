@@ -8,6 +8,7 @@ import view.Menu;
 public class NavegarMenu extends KeyAdapter {
 	
 	private Menu menu;
+	private boolean sobre = false;
 	
 	public NavegarMenu(Menu menu) {
 		this.menu = menu;
@@ -34,9 +35,12 @@ public class NavegarMenu extends KeyAdapter {
 				menu.config();
 				break;
 			case 3:
-				menu.sobre();
+				sobre  = menu.sobre();
 				break;
 			}
+		}
+		if(e.getKeyCode() == e.VK_LEFT) {
+			
 		}
 		if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 			System.exit(0);

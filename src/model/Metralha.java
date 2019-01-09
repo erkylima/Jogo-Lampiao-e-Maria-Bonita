@@ -12,7 +12,7 @@ public class Metralha extends Sprite implements Runnable{
 	private double controlaVelocidade = 0;
 	private int velocidade = 10;
 	private Thread metralhaThread;
-	
+	private boolean threadOn = true;
 	public Metralha(int aparencia, int colunas, int linhas, int x, int y, String endereco,Lampiao inimigo,int vida)
 			throws IOException {
 		super(aparencia,  colunas, linhas, x, y, endereco,vida);
@@ -30,7 +30,7 @@ public class Metralha extends Sprite implements Runnable{
 	@Override
 	public void animacaoAndandoDireita() {
 		controlaVelocidade+=5;
-		if(controlaVelocidade>velocidade && (getAparencia() >=5 && getAparencia() <=10)){
+		if(controlaVelocidade>velocidade && (getAparencia() >=5 && getAparencia() <=10)&& inimigo.isVivo()){
 			setAparencia(getAparencia()+1);
 			controlaVelocidade = 0;
 			if(getAparencia() == 10){ setAparencia(5);
@@ -41,7 +41,7 @@ public class Metralha extends Sprite implements Runnable{
 	@Override
 	public void animacaoAndandoEsquerda() {
 		controlaVelocidade+=5;
-		if(controlaVelocidade>velocidade && (getAparencia() >=16 && getAparencia() <=21)){
+		if(controlaVelocidade>velocidade && (getAparencia() >=16 && getAparencia() <=21)&& inimigo.isVivo()){
 			setAparencia(getAparencia()+1);
 			controlaVelocidade = 0;
 			if(getAparencia() == 21){ setAparencia(16);
@@ -52,7 +52,7 @@ public class Metralha extends Sprite implements Runnable{
 	@Override
 	public void animacaoParadoDireita() {
 		controlaVelocidade+=5;
-		if(controlaVelocidade>velocidade && (getAparencia() <=4)){
+		if(controlaVelocidade>velocidade && (getAparencia() <=4) && inimigo.isVivo()){
 			setAparencia(getAparencia()+1);
 			controlaVelocidade = 0;
 			if(getAparencia() == 4){ setAparencia(0);
@@ -63,7 +63,7 @@ public class Metralha extends Sprite implements Runnable{
 	@Override
 	public void animacaoParadoEsquerda() {
 		controlaVelocidade+=5;
-		if(controlaVelocidade>velocidade && (getAparencia() >=11 && getAparencia() <= 15)){
+		if(controlaVelocidade>velocidade && (getAparencia() >=11 && getAparencia() <= 15) && inimigo.isVivo()){
 			setAparencia(getAparencia()+1);
 			controlaVelocidade = 0;
 			if(getAparencia() == 15){ setAparencia(11);
@@ -78,7 +78,7 @@ public class Metralha extends Sprite implements Runnable{
 	
 	@Override
 	public void mover() {
-		if(inimigo.getX() < getX()-distanciaTiro && inimigo.getX()<getX()+600) {
+		if(inimigo.getX() < getX()-distanciaTiro && inimigo.getX()<getX()+600 ) {
 			setX(getX()-15);
 			if(getAparencia()<16 || getAparencia()>21) {
 				setAparencia(16);
@@ -188,8 +188,8 @@ public class Metralha extends Sprite implements Runnable{
 
 	@Override
 	public void run() {
-		while(true) {
-			if((inimigo.getX()>getX()-distanciaAndar) || (inimigo.getX()>getX()-distanciaAndar) ) {
+		while(threadOn) {
+			if((inimigo.getX()>getX()-distanciaAndar) || (inimigo.getX()>getX()-distanciaAndar) && inimigo.isVivo()) {
 				mover();
 			}
 			if(inimigo.getX() < getX()) {
@@ -204,12 +204,12 @@ public class Metralha extends Sprite implements Runnable{
 			if(getY()>640) {
 				setVida(getVida()-10);
 			}
-			if(inimigo.getFase().isPulo(this)) {
+			if(inimigo.getFase().isPulo(this)&& inimigo.isVivo()) {
 				pular();
 			}
 			try {
-
-				Thread.sleep(1000/(inimigo.getFase().getFPS()-40));
+				if(!metralhaThread.isInterrupted()) 
+					Thread.sleep(1000/(inimigo.getFase().getFPS()-40));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -217,11 +217,14 @@ public class Metralha extends Sprite implements Runnable{
 	}
 	
 	
-	
+	public Thread getMetralhaThread() {
+		return metralhaThread;
+	}
+
 	public void destroier(Metralha metralha){
 		metralha.setY(getY()+500);
+		threadOn = false;
 		metralha = null;
-		metralhaThread.stop();
 		System.gc();
 	}
 	

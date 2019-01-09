@@ -12,6 +12,7 @@ public class Volante extends Sprite implements Runnable{
 	private double controlaVelocidade = 0;
 	private int velocidade = 10;
 	private Thread volanteThread;
+	private boolean threadOn = true;
 	
 	public Volante(int aparencia, int colunas, int linhas, int x, int y, String endereco,Lampiao inimigo,int vida)
 			throws IOException {
@@ -32,7 +33,7 @@ public class Volante extends Sprite implements Runnable{
 	@Override
 	public void animacaoAndandoDireita() {
 		controlaVelocidade+=5;
-		if(controlaVelocidade>velocidade && (getAparencia() <=5)){
+		if(controlaVelocidade>velocidade && (getAparencia() <=5) && inimigo.isVivo()){
 			setAparencia(getAparencia()+1);
 			controlaVelocidade = 0;
 			if(getAparencia() == 5){ setAparencia(0);
@@ -43,7 +44,7 @@ public class Volante extends Sprite implements Runnable{
 	@Override
 	public void animacaoAndandoEsquerda() {
 		controlaVelocidade+=5;
-		if(controlaVelocidade>velocidade && (getAparencia() >=12 && getAparencia() <=17)){
+		if(controlaVelocidade>velocidade && (getAparencia() >=12 && getAparencia() <=17) && inimigo.isVivo()){
 			setAparencia(getAparencia()+1);
 			controlaVelocidade = 0;
 			if(getAparencia() == 17){ setAparencia(12);
@@ -54,7 +55,7 @@ public class Volante extends Sprite implements Runnable{
 	@Override
 	public void animacaoParadoDireita() {
 		controlaVelocidade+=5;
-		if(controlaVelocidade>velocidade && (getAparencia() >=6 && getAparencia() <=11)){
+		if(controlaVelocidade>velocidade && (getAparencia() >=6 && getAparencia() <=11) && inimigo.isVivo()){
 			setAparencia(getAparencia()+1);
 			controlaVelocidade = 0;
 			if(getAparencia() == 11){ setAparencia(6);
@@ -65,7 +66,7 @@ public class Volante extends Sprite implements Runnable{
 	@Override
 	public void animacaoParadoEsquerda() {
 		controlaVelocidade+=5;
-		if(controlaVelocidade>velocidade && (getAparencia() >=18 && getAparencia() <= 24)){
+		if(controlaVelocidade>velocidade && (getAparencia() >=18 && getAparencia() <= 24) && inimigo.isVivo()){
 			setAparencia(getAparencia()+1);
 			controlaVelocidade = 0;
 			if(getAparencia() == 24){ setAparencia(18);
@@ -191,8 +192,8 @@ public class Volante extends Sprite implements Runnable{
 	
 	@Override
 	public void run() {
-		while(true) {
-			if((inimigo.getX()>getX()-distanciaAndar) || (inimigo.getX()>getX()-distanciaAndar) ) {
+		while(threadOn ) {
+			if((inimigo.getX()>getX()-distanciaAndar) || (inimigo.getX()>getX()-distanciaAndar) && inimigo.isVivo()) {
 				mover();
 			}
 			if(inimigo.getX() < getX()) {
@@ -207,7 +208,7 @@ public class Volante extends Sprite implements Runnable{
 			if(getY()>640) {
 				setVida(getVida()-10);
 			}
-			if(inimigo.getFase().isPulo(this)) {
+			if(inimigo.getFase().isPulo(this) && inimigo.isVivo()) {
 				pular();
 			}
 			try {
@@ -219,11 +220,13 @@ public class Volante extends Sprite implements Runnable{
 		}
 		
 	}
+	
+	
 	public void destroier(Volante volante){
 		volante.setY(getY()+500);
+		threadOn  = false;
 		volante = null;
-		this.volanteThread.stop();
-		this.volanteThread = null;
+
 		System.gc();
 	}
 	

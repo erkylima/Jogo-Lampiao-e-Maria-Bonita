@@ -12,7 +12,6 @@ public class Lampiao extends Sprite{
 	public double controlaVelocidade = 0;
 	public int velocidade = 10;
 	private Tela fase;
-	private boolean podeAtirar = true;
 	private boolean reiniciar = false;
 
 
@@ -102,12 +101,9 @@ public class Lampiao extends Sprite{
 			if(isDireita()) {
 				setAparencia(46);
 				try {
-					if(podeAtirar) {
 						new Tiro(0, 2, 1, getX(), getY()+40, "Arquivos/tiro.png", this,fase.getCamera().getInimigos(), 10).draw(fase.getCamera().getGraphics());;
-					}
-					podeAtirar = false;
+					
 					Thread.sleep(1000/(getFase().getFPS()-58));	
-					podeAtirar = true;
 
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -118,13 +114,9 @@ public class Lampiao extends Sprite{
 			}else {
 				setAparencia(47);
 				try {
-					if(podeAtirar) {
-						new Tiro(1, 2, 1, getX(), getY()+40, "Arquivos/tiro.png", this,fase.getCamera().getInimigos(), 10).draw(fase.getCamera().getGraphics());
-					}
-					podeAtirar = false;
+						new Tiro(1, 2, 1, getX(), getY()+40, "Arquivos/tiro.png", this,fase.getCamera().getInimigos(), 10).draw(fase.getCamera().getGraphics());	
 					
 					Thread.sleep(1000/(getFase().getFPS()-58));				
-					podeAtirar = true;
 				} catch (IOException e) {
 					e.printStackTrace();
 				}catch (InterruptedException e) {

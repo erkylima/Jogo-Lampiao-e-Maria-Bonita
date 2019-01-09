@@ -52,7 +52,7 @@ public class Movimento extends KeyAdapter implements Runnable{
 			if(!fase.isColidindo(lampiao)) {
 				lampiao.cair();
 			}
-			if(KeyEvent.VK_SPACE == lampiao.getAcao() && lampiao.isVivo()) {
+			if(KeyEvent.VK_SPACE == lampiao.getAcao() && lampiao.isVivo() && lampiao.getFase().isTopo(lampiao)) {
 				lampiao.pular();
 				
 			}
@@ -60,11 +60,7 @@ public class Movimento extends KeyAdapter implements Runnable{
 				lampiao.andar();
 
 			}
-			if(!lampiao.isVivo()) {
-				if(!lampiao.getFase().getInit().retornarInicio("Você morreu!", "Deseja reiniciar o jogo?")) {
-					destroier(this);
-				}
-			}
+
 			if(lampiao.getAcao() == KeyEvent.VK_ESCAPE) {
 				lampiao.getFase().getInit().retornarMenu("Voltar","Deseja voltar ao menu?");
 			

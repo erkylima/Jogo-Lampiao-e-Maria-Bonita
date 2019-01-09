@@ -1,7 +1,5 @@
 package app;
 
-import java.io.IOException;
-
 import controller.Inicializa;
 import view.IniciarJogo;
      

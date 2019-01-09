@@ -133,12 +133,13 @@ public class Menu {
 		else
 			init.setFPS(30);
 	}
-	public void sobre() {
+	public boolean sobre() {
 		if(sobreAtivo) {
 			sobreAtivo = false;
 		}else {
 			sobreAtivo = true;
 		}
+		return sobreAtivo;
 	}
 
 	public Graphics getGraphics() {

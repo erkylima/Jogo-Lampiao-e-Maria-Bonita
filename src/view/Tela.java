@@ -8,7 +8,9 @@ import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 
 import controller.Inicializa;
+import model.Metralha;
 import model.Sprite;
+import model.Volante;
 
 public abstract class Tela extends JPanel implements Runnable{
 
@@ -94,7 +96,8 @@ public abstract class Tela extends JPanel implements Runnable{
 			waitTime = tragetTime - URDTimeMillis;
 
 			try {
-				Thread.sleep(waitTime);
+				if(!thread.interrupted())
+					Thread.sleep(waitTime);
 			} catch (Exception e) {
 			}
 
@@ -128,14 +131,8 @@ public abstract class Tela extends JPanel implements Runnable{
 	}
 	
 	public void destroier(Tela tela){
-		if(!init.getInimigos().isEmpty()) {
-			for (Sprite g : init.getInimigos()) {
-				System.out.println("PEgou o :"+ g);
-				g.destroier(g);
-			}
-		}
+		
 		running = false;
-		thread.stop();
 		tela = null;
 		System.gc();
 	}
@@ -215,5 +212,19 @@ public abstract class Tela extends JPanel implements Runnable{
 				}							
 			}		
 		return false;		
+	}
+	public void zerarInimigos() {
+		if(!getInit().getInimigos().isEmpty()) {
+			for (Sprite g : getInit().getInimigos()) {
+				if (g instanceof Volante) {
+					Volante v = (Volante) g;
+					v.destroier(v);	
+				}else if(g instanceof Metralha) {
+					Metralha m = (Metralha) g;
+					m.destroier(m);	
+				}
+
+			}
+		}
 	}
 }
