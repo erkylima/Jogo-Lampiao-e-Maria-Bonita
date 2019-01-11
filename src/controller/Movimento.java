@@ -17,6 +17,7 @@ public class Movimento extends KeyAdapter implements Runnable{
 	private Lampiao lampiao;
 	private Tela fase;
 	private Thread t;
+	private boolean threadOn = true;
 	
 	public Movimento(Lampiao lampiao,Tela fase) {
 		this.lampiao = lampiao;
@@ -39,7 +40,7 @@ public class Movimento extends KeyAdapter implements Runnable{
 
 	@Override
 	public void run() {
-		while(true) {
+		while(threadOn) {
 			if(fase.isTopo(lampiao))
 				lampiao.setY(lampiao.getY()-8);
 			
@@ -83,10 +84,7 @@ public class Movimento extends KeyAdapter implements Runnable{
 	}
 	@SuppressWarnings("deprecation")
 	public void destroier(Movimento mov){
-		
-		this.t.stop();
-		t.interrupt();;
-		this.t = null;
+		threadOn =false;
 		mov = null;
 		System.gc();
 	}

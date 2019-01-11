@@ -1,9 +1,5 @@
 package view;
 
-import java.awt.BorderLayout;
-
-import javax.swing.JOptionPane;
-
 import controller.Inicializa;
 import controller.Movimento;
 import model.Lampiao;
@@ -12,8 +8,11 @@ import model.Sprite;
 import model.Volante;
 
 public class F2 extends Tela {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Camera camera;
-	private Lampiao lamp;
 	public F2(String titulo, int largura, int altura, Inicializa init) {
 		super(titulo, largura, altura,init);
 		getInit().getJogo().add(this);
@@ -40,7 +39,6 @@ public class F2 extends Tela {
 			getInit().getInimigos().add(new Volante(0, 40, 1, 3000, 630, "Arquivos/volantesprite.png", getInit().getLampiao(), 20));
 			getInit().getInimigos().add(new Volante(0, 40, 1, 3400, 630, "Arquivos/volantesprite.png", getInit().getLampiao(), 20));
 			getInit().getInimigos().add(new Volante(0, 40, 1, 3200, 630, "Arquivos/volantesprite.png", getInit().getLampiao(), 20));
-//			getInit().getInimigos().add(new Metralha(0, 22, 1, 3600, 500, "Arquivos/metralhasprite.png",getInit().getLampiao(),20));
 			getInit().getInimigos().add(new Metralha(0, 22, 1, 4000, 500, "Arquivos/metralhasprite.png",getInit().getLampiao(),20));
 			getInit().getInimigos().add(new Volante(0, 40, 1, 4600, 630, "Arquivos/volantesprite.png", getInit().getLampiao(), 20));
 			getInit().getInimigos().add(new Metralha(0, 22, 1, 5000, 600, "Arquivos/metralhasprite.png",getInit().getLampiao(),20));
@@ -61,10 +59,6 @@ public class F2 extends Tela {
 	@Override
 	public void gameRender() {
 		camera.renderizar();
-		if(getInit().getMaria().getAparencia() < 10) {
-			getInit().getMaria().setAparencia(10);
-		}
-		getInit().getMaria().animacaoAndandoEsquerda();
 		
 		if(getInit().getLampiao().getX()>=6987 && completou()) {
 			getInit().getLampiao().setAcao(0);
@@ -73,13 +67,29 @@ public class F2 extends Tela {
 		}
 	}
 
-	private boolean completou() {
-		for (Sprite inimigo : getInit().getInimigos()) {
-			if(inimigo.getVida()>0) {
-				System.out.println("Ainda tem");
-				return false;
-			}
+
+	@Override
+	public void iniciaInimigos() {
+		try {
+
+			getInit().getInimigos().add(new Volante(0, 40, 1, 1191, 500, "Arquivos/volantesprite.png", getInit().getLampiao(), 0));
+			getInit().getInimigos().add(new Volante(0, 40, 1, 2044, 500, "Arquivos/volantesprite.png", getInit().getLampiao(), 20));
+			getInit().getInimigos().add(new Volante(0, 40, 1, 2200, 500, "Arquivos/volantesprite.png", getInit().getLampiao(), 20));
+			getInit().getInimigos().add(new Volante(0, 40, 1, 3000, 630, "Arquivos/volantesprite.png", getInit().getLampiao(), 20));
+			getInit().getInimigos().add(new Metralha(0, 22, 1, 3000, 500, "Arquivos/metralhasprite.png",getInit().getLampiao(),20));
+			getInit().getInimigos().add(new Metralha(0, 22, 1, 2800, 500, "Arquivos/metralhasprite.png",getInit().getLampiao(),20));
+
+			getInit().getInimigos().add(new Volante(0, 40, 1, 3631, 390, "Arquivos/volantesprite.png", getInit().getLampiao(), 20));
+			getInit().getInimigos().add(new Volante(0, 40, 1, 3200, 630, "Arquivos/volantesprite.png", getInit().getLampiao(), 20));
+			getInit().getInimigos().add(new Metralha(0, 22, 1, 4804, 325, "Arquivos/metralhasprite.png",getInit().getLampiao(),20));
+
+			getInit().getInimigos().add(new Volante(0, 40, 1, 6048, 520, "Arquivos/volantesprite.png", getInit().getLampiao(), 20));
+			getInit().getInimigos().add(new Metralha(0, 22, 1, 6048, 520, "Arquivos/metralhasprite.png",getInit().getLampiao(),20));
+			getInit().getInimigos().add(new Metralha(0, 22, 1, 6987, 320, "Arquivos/metralhasprite.png",getInit().getLampiao(),20));
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		return true;
 	}
 }

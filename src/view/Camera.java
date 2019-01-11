@@ -26,7 +26,6 @@ public class Camera {
 	private ArrayList<Sprite> inimigos;
 	private BufferedImage tela;
 	private Graphics g;
-	Maria ma;
 	public Camera(Lampiao lampiao,ArrayList<Sprite> inimigos,ArrayList<TileMap> camadas) {
 		this.lampiao = lampiao;
 		this.inimigos = inimigos;
@@ -34,12 +33,7 @@ public class Camera {
 		tela = new BufferedImage(camadas.get(0).getLarguraTela(), camadas.get(0).getAlturaTela(), BufferedImage.TYPE_4BYTE_ABGR);
 		g = tela.getGraphics();
 		xDialog=(lampiao.getFase().getInit().getALTURA()/2);
-		try {
-			ma = new Maria(0,28,1,40,450,"Arquivos/mariasprite.png",lampiao,200);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
 
 	}
 	
@@ -50,10 +44,8 @@ public class Camera {
 		}
 		lampiao.draw(this.g);
 		
-		ma.draw(g);
+		lampiao.getFase().getInit().getMaria().draw(g);
 
-		
-//		lampiao.getFase().getInit().getMaria().draw(g);
 		if(lampiao.getVida()<=0 && segundos > 0) {
 			g.drawImage(lampiao.getFase().getInit().getMorreu().getImage(), xDialog, lampiao.getFase().getInit().getALTURA()/3, null);
 			try {

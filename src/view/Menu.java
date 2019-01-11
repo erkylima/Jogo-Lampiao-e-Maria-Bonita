@@ -49,7 +49,7 @@ public class Menu {
 				// TODO: handle exception
 			}
 		}
-		g.drawString("FPS: "+init.getFPS(), 40, 40);
+		g.drawString("FPS: "+init.getConfig().getFPS(), 40, 40);
 		g.drawImage(init.getPassaro1().getImage(),200,350,null);
 		g.drawImage(init.getPassaro2().getImage(),880,30,null);
 		g.drawImage(init.getMariaImg().getImage(),840,440,null);
@@ -128,11 +128,17 @@ public class Menu {
 	}
 
 	public void config() {
-		if(init.getFPS()<90)
-		init.setFPS(init.getFPS()+5);
-		else
-			init.setFPS(30);
+		if(init.getConfig().getFPS()<90) {
+			init.getConfig().setFPS(init.getConfig().getFPS()+5);
+		}
+		else {
+			init.getConfig().setFPS(30);
+		}
+		init.gerarConfigXlm(init.getConfig(),true);
+
 	}
+	
+	
 	public boolean sobre() {
 		if(sobreAtivo) {
 			sobreAtivo = false;

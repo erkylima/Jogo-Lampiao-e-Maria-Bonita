@@ -13,18 +13,18 @@ public class Tiro extends Sprite implements Runnable{
 	private Thread tiro;
 	private boolean aux, aux2;
 	private Graphics graphic;
-	private int velocidade;
 	private boolean running;
+	private Som som;
 	public Tiro(int aparencia, int colunas, int linhas, int x, int y, String endereco,Lampiao personagem,ArrayList<Sprite> alvo, int vida) throws IOException {
 		super(aparencia, colunas, linhas, x, y, endereco, vida);
 		this.alvo = alvo;
 		this.personagem = personagem;
-		this.velocidade = velocidade;
 		aux = personagem.isDireita();
 		if(personagem==alvo.get(0)) {
 			aux2=alvo.get(1).isDireita();
 		}
-		Som.tiroSom();
+		som = new Som();
+		som.tiroSom();
 		running = true;
 
 		if(aux) {
@@ -104,15 +104,16 @@ public class Tiro extends Sprite implements Runnable{
 			}
 			if(getBounds().intersects(alvo.get(0).getBounds())) {
 				alvo.get(0).setVida(alvo.get(0).getVida()-getVida());
-				setY(790);
 				setVida(0);
-			}else if(isColidindo()) {
+			}else if(alvo.get(2) != null && getBounds().intersects(alvo.get(2).getBounds())){
+				alvo.get(2).setVida(alvo.get(0).getVida()-getVida());
 				setVida(0);
-				setY(790);
+			}
+			else if(isColidindo()) {
+				setVida(0);
 				
 			}else if(alvo.get(0).getBounds().intersects(alvo.get(1).getBounds())) {
 				alvo.get(0).setVida(alvo.get(0).getVida()-getVida());
-				setY(790);
 				setVida(0);
 			}else if(alvo.get(1).getX() > getX()+900 ||alvo.get(1).getX() < getX()-900){
 				destroier(this);
@@ -135,16 +136,17 @@ public class Tiro extends Sprite implements Runnable{
 			
 			try {
 				if(!tiro.isInterrupted()) {
-					tiro.sleep(1000/(personagem.getFase().getFPS()-20));
+					Thread.sleep(1000/(personagem.getFase().getFPS()-20));
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 	}
-	@SuppressWarnings("deprecation")
+	
 	public void destroier(Tiro tiro){
 		tiro = null;
+//		som.destroier(som);
 		running = false;
 		System.gc();
 	}

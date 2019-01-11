@@ -36,6 +36,12 @@ public class MainMenu extends Tela {
 		menu.renderizar();
 
 	}
+
+	@Override
+	public void iniciaInimigos() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 

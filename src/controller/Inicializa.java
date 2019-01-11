@@ -1,11 +1,21 @@
 package controller;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.io.xml.DomDriver;
+
+import model.Config;
 import model.Lampiao;
 import model.Maria;
 import model.Sprite;
@@ -25,19 +35,20 @@ public class Inicializa {
 	private ImageIcon backgroundMain,lampiaoVolante,passaro1,passaro2,mariaimg,sobreimg,morreu;
 	private int xInicial = 40;
 	private int yInicial = 450;
-	private int vidaInicial = 200;
+	private int vidaInicial = 120;
 	private ArrayList<TileMap> camadasF1 = new ArrayList<TileMap>();
 	private ArrayList<Sprite> inimigos = new ArrayList<Sprite>();
 	private Status status;
-	private int fps = 30;
 	private int LARGURA = 1024;
 	private int ALTURA = 768;
 	private Inventario inventario;
+	Config conf = new Config();
 
 	public Inicializa() {
 		try {
+			gerarConfigXlm(conf,false);
 			lampiao = new Lampiao(15, 48, 1, getxInicial(), getyInicial(),"Arquivos/lampiaosprite.png",null,getVidaInicial());
-//			maria = new Maria(0,28,1,40,345,"Arquivos/mariasprite.png",lampiao,200);
+			maria = new Maria(10,28,1,xInicial+50,yInicial,"Arquivos/mariasprite.png",lampiao,this,getVidaInicial());
 			status = new Status(0, 14, 1, 20, 5, "Arquivos/status.png", lampiao.getVida(), lampiao);
 			backgroundMain = new ImageIcon("Arquivos/backgroundMain.jpg");
 			lampiaoVolante = new ImageIcon("Arquivos/lampiaoVolante.png");
@@ -47,7 +58,7 @@ public class Inicializa {
 			sobreimg = new ImageIcon("Arquivos/sobre.png");
 			morreu = new ImageIcon("Arquivos/morreu.png");
 			inventario = new Inventario(1024,118,this);
-			
+
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -148,12 +159,12 @@ public class Inicializa {
 		this.jogo = jogo;
 	}
 
-	public int getFPS() {
-		return fps;
+	public Config getConfig() {
+		return conf;
 	}
 
-	public void setFPS(int fps) {
-		this.fps = fps;
+	public void setConfig(Config conf) {
+		this.conf = conf;
 	}
 
 	public int getVidaInicial() {
@@ -170,7 +181,7 @@ public class Inicializa {
 		{
 			getLampiao().getFase().zerarInimigos();
 			getLampiao().getFase().destroier(getLampiao().getFase());
-//			getLampiao().getFase().getInit().getMaria().destroier(getLampiao().getFase().getInit().getMaria());
+			getLampiao().getFase().getInit().getMaria().destroier(getLampiao().getFase().getInit().getMaria());
 			getLampiao().getFase().getInit().getJogo().dispose();
 			getLampiao().setAcao(0);
 			Inicializa init = new Inicializa();		
@@ -181,11 +192,70 @@ public class Inicializa {
 		}
 	}
 	public boolean retornarInicio() {
-			getLampiao().setAcao(0);
-			getLampiao().setX(getxInicial());
-			getLampiao().setY(getyInicial());
-			getLampiao().getFase().getCamera().setX(0);
-			getLampiao().setVida(getVidaInicial()/2);
-			return true;
+		getLampiao().getFase().zerarInimigos();
+		getLampiao().setAcao(0);
+		getLampiao().setX(getxInicial());
+		getLampiao().setY(getyInicial());
+		getStatus().setAparencia(0);
+		getMaria().setVida(getVidaInicial()/2);
+		getMaria().setX(xInicial);
+		getMaria().setY(yInicial);
+		getLampiao().getFase().getCamera().setX(0);
+		getLampiao().setVida(getVidaInicial());
+		getLampiao().getFase().iniciaInimigos();
+
+		return true;
 	}
+	
+	private void lerXml() {
+	    FileReader reader = null;
+	    try {
+	        reader = new FileReader("Arquivos/Configs/config.xml");
+	    } catch (FileNotFoundException e) {
+	        e.printStackTrace();
+	    }
+	    XStream xStream = new XStream(new DomDriver());
+	   
+	    xStream.alias("Config", Config.class);
+	    xStream.aliasField("FPS", Config.class, "fps");
+
+	    
+	    Config config = (Config) xStream.fromXML(reader);
+	    conf = config;
+	}
+	
+	public void gerarConfigXlm(Config conf,boolean muda) {	    //Criamos o objeto xStrem
+	    XStream xStream = new XStream(new DomDriver());
+
+	    xStream.alias("Config", Config.class);
+
+	    xStream.aliasField("FPS", Config.class, "fps");
+
+	    String documento = xStream.toXML(conf);
+	    salvarConfig(xStream.toXML(conf), "config.xml",muda);
+	}
+	
+	public boolean salvarConfig(String documento, String file, boolean muda) {
+		File path = new File("Arquivos/Configs/" + file);
+		if(path.exists() && !muda){
+			lerXml();
+
+		}else {
+			try {
+				PrintWriter writer = new PrintWriter(path);
+				writer.println(
+						"<?xml version=\"1.0\" encoding=\"ISO-8859-1\" standalone=\"no\"?>"
+						);          
+				writer.println(documento);
+				writer.flush();
+				writer.close();
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return false;
+	}    
 }

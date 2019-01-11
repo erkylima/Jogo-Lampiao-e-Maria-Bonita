@@ -32,6 +32,12 @@ public class Inventario extends Tela{
 	public void gameRender() {
 		inv.renderizar();
 	}
+
+	@Override
+	public void iniciaInimigos() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 

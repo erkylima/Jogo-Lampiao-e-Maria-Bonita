@@ -123,6 +123,7 @@ public class Volante extends Sprite implements Runnable{
 					ArrayList<Sprite> alvo = new ArrayList<Sprite>();
 					alvo.add(inimigo);
 					alvo.add(this);
+					alvo.add(inimigo.getFase().getInit().getMaria());
 					new Tiro(0, 2, 1, getX(), getY()+40, "Arquivos/tiro.png", inimigo, alvo, 5).draw(inimigo.getFase().getCamera().getGraphics());
 					Thread.sleep(1000/(inimigo.getFase().getFPS()-57));				
 				} catch (IOException e) {
@@ -206,7 +207,7 @@ public class Volante extends Sprite implements Runnable{
 				destroier(this);
 			}
 			if(getY()>640) {
-				setVida(getVida()-10);
+				setVida(getVida()-20);
 			}
 			if(inimigo.getFase().isPulo(this) && inimigo.isVivo()) {
 				pular();
@@ -223,10 +224,9 @@ public class Volante extends Sprite implements Runnable{
 	
 	
 	public void destroier(Volante volante){
-		volante.setY(getY()+500);
 		threadOn  = false;
+		volante.setY(getY()+500);
 		volante = null;
-
 		System.gc();
 	}
 	

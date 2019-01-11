@@ -3,15 +3,19 @@ package model;
 import java.awt.Graphics;
 import java.io.IOException;
 
+import controller.Inicializa;
+
 public class Maria extends Sprite implements Runnable{
 	public double controlaVelocidade = 1;
 	public int velocidade = 10;
 	private Thread mariaThread;
 	private boolean threadOn = true;
 	private Lampiao lampiao;
-	public Maria(int aparencia, int colunas, int linhas, int x, int y, String endereco,Lampiao lampiao, int vida)
+	private Inicializa init;
+	public Maria(int aparencia, int colunas, int linhas, int x, int y, String endereco,Lampiao lampiao,Inicializa init, int vida)
 			throws IOException {
 		super(aparencia, colunas, linhas, x, y, endereco, vida);
+		this.init = init;
 		this.lampiao = lampiao;
 		setDireita(true);
 		mariaThread = new Thread(this);
@@ -43,7 +47,7 @@ public class Maria extends Sprite implements Runnable{
 
 	@Override
 	public void animacaoParadoDireita() {
-		
+
 	}
 
 	@Override
@@ -53,7 +57,7 @@ public class Maria extends Sprite implements Runnable{
 			setAparencia(getAparencia()+1);
 			controlaVelocidade = 5;
 		}
-		
+
 	}
 
 	@Override
@@ -71,7 +75,6 @@ public class Maria extends Sprite implements Runnable{
 		setX(getX()+6);
 
 		if(lampiao.getFase().isTopo(this)) {
-			System.out.println(getX());
 			setY(getY()-8);
 			if(lampiao.getFase().isTopo(this)) {
 				pular();
@@ -86,8 +89,8 @@ public class Maria extends Sprite implements Runnable{
 		boolean aux = isDireita();
 		double dy,dx;
 		if(aux) {
-			if(getAparencia()>=6) {
-				setAparencia(0);
+			if(getAparencia()<20 ) {
+				setAparencia(20);
 			}
 			animacaoAndandoDireita();
 		}else {
@@ -105,7 +108,7 @@ public class Maria extends Sprite implements Runnable{
 				dx =((velocidade * Math.cos(Math.toRadians(anguloCorrente))) * 1)-4;
 			else
 				dx =((velocidade * Math.cos(Math.toRadians(anguloCorrente))) * -1)+4;
-			
+
 			anguloCorrente--;
 
 			if(!lampiao.getFase().isColidindo(this)) {
@@ -130,21 +133,34 @@ public class Maria extends Sprite implements Runnable{
 	@Override
 	public void run() {
 		while(threadOn ) {
-			if(lampiao.getVida()>0 && getX()<7100) {
-				mover();
-			}
-			if(getVida()<10) {
-				destroier(this);
-			}
-			if(getY()>640) {
-				setVida(getVida()-10);
-			}
-			if(lampiao.getFase().isPulo(this) && lampiao.isVivo()) {
-				pular();
+			if(lampiao.getFase()!=null) {
+				if(lampiao.getVida()>0 && (getX()<lampiao.getFase().getInit().getCamadasF1().get(0).getLarguraTela()-1105)) {
+					mover();
+				}else if(lampiao.getVida()>0 && (getX()>=lampiao.getFase().getInit().getCamadasF1().get(0).getLarguraTela()-1105)) {
+					if(getAparencia() <10 || getAparencia()>19)
+						setAparencia(10);
+					animacaoAndandoEsquerda();
+				}
+				if(getVida()<10) {
+					destroier(this);
+				}
+				if(getY()>640) {
+					setVida(getVida()-10);
+				}
+				if(lampiao.getFase().isPulo(this) && lampiao.isVivo() && getX()<lampiao.getFase().getInit().getCamadasF1().get(0).getLarguraTela()-130) {
+					pular();
+					setAparencia(10);
+					try {
+						if(!mariaThread.isInterrupted()) 
+							Thread.sleep(1500);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
 			}
 			try {
 				if(!mariaThread.isInterrupted()) 
-					Thread.sleep(1000/(lampiao.getFase().getFPS()-35));
+					Thread.sleep(1000/(init.getConfig().getFPS()-5));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

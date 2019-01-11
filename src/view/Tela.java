@@ -44,7 +44,7 @@ public abstract class Tela extends JPanel implements Runnable{
 		this.altura = altura;
 		this.init = init;
 		setBounds(0, 0, largura, altura);
-		setFPS(init.getFPS()+30);
+		setFPS(init.getConfig().getFPS()+30);
 		setPreferredSize(new Dimension(largura,altura));
 		setSize(largura,altura);
 		setLayout(null);
@@ -216,6 +216,8 @@ public abstract class Tela extends JPanel implements Runnable{
 	public void zerarInimigos() {
 		if(!getInit().getInimigos().isEmpty()) {
 			for (Sprite g : getInit().getInimigos()) {
+				g.setVida(0);
+				
 				if (g instanceof Volante) {
 					Volante v = (Volante) g;
 					v.destroier(v);	
@@ -223,8 +225,22 @@ public abstract class Tela extends JPanel implements Runnable{
 					Metralha m = (Metralha) g;
 					m.destroier(m);	
 				}
+				
 
 			}
+			getInit().getInimigos().clear();
 		}
 	}
+	public boolean completou() {
+		for (Sprite inimigo : getInit().getInimigos()) {
+			if(inimigo.getVida()>0) {
+				inimigo.setVida(0);
+				return false;
+			}
+		}
+		return true;
+	}
+
+
+	public abstract void iniciaInimigos() ;
 }
