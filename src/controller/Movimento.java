@@ -62,11 +62,15 @@ public class Movimento extends KeyAdapter implements Runnable{
 
 			}
 
-			if(lampiao.getAcao() == KeyEvent.VK_ESCAPE) {
-				lampiao.getFase().getInit().retornarMenu("Voltar","Deseja voltar ao menu?");
-			
+			if(lampiao.getAcao() == KeyEvent.VK_ESCAPE && lampiao.getMenu()==0) {
+				lampiao.getFase().getInit().getLampiao().setMenu(1);
+			} else if(lampiao.getAcao() == KeyEvent.VK_ESCAPE && lampiao.getMenu()==1) {
+				lampiao.setMenu(0);
+
 			}
-			
+			if(lampiao.getMenu() != 0  && lampiao.getAcao() == KeyEvent.VK_ENTER) {
+				lampiao.getFase().getInit().retornarMenu();
+			}
 			if(lampiao.getY()>=640 && lampiao.getVida()>0) {
 				lampiao.setVida(lampiao.getVida()-10);
 			}

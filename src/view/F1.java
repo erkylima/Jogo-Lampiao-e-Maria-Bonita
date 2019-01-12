@@ -1,15 +1,11 @@
 package view;
 
 import java.awt.BorderLayout;
-import java.awt.Graphics2D;
-import java.io.IOException;
 
 import controller.Inicializa;
 import controller.Movimento;
-import model.Lampiao;
-import model.Maria;
+import controller.Som;
 import model.Metralha;
-import model.Sprite;
 import model.Volante;
 
 public class F1 extends Tela {
@@ -23,6 +19,7 @@ public class F1 extends Tela {
 
 	public F1(String titulo, int largura, int altura,Inicializa init) {
 		super(titulo, largura, altura,init);
+		getSom().fundo();
 
 	}
 
@@ -55,13 +52,14 @@ public class F1 extends Tela {
 //			}
 //			getInit().getLampiao().getFase().getInit().getMaria().animacaoParadoEsquerda();
 		}
-		if(getInit().getLampiao().getX()>=6987 && completou()) {
+		if(getInit().getLampiao().getX()>=6987 && completou() && getInit().getMaria().getX()>=6987) {
 			getInit().getLampiao().getFase().zerarInimigos();
 			getInit().getLampiao().setAcao(0);
 			this.setVisible(false);
 			removeKeyListener(m);
 			m.destroier(m);
 			getInit().getInimigos().clear();
+			getSom().destroier(getSom());
 			new F2("Lampião e Maria Bonita",1024,640,getInit());
 			destroier(this);
 			getInit().getJogo().remove(this);

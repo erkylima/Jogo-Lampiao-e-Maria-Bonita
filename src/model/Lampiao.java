@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.io.IOException;
 
 import com.sun.glass.events.KeyEvent;
+import com.sun.org.apache.xml.internal.security.Init;
 
 import controller.Movimento;
 import view.Tela;
@@ -11,6 +12,7 @@ import view.Tela;
 public class Lampiao extends Sprite{
 	public double controlaVelocidade = 0;
 	public int velocidade = 10;
+	private int menu;
 	private Tela fase;
 	private boolean reiniciar = false;
 
@@ -66,6 +68,15 @@ public class Lampiao extends Sprite{
 	@Override
 	public void draw(Graphics g) {
 		g.drawImage(getSprites()[getAparencia()], getX(), getY(), null);
+		if(getVida()>0 && getMenu()!=0) {
+			g.drawImage(getFase().getInit().getVoltarInicio(getMenu()).getImage(), getX()-(getLarguraPersonagem()), getFase().getInit().getALTURA()/3, null);
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 
@@ -223,6 +234,18 @@ public class Lampiao extends Sprite{
 
 	public void setFase(Tela fase) {
 		this.fase = fase;
+	}
+
+
+
+	public int getMenu() {
+		return menu;
+	}
+
+
+
+	public void setMenu(int menu) {
+		this.menu = menu;
 	}
 
 

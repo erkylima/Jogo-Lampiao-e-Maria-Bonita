@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 
 import controller.Inicializa;
+import controller.Som;
 import model.Metralha;
 import model.Sprite;
 import model.Volante;
@@ -30,8 +31,8 @@ public abstract class Tela extends JPanel implements Runnable{
 	@SuppressWarnings("unused")
 	private Inicializa init;
 	private Camera camera;	
-	
-	
+	private Som som = new Som();
+
 	@SuppressWarnings("unused")
 	private double averageFPS;
 
@@ -96,7 +97,7 @@ public abstract class Tela extends JPanel implements Runnable{
 			waitTime = tragetTime - URDTimeMillis;
 
 			try {
-				if(!thread.interrupted())
+				if(!Thread.interrupted())
 					Thread.sleep(waitTime);
 			} catch (Exception e) {
 			}
@@ -131,7 +132,6 @@ public abstract class Tela extends JPanel implements Runnable{
 	}
 	
 	public void destroier(Tela tela){
-		
 		running = false;
 		tela = null;
 		System.gc();
@@ -239,6 +239,10 @@ public abstract class Tela extends JPanel implements Runnable{
 			}
 		}
 		return true;
+	}
+
+	public Som getSom() {
+		return som;
 	}
 
 

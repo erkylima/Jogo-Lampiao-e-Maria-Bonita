@@ -14,14 +14,16 @@ public class ButtonsMainMenu extends Sprite {
 
 	@Override
 	public void animacaoAndandoDireita() {
-		// TODO Auto-generated method stub
-
+		if(getAparencia()>=0) {
+			setAparencia(getAparencia()+1);
+		}
 	}
 
 	@Override
 	public void animacaoAndandoEsquerda() {
-		// TODO Auto-generated method stub
-
+		if(getAparencia()<4) {
+			setAparencia(getAparencia()-1);
+		}
 	}
 
 	@Override
@@ -39,6 +41,7 @@ public class ButtonsMainMenu extends Sprite {
 	@Override
 	public void draw(Graphics g) {
 		g.drawImage(getSprites()[getAparencia()], getX(), getY(), null);
+		destroier(this);
 	}
 
 	@Override

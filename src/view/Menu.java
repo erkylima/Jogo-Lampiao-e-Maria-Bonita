@@ -14,12 +14,13 @@ public class Menu {
 	private Graphics g;
 	
 	private double xLampiaoVolante = -60;
-	private ButtonsMainMenu jogar,multiplayer,config,sobre;
+	private ButtonsMainMenu jogar,multiplayer,config,sobre,fps,nivel;
 	private int selected;
-	private boolean sobreAtivo = false;
+	private boolean sobreAtivo,configAtivo = false;
 	private F1 fase1;
 	private MainMenu main;
-
+	private int sobrePage;
+	
 	public Menu(int largura,int altura,Inicializa init, MainMenu main) {
 		this.init = init;
 		this.main = main;
@@ -31,6 +32,8 @@ public class Menu {
 			multiplayer = new ButtonsMainMenu(1, 8, 1, 400, 250, "Arquivos/buttons.png", 0);
 			config = new ButtonsMainMenu(2, 8, 1, 400, 320, "Arquivos/buttons.png", 0);
 			sobre = new ButtonsMainMenu(3, 8, 1, 400, 390, "Arquivos/buttons.png", 0);
+			fps = new ButtonsMainMenu(0, 4, 1, 430, 330, "Arquivos/configPallet.png", 0);
+			nivel = new ButtonsMainMenu(0, 4, 1, 480, 440, "Arquivos/configPallet.png", 0);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -84,13 +87,43 @@ public class Menu {
 		case 3:
 			sobre.setAparencia(7);
 			break;
-		default:
-			break;
 		}
 		if(sobreAtivo) {
-
-			g.drawImage(init.getSobreimg().getImage(), 161, 134, null);
-
+			g.drawImage(init.getSobreimg(sobrePage).getImage(), 161, 134, null);
+		}
+		
+		if(configAtivo) {
+			switch (init.getConfig().getFPS()) {
+			case 30:
+				fps.setAparencia(0);
+				break;
+			case 35:
+				fps.setAparencia(1);
+				break;
+			case 40:
+				fps.setAparencia(2);
+				break;
+			case 45:
+				fps.setAparencia(3);
+				break;
+			}
+			switch (init.getConfig().getNivel()) {
+			case 0:
+				nivel.setAparencia(0);
+				break;
+			case 10:
+				nivel.setAparencia(1);
+				break;
+			case 20:
+				nivel.setAparencia(2);
+				break;
+			case 30:
+				nivel.setAparencia(3);
+				break;
+			}
+			g.drawImage(init.getConfigimg().getImage(), 161, 134, null);
+			fps.draw(g);
+			nivel.draw(g);
 		}
 	}
 	
@@ -105,6 +138,21 @@ public class Menu {
 		}else {
 			sobreAtivo = false;
 		}
+		if(!configAtivo) {
+			this.selected = selected;
+		}else {
+			configAtivo = false;
+		}
+	}
+
+
+	public int getSobrePage() {
+		return sobrePage;
+	}
+
+
+	public void setSobrePage(int sobrePage) {
+		this.sobrePage = sobrePage;
 	}
 
 
@@ -127,8 +175,8 @@ public class Menu {
 
 	}
 
-	public void config() {
-		if(init.getConfig().getFPS()<90) {
+	public void configFPS() {
+		if(init.getConfig().getFPS()<45) {
 			init.getConfig().setFPS(init.getConfig().getFPS()+5);
 		}
 		else {
@@ -137,9 +185,18 @@ public class Menu {
 		init.gerarConfigXlm(init.getConfig(),true);
 
 	}
+	public void configNivel() {
+		if(init.getConfig().getNivel()<30) {
+			init.getConfig().setNivel(init.getConfig().getNivel()+10);
+		}
+		else {
+			init.getConfig().setNivel(0);
+		}
+		init.gerarConfigXlm(init.getConfig(),true);
+
+	}
 	
-	
-	public boolean sobre() {
+	public boolean sobreToggle() {
 		if(sobreAtivo) {
 			sobreAtivo = false;
 		}else {
@@ -147,7 +204,15 @@ public class Menu {
 		}
 		return sobreAtivo;
 	}
-
+	
+	public boolean configToggle() {
+		if(configAtivo) {
+			configAtivo = false;
+		}else {
+			configAtivo = true;
+		}
+		return configAtivo;
+	}
 	public Graphics getGraphics() {
 		return g;
 	}	

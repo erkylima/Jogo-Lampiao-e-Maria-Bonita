@@ -15,8 +15,11 @@ public class F2 extends Tela {
 	private Camera camera;
 	public F2(String titulo, int largura, int altura, Inicializa init) {
 		super(titulo, largura, altura,init);
+		getSom().fundo();
 		getInit().getJogo().add(this);
 		getInit().getLampiao().setX(40);
+		getInit().getMaria().setX(init.getxInicial());
+		getInit().getMaria().setY(init.getyInicial());
 		getInit().getLampiao().getFase().requestFocus();
 		Movimento m = new Movimento(getInit().getLampiao(),this);
 		addKeyListener(m);
@@ -61,9 +64,7 @@ public class F2 extends Tela {
 		camera.renderizar();
 		
 		if(getInit().getLampiao().getX()>=6987 && completou()) {
-			getInit().getLampiao().setAcao(0);
-			getInit().getInimigos().clear();
-			getInit().retornarMenu("Você conseguiu! Conquistou Maria Bonita!","Deseja voltar ao menu principal?");
+			getInit().getLampiao().getFase().getInit().retornarMenu();
 		}
 	}
 

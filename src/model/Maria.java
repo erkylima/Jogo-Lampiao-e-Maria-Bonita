@@ -72,7 +72,7 @@ public class Maria extends Sprite implements Runnable{
 			setAparencia(20);
 		}
 		animacaoAndandoDireita();
-		setX(getX()+6);
+		setX(getX()+9);
 
 		if(lampiao.getFase().isTopo(this)) {
 			setY(getY()-8);
@@ -134,9 +134,10 @@ public class Maria extends Sprite implements Runnable{
 	public void run() {
 		while(threadOn ) {
 			if(lampiao.getFase()!=null) {
-				if(lampiao.getVida()>0 && (getX()<lampiao.getFase().getInit().getCamadasF1().get(0).getLarguraTela()-1105)) {
+				if(lampiao.getVida()>0 && (getX()<lampiao.getFase().getInit().getCamadasF1().get(0).getLarguraTela()-1105) &&
+						(lampiao.getX()>getX()-400) || (lampiao.getX()>getX()-400)) {
 					mover();
-				}else if(lampiao.getVida()>0 && (getX()>=lampiao.getFase().getInit().getCamadasF1().get(0).getLarguraTela()-1105)) {
+				}else {//if(lampiao.getVida()>0 && (getX()>=lampiao.getFase().getInit().getCamadasF1().get(0).getLarguraTela()-1105)) {
 					if(getAparencia() <10 || getAparencia()>19)
 						setAparencia(10);
 					animacaoAndandoEsquerda();
@@ -152,7 +153,7 @@ public class Maria extends Sprite implements Runnable{
 					setAparencia(10);
 					try {
 						if(!mariaThread.isInterrupted()) 
-							Thread.sleep(1500);
+							Thread.sleep(800);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}

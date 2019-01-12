@@ -1,5 +1,6 @@
 package controller;
 
+import java.awt.BorderLayout;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -12,7 +13,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
 import model.Config;
@@ -21,7 +21,7 @@ import model.Maria;
 import model.Sprite;
 import model.Status;
 import model.TileMap;
-import model.Volante;
+import view.F2;
 import view.IniciarJogo;
 import view.Inventario;
 
@@ -32,7 +32,7 @@ public class Inicializa {
 	private TileMap bgSerra;
 	private TileMap enteiteSerra;
 	private JFrame jogo;
-	private ImageIcon backgroundMain,lampiaoVolante,passaro1,passaro2,mariaimg,sobreimg,morreu;
+	private ImageIcon backgroundMain,lampiaoVolante,passaro1,passaro2,mariaimg,sobreimg,configimg,morreu, voltarInicio;
 	private int xInicial = 40;
 	private int yInicial = 450;
 	private int vidaInicial = 120;
@@ -46,17 +46,15 @@ public class Inicializa {
 
 	public Inicializa() {
 		try {
-			gerarConfigXlm(conf,false);
 			lampiao = new Lampiao(15, 48, 1, getxInicial(), getyInicial(),"Arquivos/lampiaosprite.png",null,getVidaInicial());
-			maria = new Maria(10,28,1,xInicial+50,yInicial,"Arquivos/mariasprite.png",lampiao,this,getVidaInicial());
+			gerarConfigXlm(conf,false);
+			maria = new Maria(10,28,1,xInicial+50,yInicial,"Arquivos/mariasprite.png",lampiao,this,lampiao.getVida()/2);
 			status = new Status(0, 14, 1, 20, 5, "Arquivos/status.png", lampiao.getVida(), lampiao);
 			backgroundMain = new ImageIcon("Arquivos/backgroundMain.jpg");
 			lampiaoVolante = new ImageIcon("Arquivos/lampiaoVolante.png");
 			passaro1 = new ImageIcon("Arquivos/passaro1.png");
 			passaro2 = new ImageIcon("Arquivos/passaro2.png");
 			mariaimg = new ImageIcon("Arquivos/maria.png");
-			sobreimg = new ImageIcon("Arquivos/sobre.png");
-			morreu = new ImageIcon("Arquivos/morreu.png");
 			inventario = new Inventario(1024,118,this);
 
 			
@@ -127,12 +125,51 @@ public class Inicializa {
 		return mariaimg;
 	}
 
-	public ImageIcon getSobreimg() {
+	public ImageIcon getSobreimg(int img) {
+		switch(img) {
+		case 1:
+			sobreimg = new ImageIcon("Arquivos/sobre1.png");
+			break;
+		case 2:
+			sobreimg = new ImageIcon("Arquivos/sobre2.png");
+			break;
+		case 3:
+			sobreimg = new ImageIcon("Arquivos/sobre3.png");
+			break;
+		case 4:
+			sobreimg = new ImageIcon("Arquivos/sobre4.png");
+		}
+
 		return sobreimg;
 	}
+	
+	public ImageIcon getConfigimg() {
+		configimg = new ImageIcon("Arquivos/config.png");
+		return configimg;
+	}
 
-	public ImageIcon getMorreu() {
+	public ImageIcon getMorreu(int personagem) {
+		switch(personagem) {
+		case 1:
+			morreu = new ImageIcon("Arquivos/morreu1.png");
+			break;
+		case 2:
+			morreu = new ImageIcon("Arquivos/morreu2.png");
+			break;
+		}
 		return morreu;
+	}
+	
+	public ImageIcon getVoltarInicio(int img) {
+		switch(img) {
+		case 1:
+			voltarInicio = new ImageIcon("Arquivos/voltarInicio1.png");
+			break;
+		case 2:
+			voltarInicio = new ImageIcon("Arquivos/voltarInicio2.png");
+			break;
+		}
+		return voltarInicio;
 	}
 
 	public ImageIcon getPassaro1() {
@@ -174,23 +211,22 @@ public class Inicializa {
 	public Inventario getInventario() {
 		return inventario;
 	}
-	public void retornarMenu(String titulo, String msg) {
-		int input = JOptionPane.showOptionDialog(null, msg, titulo, JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
-
-		if(input == JOptionPane.OK_OPTION)
-		{
-			getLampiao().getFase().zerarInimigos();
-			getLampiao().getFase().destroier(getLampiao().getFase());
-			getLampiao().getFase().getInit().getMaria().destroier(getLampiao().getFase().getInit().getMaria());
-			getLampiao().getFase().getInit().getJogo().dispose();
-			getLampiao().setAcao(0);
-			Inicializa init = new Inicializa();		
-			new IniciarJogo("Lampião e Maria Bonita", init);
-		}
-		else if(input == JOptionPane.CANCEL_OPTION) {
-			getLampiao().setAcao(0);
-		}
+	
+	public void retornarMenu() {
+		getLampiao().getFase().zerarInimigos();
+		getLampiao().setAcao(0);
+		getLampiao().getFase().setVisible(false);
+		getInimigos().clear();
+		getLampiao().getFase().getSom().destroier(getLampiao().getFase().getSom());
+		getJogo().remove(getJogo());
+		getLampiao().getFase().destroier(getLampiao().getFase());
+		getLampiao().getFase().getInit().getMaria().destroier(getLampiao().getFase().getInit().getMaria());
+		getLampiao().getFase().getInit().getJogo().dispose();
+		getLampiao().setAcao(0);
+		Inicializa init = new Inicializa();		
+		new IniciarJogo("Lampião e Maria Bonita", init);	
 	}
+	
 	public boolean retornarInicio() {
 		getLampiao().getFase().zerarInimigos();
 		getLampiao().setAcao(0);
@@ -218,9 +254,11 @@ public class Inicializa {
 	   
 	    xStream.alias("Config", Config.class);
 	    xStream.aliasField("FPS", Config.class, "fps");
-
+	    xStream.aliasField("NIVEL", Config.class, "nivel");
+	    
 	    
 	    Config config = (Config) xStream.fromXML(reader);
+	    lampiao.setVida(lampiao.getVida()-config.getNivel());
 	    conf = config;
 	}
 	
@@ -230,7 +268,8 @@ public class Inicializa {
 	    xStream.alias("Config", Config.class);
 
 	    xStream.aliasField("FPS", Config.class, "fps");
-
+	    xStream.aliasField("NIVEL", Config.class, "nivel");
+	    
 	    String documento = xStream.toXML(conf);
 	    salvarConfig(xStream.toXML(conf), "config.xml",muda);
 	}

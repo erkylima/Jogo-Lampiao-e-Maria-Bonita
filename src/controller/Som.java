@@ -12,13 +12,40 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class Som {
-	private AudioInputStream tiro = null;
+	private AudioInputStream audio = null;
     private Clip clip; 
     private Som som;
     public Som() {
 		som = this;
 	}
+    public void fundo() {
+    	new Thread(new Runnable() { // the wrapper thread is unnecessary, unless it blocks on the Clip finishing, see comments
+            @Override
+            public void run() {
+                clip = null;
+                try{
+                    do{
+                        if(clip == null || audio == null)
+                                clip = AudioSystem.getClip();
+                        audio = AudioSystem.getAudioInputStream(new File("Arquivos/Sons/fundo.wav").getAbsoluteFile());
+                        if(clip != null && !clip.isActive())
+                        	audio = AudioSystem.getAudioInputStream(new File("Arquivos/Sons/fundo.wav").getAbsoluteFile());
+                                clip.open(audio);
+                                clip.start(); 
+                                clip.loop(clip.LOOP_CONTINUOUSLY);
+                    }while(clip.isActive());
 
+            		
+            		} catch (LineUnavailableException e) {
+                    e.printStackTrace();
+                } catch (UnsupportedAudioFileException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
 	public void tiroSom(){
 		new Thread(new Runnable() { // the wrapper thread is unnecessary, unless it blocks on the Clip finishing, see comments
             @Override
@@ -26,12 +53,12 @@ public class Som {
                 clip = null;
                 try{
                     do{
-                        if(clip == null || tiro == null)
+                        if(clip == null || audio == null)
                                 clip = AudioSystem.getClip();
-                        tiro = AudioSystem.getAudioInputStream(new File("Arquivos/Sons/tiro.wav").getAbsoluteFile());
+                        audio = AudioSystem.getAudioInputStream(new File("Arquivos/Sons/tiro.wav").getAbsoluteFile());
                         if(clip != null && !clip.isActive())
-                        	tiro = AudioSystem.getAudioInputStream(new File("Arquivos/Sons/tiro.wav").getAbsoluteFile());
-                                clip.open(tiro);
+                        	audio = AudioSystem.getAudioInputStream(new File("Arquivos/Sons/tiro.wav").getAbsoluteFile());
+                                clip.open(audio);
                                 clip.start(); 
                     }while(clip.isActive());
                     clip.addLineListener(new LineListener() {
@@ -57,8 +84,9 @@ public class Som {
 	}
 
 	public void destroier(Som som) {
-
-		tiro = null;
+		if(audio!=null){
+			audio = null;
+		}
 
 		clip.close();
 		clip = null;

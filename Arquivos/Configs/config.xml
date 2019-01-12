@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
 <Config>
-  <FPS>30</FPS>
+  <FPS>45</FPS>
+  <NIVEL>20</NIVEL>
 </Config>
