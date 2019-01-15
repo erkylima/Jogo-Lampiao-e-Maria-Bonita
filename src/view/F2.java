@@ -30,7 +30,7 @@ public class F2 extends Tela {
 	@Override
 	public void init() {
 		getInit().getLampiao().setFase(this);
-
+		getInit().F2();
 		camera = new Camera(getInit().getLampiao(), getInit().getInimigos(), getInit().getCamadasF1());
 		getInit().getLampiao().getFase().setCamera(camera);
 		

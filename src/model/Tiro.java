@@ -20,9 +20,7 @@ public class Tiro extends Sprite implements Runnable{
 		this.alvo = alvo;
 		this.personagem = personagem;
 		aux = personagem.isDireita();
-		if(personagem==alvo.get(0)) {
-			aux2=alvo.get(1).isDireita();
-		}
+		
 		som = new Som();
 		som.tiroSom();
 		running = true;
@@ -33,7 +31,14 @@ public class Tiro extends Sprite implements Runnable{
 		else {
 			setX(getX()-50);
 		}
-		
+		if(!alvo.isEmpty()) {
+			if(personagem==alvo.get(0)) {
+				aux2=alvo.get(1).isDireita();
+			}
+			
+		}else {
+			destroier(this);
+		}
 		tiro = new Thread(this);
 		tiro.start();
 	}
@@ -128,8 +133,9 @@ public class Tiro extends Sprite implements Runnable{
 	@Override
 	public void run() {
 		while(running) {
-			mover();
-			
+			if(personagem.getFase().getInit().getInimigos().size()>0) {
+				mover();
+			}
 			if(getVida()<=0) {
 				destroier(this);
 			}

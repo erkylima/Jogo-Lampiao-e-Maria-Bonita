@@ -18,7 +18,7 @@ public class Movimento extends KeyAdapter implements Runnable{
 	private Tela fase;
 	private Thread t;
 	private boolean threadOn = true;
-	
+	private boolean voltarMenu = false;
 	public Movimento(Lampiao lampiao,Tela fase) {
 		this.lampiao = lampiao;
 		this.fase = fase;
@@ -53,23 +53,25 @@ public class Movimento extends KeyAdapter implements Runnable{
 			if(!fase.isColidindo(lampiao)) {
 				lampiao.cair();
 			}
-			if(KeyEvent.VK_SPACE == lampiao.getAcao() && lampiao.isVivo() && lampiao.getFase().isTopo(lampiao)) {
+			if(KeyEvent.VK_SPACE == lampiao.getAcao() && !voltarMenu && lampiao.isVivo() && lampiao.getFase().isTopo(lampiao)) {
 				lampiao.pular();
 				
 			}
-			else if(lampiao.getAcao() != KeyEvent.VK_SPACE && lampiao.isVivo()) {
+			else if(lampiao.getAcao() != KeyEvent.VK_SPACE && lampiao.isVivo() && !voltarMenu) {
 				lampiao.andar();
 
 			}
 
-			if(lampiao.getAcao() == KeyEvent.VK_ESCAPE && lampiao.getMenu()==0) {
+			if(lampiao.getAcao() == KeyEvent.VK_ESCAPE && lampiao.getMenu()==0 && !voltarMenu) {
 				lampiao.getFase().getInit().getLampiao().setMenu(1);
+				voltarMenu = true;
 			} else if(lampiao.getAcao() == KeyEvent.VK_ESCAPE && lampiao.getMenu()==1) {
 				lampiao.setMenu(0);
-
+				voltarMenu = false;
 			}
 			if(lampiao.getMenu() != 0  && lampiao.getAcao() == KeyEvent.VK_ENTER) {
 				lampiao.getFase().getInit().retornarMenu();
+				voltarMenu = false;
 			}
 			if(lampiao.getY()>=640 && lampiao.getVida()>0) {
 				lampiao.setVida(lampiao.getVida()-10);

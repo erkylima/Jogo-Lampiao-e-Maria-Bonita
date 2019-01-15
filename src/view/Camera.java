@@ -91,7 +91,7 @@ public class Camera {
 			lampiao.getFase().getInit().retornarInicio();
 			segundos = 5;
 		}
-		if(lampiao.getFase().getInit().getMaria().getVida()<=0 && segundos > 0) {
+		if(lampiao.getFase().getInit().getMaria().getVida()<=0 && segundos > 0 ) {
 			g.drawImage(lampiao.getFase().getInit().getMorreu(2).getImage(), xDialog, lampiao.getFase().getInit().getALTURA()/3, null);
 			try {
 				Font font = Font.createFont(Font.PLAIN,new File("Arquivos\\Fonts\\xilosa.ttf")).deriveFont(40f);

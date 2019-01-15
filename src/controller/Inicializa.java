@@ -28,15 +28,15 @@ import view.Inventario;
 public class Inicializa {
 	private Lampiao lampiao;
 	private Maria maria;
-	private TileMap tileSerra;
-	private TileMap bgSerra;
+	private TileMap tile;
+	private TileMap bg;
 	private TileMap enteiteSerra;
 	private JFrame jogo;
 	private ImageIcon backgroundMain,lampiaoVolante,passaro1,passaro2,mariaimg,sobreimg,configimg,morreu, voltarInicio;
-	private int xInicial = 40;
+	private int xInicial = 6000;
 	private int yInicial = 450;
 	private int vidaInicial = 120;
-	private ArrayList<TileMap> camadasF1 = new ArrayList<TileMap>();
+	private ArrayList<TileMap> camadas = new ArrayList<TileMap>();
 	private ArrayList<Sprite> inimigos = new ArrayList<Sprite>();
 	private Status status;
 	private int LARGURA = 1024;
@@ -65,12 +65,21 @@ public class Inicializa {
 	}
 	
 	public void F1() {
-		bgSerra = new TileMap(8, 1, 1024, 1024, "Arquivos/BG.png", "Arquivos/BGSerraTile.txt");
-		tileSerra = new TileMap(224, 20, 32, 32, "Arquivos/Tile.png", "Arquivos/SerraTile.txt");
+		bg = new TileMap(8, 1, 1024, 1024, "Arquivos/BG.png", "Arquivos/BGSerraTile.txt");
+		tile = new TileMap(224, 20, 32, 32, "Arquivos/Tile.png", "Arquivos/SerraTile.txt");
 		enteiteSerra = new TileMap(240,24,32,32,"Arquivos/objetos.png","Arquivos/EnfeiteSerra.txt");
-		camadasF1.add(bgSerra);
-		camadasF1.add(tileSerra);
-		camadasF1.add(enteiteSerra);
+		camadas.add(bg);
+		camadas.add(tile);
+		camadas.add(enteiteSerra);
+	}
+	
+	public void F2() {
+		bg = new TileMap(8, 1, 1024, 1024, "Arquivos/BGFloresta.png", "Arquivos/BGFlorestaTile.txt");
+		tile = new TileMap(224, 20, 32, 32, "Arquivos/Tile.png", "Arquivos/SerraTile.txt");
+		enteiteSerra = new TileMap(240,24,32,32,"Arquivos/objetos.png","Arquivos/EnfeiteSerra.txt");
+		camadas.add(bg);
+		camadas.add(tile);
+		camadas.add(enteiteSerra);
 	}
 	
 	public Lampiao getLampiao() {
@@ -82,11 +91,11 @@ public class Inicializa {
 	}
 
 	public TileMap getTileSerra() {
-		return tileSerra;
+		return tile;
 	}
 
 	public TileMap getBgSerra() {
-		return bgSerra;
+		return bg;
 	}
 	
 	public TileMap getEnteiteSerra() {
@@ -94,7 +103,7 @@ public class Inicializa {
 	}
 
 	public ArrayList<TileMap> getCamadasF1() {
-		return camadasF1;
+		return camadas;
 	}
 
 	public ArrayList<Sprite> getInimigos() {
