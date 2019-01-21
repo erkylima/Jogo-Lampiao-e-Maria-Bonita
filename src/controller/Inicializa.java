@@ -33,7 +33,7 @@ public class Inicializa {
 	private TileMap enteite;
 	private JFrame jogo;
 	private ImageIcon backgroundMain,lampiaoVolante,passaro1,passaro2,mariaimg,sobreimg,configimg,morreu, voltarInicio;
-	private int xInicial = 6000;
+	private int xInicial = 40;
 	private int yInicial = 450;
 	private int vidaInicial = 120;
 	private ArrayList<TileMap> camadas = new ArrayList<TileMap>();
