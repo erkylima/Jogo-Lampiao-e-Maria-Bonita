@@ -126,6 +126,7 @@ public class Maria extends Sprite implements Runnable{
 			}
 
 		}
+		
 		setY(getY()-getY()%velocidade);
 
 	}
@@ -133,11 +134,17 @@ public class Maria extends Sprite implements Runnable{
 	@Override
 	public void run() {
 		while(threadOn ) {
-			if(lampiao.getFase()!=null) {
+			if(lampiao.getFase()!=null && lampiao.getFase().getInit().getCamadasF1().size()>1) {
 				if(lampiao.getVida()>0 && (getX()<lampiao.getFase().getInit().getCamadasF1().get(0).getLarguraTela()-1105) &&
 						(lampiao.getX()>getX()-400) || (lampiao.getX()>getX()-400)) {
-					mover();
-				}else {//if(lampiao.getVida()>0 && (getX()>=lampiao.getFase().getInit().getCamadasF1().get(0).getLarguraTela()-1105)) {
+					if((lampiao.isAndarMaria()))
+						mover();
+					else {
+						if(getAparencia() <10 || getAparencia()>19)
+							setAparencia(10);
+						animacaoAndandoEsquerda();
+					}
+				}else {
 					if(getAparencia() <10 || getAparencia()>19)
 						setAparencia(10);
 					animacaoAndandoEsquerda();
@@ -148,8 +155,12 @@ public class Maria extends Sprite implements Runnable{
 				if(getY()>640) {
 					setVida(getVida()-10);
 				}
-				if(lampiao.getFase().isPulo(this) && lampiao.isVivo() && getX()<lampiao.getFase().getInit().getCamadasF1().get(0).getLarguraTela()-130) {
-					pular();
+				if(lampiao.isAndarMaria() && lampiao.getFase().isPulo(this) && lampiao.isVivo() && getX()<lampiao.getFase().getInit().getCamadasF1().get(0).getLarguraTela()-130) {
+					try{
+						pular();
+					}catch (Exception e) {
+
+					}
 					setAparencia(10);
 					try {
 						if(!mariaThread.isInterrupted()) 

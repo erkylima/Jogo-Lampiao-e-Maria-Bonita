@@ -46,24 +46,20 @@ public class F1 extends Tela {
 	public void gameRender() {
 
 		camera.renderizar();
-		if(getInit().getLampiao().getX()>6600) {
-//			if(getInit().getLampiao().getFase().getInit().getMaria().getAparencia()>9) {
-//				getInit().getLampiao().getFase().getInit().getMaria().setAcao(0);
-//			}
-//			getInit().getLampiao().getFase().getInit().getMaria().animacaoParadoEsquerda();
-		}
+		
 		if(getInit().getLampiao().getX()>=6987 && completou() && getInit().getMaria().getX()>=6987) {
 			getInit().getLampiao().getFase().zerarInimigos();
 			getInit().getLampiao().setAcao(0);
+			getInit().getLampiao().getFase().getCamera().destroier(getInit().getLampiao().getFase().getCamera());
 			this.setVisible(false);
 			removeKeyListener(m);
 			m.destroier(m);
+			getInit().zerarCamadas();
 			getInit().getInimigos().clear();
 			getSom().destroier(getSom());
 			new F2("Lampião e Maria Bonita",1024,640,getInit());
 			destroier(this);
 			getInit().getJogo().remove(this);
-
 
 			getInit().getJogo().add(getInit().getLampiao().getFase(),BorderLayout.PAGE_START);
 
@@ -73,7 +69,7 @@ public class F1 extends Tela {
 	@Override
 	public void iniciaInimigos() {
 		try {
-
+			
 //			getInit().getInimigos().add(new Volante(0, 40, 1, 1191, 500, "Arquivos/Imagens/volantesprite.png", getInit().getLampiao(), 0));
 //			getInit().getInimigos().add(new Volante(0, 40, 1, 2044, 500, "Arquivos/Imagens/volantesprite.png", getInit().getLampiao(), 20));
 //			getInit().getInimigos().add(new Volante(0, 40, 1, 2200, 500, "Arquivos/Imagens/volantesprite.png", getInit().getLampiao(), 20));
@@ -95,4 +91,6 @@ public class F1 extends Tela {
 			e.printStackTrace();
 		}
 	}
+	
+	
 }

@@ -35,6 +35,10 @@ public class Movimento extends KeyAdapter implements Runnable{
 	@Override
 	public void keyReleased(KeyEvent e) {
 //		acao = 0;
+		if(e.getKeyCode() == e.VK_E) {
+			lampiao.mariaAndaToggle();
+		}
+			
 		lampiao.parar();
 	}
 

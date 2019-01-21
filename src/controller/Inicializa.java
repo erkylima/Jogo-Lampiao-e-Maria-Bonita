@@ -30,10 +30,10 @@ public class Inicializa {
 	private Maria maria;
 	private TileMap tile;
 	private TileMap bg;
-	private TileMap enteiteSerra;
+	private TileMap enteite;
 	private JFrame jogo;
 	private ImageIcon backgroundMain,lampiaoVolante,passaro1,passaro2,mariaimg,sobreimg,configimg,morreu, voltarInicio;
-	private int xInicial = 40;
+	private int xInicial = 6000;
 	private int yInicial = 450;
 	private int vidaInicial = 120;
 	private ArrayList<TileMap> camadas = new ArrayList<TileMap>();
@@ -66,20 +66,20 @@ public class Inicializa {
 	
 	public void F1() {
 		bg = new TileMap(8, 1, 1024, 1024, "Arquivos/Imagens/BG.png", "Arquivos/Camadas/BGSerraTile.txt");
-		tile = new TileMap(224, 20, 32, 32, "Arquivos/Imagens/Tile.png", "Arquivos/Camadas/FlorestaTile.txt");
-		enteiteSerra = new TileMap(240,24,32,32,"Arquivos/Imagens/objetos.png","Arquivos/Camadas/EnfeiteSerra.txt");
+		tile = new TileMap(224, 20, 32, 32, "Arquivos/Imagens/Tile.png", "Arquivos/Camadas/SerraTile.txt");
+		enteite = new TileMap(240,24,32,32,"Arquivos/Imagens/objetos.png","Arquivos/Camadas/EnfeiteSerra.txt");
 		camadas.add(bg);
 		camadas.add(tile);
-		camadas.add(enteiteSerra);
+		camadas.add(enteite);
 	}
 	
 	public void F2() {
 		bg = new TileMap(8, 1, 1024, 1024, "Arquivos/Imagens/BGFloresta.png", "Arquivos/Camadas/BGFlorestaTile.txt");
-		tile = new TileMap(224, 20, 32, 32, "Arquivos/Imagens/Tile.png", "Arquivos/Camadas/FlorestaTile.txt"); // O ERRO É AQUI. É preciso refazer o Tile!
-//		enteiteSerra = new TileMap(240,24,32,32,"Arquivos/Imagens/objetos.png","Arquivos/Camadas/EnfeiteSerra.txt");
+		tile = new TileMap(224, 20, 32, 32, "Arquivos/Imagens/Tile.png", "Arquivos/Camadas/FlorestaTile.txt");
+		enteite = new TileMap(224,20,32,32,"Arquivos/Imagens/objetos.png","Arquivos/Camadas/EnfeiteFloresta.txt");
 		camadas.add(bg);
 		camadas.add(tile);
-//		camadas.add(enteiteSerra);
+		camadas.add(enteite);
 	}
 	
 	public Lampiao getLampiao() {
@@ -99,7 +99,7 @@ public class Inicializa {
 	}
 	
 	public TileMap getEnteiteSerra() {
-		return enteiteSerra;
+		return enteite;
 	}
 
 	public ArrayList<TileMap> getCamadasF1() {
@@ -306,4 +306,12 @@ public class Inicializa {
 		
 		return false;
 	}    
+	public void zerarCamadas() {
+		if(camadas.size()!=0) {
+			for (TileMap camada : camadas) {
+				camada = null;
+			}
+			camadas.clear();
+		}
+	}
 }

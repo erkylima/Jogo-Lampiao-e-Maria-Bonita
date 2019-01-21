@@ -182,8 +182,16 @@ public class Metralha extends Sprite implements Runnable{
 			}
 
 		}
-		setY(getY()-getY()%velocidade);
-
+		if(inimigo.getFase().isButtom(this)) {
+			setY(getY()-getY()%velocidade);
+			cair();
+		}
+	}
+	
+	public void cair(){
+		if(!inimigo.getFase().isTopo(this)) {
+			setY(getY()+8);
+		}
 	}
 
 

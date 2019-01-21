@@ -15,12 +15,12 @@ public class Lampiao extends Sprite{
 	private int menu;
 	private Tela fase;
 	private boolean reiniciar = false;
-
+	private boolean andarMaria=false;
 
 	public Lampiao(int aparencia,int columns, int rows, int posX, int posY,String caminho,Tela fase,int vida) throws IOException {
 		super(aparencia, columns, rows, posX, posY, caminho,vida);
 		this.fase = fase;		
-
+		andarMaria = true;
 	}
 	
 
@@ -187,11 +187,12 @@ public class Lampiao extends Sprite{
 			
 			anguloCorrente--;
 
-			if(!fase.isColidindo(this)) {
+			 if(!fase.isColidindo(this)) {
 				setY(getY()-((int)dy));
 				setX(getX()+((int)dx));
-			}else {
-				setY(getY()+5+((int)dy));
+			}
+			else {
+				setY(getY()+((int)dy));
 				setX(getX()-((int)dx));
 				break;
 			}
@@ -202,7 +203,11 @@ public class Lampiao extends Sprite{
 			}
 
 		}
-		setY(getY()-getY()%velocidade);
+		if(fase.isButtom(this)) {
+			setY(getY()-getY()%velocidade);
+			cair();
+		}
+		
 
 	}
 	
@@ -244,8 +249,21 @@ public class Lampiao extends Sprite{
 	public void setMenu(int menu) {
 		this.menu = menu;
 	}
+	
+	public boolean isAndarMaria() {
+		return andarMaria;
+	}
 
-
+	public boolean mariaAndaToggle() {
+		if(andarMaria) {
+			andarMaria = false;
+			
+		}else {
+			andarMaria = true;
+		}
+		System.out.println(andarMaria);
+		return andarMaria;
+	}
 
 
 

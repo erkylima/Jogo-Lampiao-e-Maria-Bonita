@@ -179,6 +179,18 @@ public abstract class Tela extends JPanel implements Runnable{
 
 		return false;		
 	}
+	
+	public boolean isButtom(Sprite player) {
+
+		for(Rectangle entidade : init.getCamadasF1().get(1).montarColisao()) // camada de objetos
+			if(player.getBounds().intersects(entidade)) {
+				if(entidade.getMinY()<=player.getBounds().getMaxY()) {
+					return true;	
+				}				
+			}		
+
+		return false;		
+	}
 
 	public boolean isCantoDireito(Sprite player) {
 

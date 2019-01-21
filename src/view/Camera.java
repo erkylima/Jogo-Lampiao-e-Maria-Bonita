@@ -142,6 +142,9 @@ public class Camera {
 		return g;
 	}	
 	
-	
+	public void destroier(Camera camera) {
+		camera = null;
+		System.gc();
+	}
 	
 }
