@@ -28,12 +28,12 @@ public class Menu {
 		tela = new BufferedImage(largura, altura, BufferedImage.TYPE_4BYTE_ABGR);
 		g = tela.getGraphics();
 		try {
-			jogar = new ButtonsMainMenu(4, 8, 1, 400, 180, "Arquivos/buttons.png", 0);
-			multiplayer = new ButtonsMainMenu(1, 8, 1, 400, 250, "Arquivos/buttons.png", 0);
-			config = new ButtonsMainMenu(2, 8, 1, 400, 320, "Arquivos/buttons.png", 0);
-			sobre = new ButtonsMainMenu(3, 8, 1, 400, 390, "Arquivos/buttons.png", 0);
-			fps = new ButtonsMainMenu(0, 4, 1, 430, 330, "Arquivos/configPallet.png", 0);
-			nivel = new ButtonsMainMenu(0, 4, 1, 480, 440, "Arquivos/configPallet.png", 0);
+			jogar = new ButtonsMainMenu(4, 8, 1, 400, 180, "Arquivos/Imagens/buttons.png", 0);
+			multiplayer = new ButtonsMainMenu(1, 8, 1, 400, 250, "Arquivos/Imagens/buttons.png", 0);
+			config = new ButtonsMainMenu(2, 8, 1, 400, 320, "Arquivos/Imagens/buttons.png", 0);
+			sobre = new ButtonsMainMenu(3, 8, 1, 400, 390, "Arquivos/Imagens/buttons.png", 0);
+			fps = new ButtonsMainMenu(0, 4, 1, 430, 330, "Arquivos/Imagens/configPallet.png", 0);
+			nivel = new ButtonsMainMenu(0, 4, 1, 480, 440, "Arquivos/Imagens/configPallet.png", 0);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

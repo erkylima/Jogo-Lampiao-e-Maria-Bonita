@@ -33,7 +33,7 @@ public class Inicializa {
 	private TileMap enteiteSerra;
 	private JFrame jogo;
 	private ImageIcon backgroundMain,lampiaoVolante,passaro1,passaro2,mariaimg,sobreimg,configimg,morreu, voltarInicio;
-	private int xInicial = 6000;
+	private int xInicial = 40;
 	private int yInicial = 450;
 	private int vidaInicial = 120;
 	private ArrayList<TileMap> camadas = new ArrayList<TileMap>();
@@ -46,17 +46,17 @@ public class Inicializa {
 
 	public Inicializa() {
 		try {
-			lampiao = new Lampiao(15, 48, 1, getxInicial(), getyInicial(),"Arquivos/lampiaosprite.png",null,getVidaInicial());
+			lampiao = new Lampiao(15, 48, 1, getxInicial(), getyInicial(),"Arquivos/Imagens/lampiaosprite.png",null,getVidaInicial());
 			gerarConfigXlm(conf,false);
-			maria = new Maria(10,28,1,xInicial+50,yInicial,"Arquivos/mariasprite.png",lampiao,this,lampiao.getVida()/2);
-			status = new Status(0, 14, 1, 20, 5, "Arquivos/status.png", lampiao.getVida(), lampiao);
-			backgroundMain = new ImageIcon("Arquivos/backgroundMain.jpg");
-			lampiaoVolante = new ImageIcon("Arquivos/lampiaoVolante.png");
-			passaro1 = new ImageIcon("Arquivos/passaro1.png");
-			passaro2 = new ImageIcon("Arquivos/passaro2.png");
-			mariaimg = new ImageIcon("Arquivos/maria.png");
+			maria = new Maria(10,28,1,xInicial+50,yInicial,"Arquivos/Imagens/mariasprite.png",lampiao,this,lampiao.getVida()/2);
+			status = new Status(0, 14, 1, 20, 5, "Arquivos/Imagens/status.png", lampiao.getVida(), lampiao);
+			backgroundMain = new ImageIcon("Arquivos/Imagens/backgroundMain.jpg");
+			lampiaoVolante = new ImageIcon("Arquivos/Imagens/lampiaoVolante.png");
+			passaro1 = new ImageIcon("Arquivos/Imagens/passaro1.png");
+			passaro2 = new ImageIcon("Arquivos/Imagens/passaro2.png");
+			mariaimg = new ImageIcon("Arquivos/Imagens/maria.png");
 			inventario = new Inventario(1024,118,this);
-
+			 
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -65,21 +65,21 @@ public class Inicializa {
 	}
 	
 	public void F1() {
-		bg = new TileMap(8, 1, 1024, 1024, "Arquivos/BG.png", "Arquivos/BGSerraTile.txt");
-		tile = new TileMap(224, 20, 32, 32, "Arquivos/Tile.png", "Arquivos/SerraTile.txt");
-		enteiteSerra = new TileMap(240,24,32,32,"Arquivos/objetos.png","Arquivos/EnfeiteSerra.txt");
+		bg = new TileMap(8, 1, 1024, 1024, "Arquivos/Imagens/BG.png", "Arquivos/Camadas/BGSerraTile.txt");
+		tile = new TileMap(224, 20, 32, 32, "Arquivos/Imagens/Tile.png", "Arquivos/Camadas/FlorestaTile.txt");
+		enteiteSerra = new TileMap(240,24,32,32,"Arquivos/Imagens/objetos.png","Arquivos/Camadas/EnfeiteSerra.txt");
 		camadas.add(bg);
 		camadas.add(tile);
 		camadas.add(enteiteSerra);
 	}
 	
 	public void F2() {
-		bg = new TileMap(8, 1, 1024, 1024, "Arquivos/BGFloresta.png", "Arquivos/BGFlorestaTile.txt");
-		tile = new TileMap(224, 20, 32, 32, "Arquivos/Tile.png", "Arquivos/SerraTile.txt");
-		enteiteSerra = new TileMap(240,24,32,32,"Arquivos/objetos.png","Arquivos/EnfeiteSerra.txt");
+		bg = new TileMap(8, 1, 1024, 1024, "Arquivos/Imagens/BGFloresta.png", "Arquivos/Camadas/BGFlorestaTile.txt");
+		tile = new TileMap(224, 20, 32, 32, "Arquivos/Imagens/Tile.png", "Arquivos/Camadas/FlorestaTile.txt"); // O ERRO É AQUI. É preciso refazer o Tile!
+//		enteiteSerra = new TileMap(240,24,32,32,"Arquivos/Imagens/objetos.png","Arquivos/Camadas/EnfeiteSerra.txt");
 		camadas.add(bg);
 		camadas.add(tile);
-		camadas.add(enteiteSerra);
+//		camadas.add(enteiteSerra);
 	}
 	
 	public Lampiao getLampiao() {
@@ -137,33 +137,33 @@ public class Inicializa {
 	public ImageIcon getSobreimg(int img) {
 		switch(img) {
 		case 1:
-			sobreimg = new ImageIcon("Arquivos/sobre1.png");
+			sobreimg = new ImageIcon("Arquivos/Imagens/sobre1.png");
 			break;
 		case 2:
-			sobreimg = new ImageIcon("Arquivos/sobre2.png");
+			sobreimg = new ImageIcon("Arquivos/Imagens/sobre2.png");
 			break;
 		case 3:
-			sobreimg = new ImageIcon("Arquivos/sobre3.png");
+			sobreimg = new ImageIcon("Arquivos/Imagens/sobre3.png");
 			break;
 		case 4:
-			sobreimg = new ImageIcon("Arquivos/sobre4.png");
+			sobreimg = new ImageIcon("Arquivos/Imagens/sobre4.png");
 		}
 
 		return sobreimg;
 	}
 	
 	public ImageIcon getConfigimg() {
-		configimg = new ImageIcon("Arquivos/config.png");
+		configimg = new ImageIcon("Arquivos/Imagens/config.png");
 		return configimg;
 	}
 
 	public ImageIcon getMorreu(int personagem) {
 		switch(personagem) {
 		case 1:
-			morreu = new ImageIcon("Arquivos/morreu1.png");
+			morreu = new ImageIcon("Arquivos/Imagens/morreu1.png");
 			break;
 		case 2:
-			morreu = new ImageIcon("Arquivos/morreu2.png");
+			morreu = new ImageIcon("Arquivos/Imagens/morreu2.png");
 			break;
 		}
 		return morreu;
@@ -172,10 +172,10 @@ public class Inicializa {
 	public ImageIcon getVoltarInicio(int img) {
 		switch(img) {
 		case 1:
-			voltarInicio = new ImageIcon("Arquivos/voltarInicio1.png");
+			voltarInicio = new ImageIcon("Arquivos/Imagens/voltarInicio1.png");
 			break;
 		case 2:
-			voltarInicio = new ImageIcon("Arquivos/voltarInicio2.png");
+			voltarInicio = new ImageIcon("Arquivos/Imagens/voltarInicio2.png");
 			break;
 		}
 		return voltarInicio;
@@ -242,11 +242,11 @@ public class Inicializa {
 		getLampiao().setX(getxInicial());
 		getLampiao().setY(getyInicial());
 		getStatus().setAparencia(0);
-		getMaria().setVida(getVidaInicial()/2);
+		getMaria().setVida((getVidaInicial()-getConfig().getNivel())/2);
 		getMaria().setX(xInicial);
 		getMaria().setY(yInicial);
 		getLampiao().getFase().getCamera().setX(0);
-		getLampiao().setVida(getVidaInicial());
+		getLampiao().setVida(getVidaInicial()-getConfig().getNivel());
 		getLampiao().getFase().iniciaInimigos();
 
 		return true;

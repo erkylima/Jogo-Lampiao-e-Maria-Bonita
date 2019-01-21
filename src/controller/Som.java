@@ -30,9 +30,12 @@ public class Som {
                         audio = AudioSystem.getAudioInputStream(new File("Arquivos/Sons/fundo.wav").getAbsoluteFile());
                         if(clip != null && !clip.isActive())
                         	audio = AudioSystem.getAudioInputStream(new File("Arquivos/Sons/fundo.wav").getAbsoluteFile());
-                                clip.open(audio);
-                                clip.start(); 
-                                clip.loop(clip.LOOP_CONTINUOUSLY);
+                                if(!clip.isOpen()) {
+                                	clip.open(audio);
+                                	clip.start(); 
+                                    clip.loop(clip.LOOP_CONTINUOUSLY);
+                                }
+                                
                     }while(clip.isActive());
 
             		

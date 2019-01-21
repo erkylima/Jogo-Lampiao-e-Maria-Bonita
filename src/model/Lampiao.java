@@ -112,7 +112,7 @@ public class Lampiao extends Sprite{
 			if(isDireita()) {
 				setAparencia(46);
 				try {
-						new Tiro(0, 2, 1, getX(), getY()+40, "Arquivos/tiro.png", this,fase.getCamera().getInimigos(), 10).draw(fase.getCamera().getGraphics());;
+						new Tiro(0, 2, 1, getX(), getY()+40, "Arquivos/Imagens/tiro.png", this,fase.getCamera().getInimigos(), 10).draw(fase.getCamera().getGraphics());;
 					
 					Thread.sleep(1000/(getFase().getFPS()-58));	
 
@@ -125,7 +125,7 @@ public class Lampiao extends Sprite{
 			}else {
 				setAparencia(47);
 				try {
-						new Tiro(1, 2, 1, getX(), getY()+40, "Arquivos/tiro.png", this,fase.getCamera().getInimigos(), 10).draw(fase.getCamera().getGraphics());	
+						new Tiro(1, 2, 1, getX(), getY()+40, "Arquivos/Imagens/tiro.png", this,fase.getCamera().getInimigos(), 10).draw(fase.getCamera().getGraphics());	
 					
 					Thread.sleep(1000/(getFase().getFPS()-58));				
 				} catch (IOException e) {
@@ -139,9 +139,6 @@ public class Lampiao extends Sprite{
 	
 			break;
 		}
-		case KeyEvent.VK_RIGHT:
-			setVida(getVida()-10);
-			break;
 		case 0:
 			if(isDireita()) {
 				if(getAparencia() >=0 && getAparencia() <=14 || getAparencia() == 46) {

@@ -31,7 +31,7 @@ public class InvStatus {
 		tela = new BufferedImage(1024, 118, BufferedImage.TYPE_4BYTE_ABGR);
 		g = tela.getGraphics();
 		try {
-			icon = ImageIO.read(new File("Arquivos/inventario.png"));
+			icon = ImageIO.read(new File("Arquivos/Imagens/inventario.png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

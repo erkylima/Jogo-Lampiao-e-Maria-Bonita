@@ -78,7 +78,9 @@ public class Camera {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}   
-			g.drawString(segundos+"", xDialog+lampiao.getFase().getInit().getMorreu(1).getIconWidth()/2-15, lampiao.getFase().getInit().getALTURA()/3+lampiao.getFase().getInit().getMorreu(1).getIconHeight()/2+30);
+			if(lampiao.getX()>lampiao.getFase().getInit().getLARGURA()/2) 
+				if(lampiao.getX()<(camadas.get(1).getLarguraTela()-((lampiao.getFase().getInit().getLARGURA()/2))))
+					g.drawString(segundos+"", xDialog+lampiao.getFase().getInit().getMorreu(1).getIconWidth()/2-15, lampiao.getFase().getInit().getALTURA()/3+lampiao.getFase().getInit().getMorreu(1).getIconHeight()/2+30);
 
 			try {
 				Thread.sleep(1400);
