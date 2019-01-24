@@ -1,9 +1,9 @@
 package model;
 
 import java.awt.Graphics;
-import java.io.IOException;
 
 import controller.Inicializa;
+import controller.TratamentoException;
 
 public class Maria extends Sprite implements Runnable{
 	public double controlaVelocidade = 1;
@@ -12,8 +12,9 @@ public class Maria extends Sprite implements Runnable{
 	private boolean threadOn = true;
 	private Lampiao lampiao;
 	private Inicializa init;
+
 	public Maria(int aparencia, int colunas, int linhas, int x, int y, String endereco,Lampiao lampiao,Inicializa init, int vida)
-			throws IOException {
+			throws TratamentoException {
 		super(aparencia, colunas, linhas, x, y, endereco, vida);
 		this.init = init;
 		this.lampiao = lampiao;
@@ -126,29 +127,24 @@ public class Maria extends Sprite implements Runnable{
 			}
 
 		}
-		
+
 		setY(getY()-getY()%velocidade);
 
 	}
-
+	
+	public void cair(){
+		if(!lampiao.getFase().isTopo(this)) {
+			setY(getY()+8);
+		}
+	}
 	@Override
 	public void run() {
 		while(threadOn ) {
 			if(lampiao.getFase()!=null && lampiao.getFase().getInit().getCamadasF1().size()>1) {
-				if(lampiao.getVida()>0 && (getX()<lampiao.getFase().getInit().getCamadasF1().get(0).getLarguraTela()-1105) &&
-						(lampiao.getX()>getX()-400) || (lampiao.getX()>getX()-400)) {
-					if((lampiao.isAndarMaria()))
-						mover();
-					else {
-						if(getAparencia() <10 || getAparencia()>19)
-							setAparencia(10);
-						animacaoAndandoEsquerda();
-					}
-				}else {
-					if(getAparencia() <10 || getAparencia()>19)
-						setAparencia(10);
-					animacaoAndandoEsquerda();
-				}
+				if(getAparencia() <10 || getAparencia()>19)
+					setAparencia(10);
+				animacaoAndandoEsquerda();
+				cair();
 				if(getVida()<10) {
 					destroier(this);
 				}

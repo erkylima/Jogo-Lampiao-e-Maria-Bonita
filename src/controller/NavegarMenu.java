@@ -15,9 +15,10 @@ public class NavegarMenu extends KeyAdapter {
 	}
 
 
+	@SuppressWarnings("static-access")
 	@Override
 	public void keyPressed(KeyEvent e) {
-		
+		Som som = new Som();
 		if(e.getKeyCode() == e.VK_UP && menu.getSelected()>0) {
 			menu.setSelected(menu.getSelected()-1);
 			sobre= false;
@@ -31,9 +32,11 @@ public class NavegarMenu extends KeyAdapter {
 		}
 		if(e.getKeyCode() == e.VK_SPACE && config) {
 			menu.configNivel();
+			som.menuConfig();
 		}
 		if(e.getKeyCode() == e.VK_T && config) {
 			menu.configFPS();
+			som.menuConfig();
 		}
 		if(e.getKeyCode() == e.VK_ENTER) {
 			switch (menu.getSelected()) {
@@ -53,11 +56,13 @@ public class NavegarMenu extends KeyAdapter {
 				break;
 			}
 		}
-		if(e.getKeyCode() == e.VK_LEFT && menu.getSobrePage()>0) {
+		if(e.getKeyCode() == e.VK_LEFT && menu.getSobrePage()>1 && sobre) {
 			menu.setSobrePage(menu.getSobrePage()-1);
+			som.pagina();
 		}
-		if(e.getKeyCode() == e.VK_RIGHT && menu.getSobrePage()<4) {
+		if(e.getKeyCode() == e.VK_RIGHT && menu.getSobrePage()<4 && sobre) {
 			menu.setSobrePage(menu.getSobrePage()+1);
+			som.pagina();
 		}
 		if(e.getKeyCode() == KeyEvent.VK_ESCAPE && (!sobre && !config)) {
 			System.exit(0);

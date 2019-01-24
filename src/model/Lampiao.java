@@ -1,12 +1,10 @@
 package model;
 
 import java.awt.Graphics;
-import java.io.IOException;
 
 import com.sun.glass.events.KeyEvent;
-import com.sun.org.apache.xml.internal.security.Init;
 
-import controller.Movimento;
+import controller.TratamentoException;
 import view.Tela;
 
 public class Lampiao extends Sprite{
@@ -14,10 +12,9 @@ public class Lampiao extends Sprite{
 	public int velocidade = 10;
 	private int menu;
 	private Tela fase;
-	private boolean reiniciar = false;
 	private boolean andarMaria=false;
 
-	public Lampiao(int aparencia,int columns, int rows, int posX, int posY,String caminho,Tela fase,int vida) throws IOException {
+	public Lampiao(int aparencia,int columns, int rows, int posX, int posY,String caminho,Tela fase,int vida) throws TratamentoException {
 		super(aparencia, columns, rows, posX, posY, caminho,vida);
 		this.fase = fase;		
 		andarMaria = true;
@@ -116,7 +113,7 @@ public class Lampiao extends Sprite{
 					
 					Thread.sleep(1000/(getFase().getFPS()-58));	
 
-				} catch (IOException e) {
+				} catch (TratamentoException e) {
 					e.printStackTrace();
 				}catch (InterruptedException e) {
 					// TODO Auto-generated catch block
@@ -128,7 +125,7 @@ public class Lampiao extends Sprite{
 						new Tiro(1, 2, 1, getX(), getY()+40, "Arquivos/Imagens/tiro.png", this,fase.getCamera().getInimigos(), 10).draw(fase.getCamera().getGraphics());	
 					
 					Thread.sleep(1000/(getFase().getFPS()-58));				
-				} catch (IOException e) {
+				} catch (TratamentoException e) {
 					e.printStackTrace();
 				}catch (InterruptedException e) {
 					// TODO Auto-generated catch block

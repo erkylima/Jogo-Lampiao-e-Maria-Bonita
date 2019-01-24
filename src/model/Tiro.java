@@ -2,10 +2,10 @@ package model;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import controller.Som;
+import controller.TratamentoException;
 
 public class Tiro extends Sprite implements Runnable{
 	private ArrayList<Sprite> alvo;
@@ -15,7 +15,7 @@ public class Tiro extends Sprite implements Runnable{
 	private Graphics graphic;
 	private boolean running;
 	private Som som;
-	public Tiro(int aparencia, int colunas, int linhas, int x, int y, String endereco,Lampiao personagem,ArrayList<Sprite> alvo, int vida) throws IOException {
+	public Tiro(int aparencia, int colunas, int linhas, int x, int y, String endereco,Lampiao personagem,ArrayList<Sprite> alvo, int vida) throws TratamentoException {
 		super(aparencia, colunas, linhas, x, y, endereco, vida);
 		this.alvo = alvo;
 		this.personagem = personagem;

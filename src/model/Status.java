@@ -1,7 +1,8 @@
 package model;
 
 import java.awt.Graphics;
-import java.io.IOException;
+
+import controller.TratamentoException;
 
 public class Status extends Sprite implements Runnable{
 
@@ -9,7 +10,7 @@ public class Status extends Sprite implements Runnable{
 	private int controlaVelocidade = 5;
 	private int velocidade = 5;
 	public Status(int aparencia, int colunas, int linhas, int x, int y, String endereco, int vida,Lampiao lampiao)
-			throws IOException {
+			throws TratamentoException {
 		super(aparencia, colunas, linhas, x, y, endereco, vida);
 		this.lampiao = lampiao;
 		setVida(lampiao.getVida());

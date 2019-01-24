@@ -11,7 +11,7 @@ public class Inventario extends Tela{
 	
 	public Inventario(int largura, int altura, Inicializa init) {
 		super("",largura,altura,init);
-		inv = new InvStatus(init.getLampiao(), init);
+		inv = new InvStatus(init);
 
 
 	}

@@ -1,12 +1,13 @@
 package model;
 
 import java.awt.Graphics;
-import java.io.IOException;
+
+import controller.TratamentoException;
 
 public class ButtonsMainMenu extends Sprite {
 
 	public ButtonsMainMenu(int aparencia, int colunas, int linhas, int x, int y, String endereco, int vida)
-			throws IOException {
+			throws TratamentoException {
 		super(aparencia, colunas, linhas, x, y, endereco, vida);
 		
 		

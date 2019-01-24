@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 
 import controller.Inicializa;
 import controller.Movimento;
-import controller.Som;
 import model.Metralha;
 import model.Volante;
 

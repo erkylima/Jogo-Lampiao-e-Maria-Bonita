@@ -5,17 +5,12 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
 import controller.Inicializa;
-import model.Lampiao;
-import model.Sprite;
-import model.TileMap;
 
 public class InvStatus {
-	private Lampiao lampiao;
 	private int x,y;
 
 	private BufferedImage tela;
@@ -25,8 +20,7 @@ public class InvStatus {
 
 //	private Status status;
 	Inicializa ini;
-	public InvStatus(Lampiao lampiao,Inicializa ini) {
-		this.lampiao = lampiao;
+	public InvStatus(Inicializa ini) {
 		this.ini = ini;
 		tela = new BufferedImage(1024, 118, BufferedImage.TYPE_4BYTE_ABGR);
 		g = tela.getGraphics();
@@ -40,8 +34,8 @@ public class InvStatus {
 	
 	
 	public void renderizar() {
-		int scaleX = (int) (icon.getWidth(null) * FACTOR);
-		int scaleY = (int) (icon.getHeight(null) * FACTOR);
+		int scaleX = (int) (icon.getWidth(null));
+		int scaleY = (int) (icon.getHeight(null));
 		Image img = icon.getScaledInstance(scaleX, scaleY, Image.SCALE_SMOOTH);
 
 		g.drawImage(img, 0, 0, null);

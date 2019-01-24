@@ -3,9 +3,9 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 import controller.Inicializa;
+import controller.TratamentoException;
 import model.ButtonsMainMenu;
 
 public class Menu {
@@ -32,9 +32,9 @@ public class Menu {
 			multiplayer = new ButtonsMainMenu(1, 8, 1, 400, 250, "Arquivos/Imagens/buttons.png", 0);
 			config = new ButtonsMainMenu(2, 8, 1, 400, 320, "Arquivos/Imagens/buttons.png", 0);
 			sobre = new ButtonsMainMenu(3, 8, 1, 400, 390, "Arquivos/Imagens/buttons.png", 0);
-			fps = new ButtonsMainMenu(0, 4, 1, 430, 330, "Arquivos/Imagens/configPallet.png", 0);
+			fps = new ButtonsMainMenu(0, 4, 1, 480, 330, "Arquivos/Imagens/configPallet.png", 0);
 			nivel = new ButtonsMainMenu(0, 4, 1, 480, 440, "Arquivos/Imagens/configPallet.png", 0);
-		} catch (IOException e) {
+		} catch (TratamentoException e) {
 			e.printStackTrace();
 		}
 	}

@@ -8,6 +8,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import controller.TratamentoException;
+
 /**
  * Classe responsavel por recortar a imagem,
  *  e deixar sua sprite pronta para ser utilizada 
@@ -65,7 +67,7 @@ public abstract class Sprite {
 	 * @param endereco
 	 * @throws IOException
 	 */
-	protected Sprite(int aparencia, int colunas, int linhas, int x, int y, String endereco,int vida) throws IOException {
+	protected Sprite(int aparencia, int colunas, int linhas, int x, int y, String endereco,int vida) throws TratamentoException {
 
 		try {
 

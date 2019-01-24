@@ -6,22 +6,17 @@ import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import com.sun.org.apache.xml.internal.security.Init;
-
 import model.Lampiao;
-import model.Maria;
 import model.Sprite;
-import model.Status;
 import model.TileMap;
 
 public class Camera {
 	private ArrayList<TileMap> camadas;
 	private Lampiao lampiao;
-	private int x,y,xDialog,yDialog;
+	private int x,y,xDialog;
 	private int segundos = 5;
 	private ArrayList<Sprite> inimigos;
 	private BufferedImage tela;

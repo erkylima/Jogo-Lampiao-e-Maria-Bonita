@@ -1,16 +1,13 @@
 package controller;
 
-import java.awt.BorderLayout;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
@@ -21,7 +18,6 @@ import model.Maria;
 import model.Sprite;
 import model.Status;
 import model.TileMap;
-import view.F2;
 import view.IniciarJogo;
 import view.Inventario;
 
@@ -33,7 +29,7 @@ public class Inicializa {
 	private TileMap enteite;
 	private JFrame jogo;
 	private ImageIcon backgroundMain,lampiaoVolante,passaro1,passaro2,mariaimg,sobreimg,configimg,morreu, voltarInicio;
-	private int xInicial = 40;
+	private int xInicial = 6000;
 	private int yInicial = 450;
 	private int vidaInicial = 120;
 	private ArrayList<TileMap> camadas = new ArrayList<TileMap>();
@@ -48,7 +44,7 @@ public class Inicializa {
 		try {
 			lampiao = new Lampiao(15, 48, 1, getxInicial(), getyInicial(),"Arquivos/Imagens/lampiaosprite.png",null,getVidaInicial());
 			gerarConfigXlm(conf,false);
-			maria = new Maria(10,28,1,xInicial+50,yInicial,"Arquivos/Imagens/mariasprite.png",lampiao,this,lampiao.getVida()/2);
+			maria = new Maria(10,28,1,7000,100,"Arquivos/Imagens/mariasprite.png",lampiao,this,lampiao.getVida()/2);
 			status = new Status(0, 14, 1, 20, 5, "Arquivos/Imagens/status.png", lampiao.getVida(), lampiao);
 			backgroundMain = new ImageIcon("Arquivos/Imagens/backgroundMain.jpg");
 			lampiaoVolante = new ImageIcon("Arquivos/Imagens/lampiaoVolante.png");
@@ -279,7 +275,8 @@ public class Inicializa {
 	    xStream.aliasField("FPS", Config.class, "fps");
 	    xStream.aliasField("NIVEL", Config.class, "nivel");
 	    
-	    String documento = xStream.toXML(conf);
+	    @SuppressWarnings("unused")
+		String documento = xStream.toXML(conf);
 	    salvarConfig(xStream.toXML(conf), "config.xml",muda);
 	}
 	
@@ -299,8 +296,6 @@ public class Inicializa {
 				writer.close();
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
 			}
 		}
 		
@@ -308,7 +303,7 @@ public class Inicializa {
 	}    
 	public void zerarCamadas() {
 		if(camadas.size()!=0) {
-			for (TileMap camada : camadas) {
+			for (@SuppressWarnings("unused") TileMap camada : camadas) {
 				camada = null;
 			}
 			camadas.clear();

@@ -12,7 +12,6 @@ import controller.Inicializa;
 import model.Lampiao;
 
 public class FimCam {
-	private Lampiao lampiao;
 	private int x,y;
 
 	private BufferedImage tela;
@@ -23,7 +22,6 @@ public class FimCam {
 //	private Status status;
 	Inicializa ini;
 	public FimCam(Lampiao lampiao,Inicializa ini) {
-		this.lampiao = lampiao;
 		this.ini = ini;
 		tela = new BufferedImage(1024, 640, BufferedImage.TYPE_4BYTE_ABGR);
 		g = tela.getGraphics();
@@ -37,8 +35,7 @@ public class FimCam {
 	
 	
 	public void renderizar() {
-		int scaleX = (int) (icon.getWidth(null) * FACTOR);
-		int scaleY = (int) (icon.getHeight(null) * FACTOR);
+
 		Image img = icon.getScaledInstance(icon.getWidth(null), icon.getHeight(null), Image.SCALE_SMOOTH);
 
 		g.drawImage(img, 0, 0, null);

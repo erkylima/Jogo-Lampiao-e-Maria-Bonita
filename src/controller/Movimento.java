@@ -3,13 +3,7 @@ package controller;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
 import model.Lampiao;
-import view.IniciarJogo;
 import view.Tela;
 
 public class Movimento extends KeyAdapter implements Runnable{
@@ -32,13 +26,16 @@ public class Movimento extends KeyAdapter implements Runnable{
 		lampiao.setAcao(e.getKeyCode());
 	}
 
+	@SuppressWarnings("static-access")
 	@Override
 	public void keyReleased(KeyEvent e) {
 //		acao = 0;
 		if(e.getKeyCode() == e.VK_E) {
 			lampiao.mariaAndaToggle();
 		}
-			
+		if(e.getKeyCode() == e.VK_X) {
+			System.out.println(lampiao.getX());
+		}
 		lampiao.parar();
 	}
 
@@ -83,7 +80,7 @@ public class Movimento extends KeyAdapter implements Runnable{
 			
 			try {
 				if(!t.isInterrupted()) {
-					Thread.sleep(1000/(lampiao.getFase().getFPS()-10));
+					Thread.sleep(1000/(lampiao.getFase().getFPS()+50));
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -92,7 +89,6 @@ public class Movimento extends KeyAdapter implements Runnable{
         
 
 	}
-	@SuppressWarnings("deprecation")
 	public void destroier(Movimento mov){
 		threadOn =false;
 		mov = null;

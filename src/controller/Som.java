@@ -18,9 +18,11 @@ public class Som {
     public Som() {
 		som = this;
 	}
+    
     public void fundo() {
     	new Thread(new Runnable() { // the wrapper thread is unnecessary, unless it blocks on the Clip finishing, see comments
-            @Override
+            @SuppressWarnings("static-access")
+			@Override
             public void run() {
                 clip = null;
                 try{
@@ -86,6 +88,79 @@ public class Som {
 //
 	}
 
+	public void pagina(){
+		new Thread(new Runnable() { // the wrapper thread is unnecessary, unless it blocks on the Clip finishing, see comments
+            @Override
+            public void run() {
+                clip = null;
+                try{
+                    do{
+                        if(clip == null || audio == null)
+                                clip = AudioSystem.getClip();
+                        audio = AudioSystem.getAudioInputStream(new File("Arquivos/Sons/pagina.wav").getAbsoluteFile());
+                        if(clip != null && !clip.isActive())
+                        	audio = AudioSystem.getAudioInputStream(new File("Arquivos/Sons/pagina.wav").getAbsoluteFile());
+                                clip.open(audio);
+                                clip.start(); 
+                    }while(clip.isActive());
+                    clip.addLineListener(new LineListener() {
+						
+						@Override
+						public void update(LineEvent l) {
+							if (l.getFramePosition()==clip.getFrameLength()){
+								destroier(som);
+							}					
+						}
+					});
+            		
+            		} catch (LineUnavailableException e) {
+                    e.printStackTrace();
+                } catch (UnsupportedAudioFileException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+//
+	}
+	
+	public void menuConfig(){
+		new Thread(new Runnable() { // the wrapper thread is unnecessary, unless it blocks on the Clip finishing, see comments
+            @Override
+            public void run() {
+                clip = null;
+                try{
+                    do{
+                        if(clip == null || audio == null)
+                                clip = AudioSystem.getClip();
+                        audio = AudioSystem.getAudioInputStream(new File("Arquivos/Sons/menuConfig.wav").getAbsoluteFile());
+                        if(clip != null && !clip.isActive())
+                        	audio = AudioSystem.getAudioInputStream(new File("Arquivos/Sons/menuConfig.wav").getAbsoluteFile());
+                                clip.open(audio);
+                                clip.start(); 
+                    }while(clip.isActive());
+                    clip.addLineListener(new LineListener() {
+						
+						@Override
+						public void update(LineEvent l) {
+							if (l.getFramePosition()==clip.getFrameLength()){
+								destroier(som);
+							}					
+						}
+					});
+            		
+            		} catch (LineUnavailableException e) {
+                    e.printStackTrace();
+                } catch (UnsupportedAudioFileException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+//
+	}
 	public void destroier(Som som) {
 		if(audio!=null){
 			audio = null;

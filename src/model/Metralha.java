@@ -1,9 +1,10 @@
 package model;
 
 import java.awt.Graphics;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
+
+import controller.TratamentoException;
 
 public class Metralha extends Sprite implements Runnable{
 
@@ -14,7 +15,7 @@ public class Metralha extends Sprite implements Runnable{
 	private Thread metralhaThread;
 	private boolean threadOn = true;
 	public Metralha(int aparencia, int colunas, int linhas, int x, int y, String endereco,Lampiao inimigo,int vida)
-			throws IOException {
+			throws TratamentoException {
 		super(aparencia,  colunas, linhas, x, y, endereco,vida);
 		this.inimigo = inimigo;
 		setDireita(false);
@@ -121,7 +122,7 @@ public class Metralha extends Sprite implements Runnable{
 					alvo.add(inimigo.getFase().getInit().getMaria());
 					new Tiro(0, 2, 1, getX(), getY()+40, "Arquivos/Imagens/tiro.png", inimigo, alvo, 5).draw(inimigo.getFase().getCamera().getGraphics());
 					Thread.sleep(1000/(inimigo.getFase().getFPS()-57));
-				} catch (IOException e) {
+				} catch (TratamentoException e) {
 					e.printStackTrace();
 				}catch (InterruptedException e) {
 					e.printStackTrace();
