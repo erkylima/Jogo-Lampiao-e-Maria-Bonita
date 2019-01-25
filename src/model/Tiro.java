@@ -132,7 +132,7 @@ public class Tiro extends Sprite implements Runnable{
 
 	@Override
 	public void run() {
-		while(running) {
+		while(running && personagem.isVivo()) {
 			if(personagem.getFase().getInit().getInimigos().size()>0) {
 				mover();
 			}

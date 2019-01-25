@@ -1,4 +1,4 @@
-package view;
+package model;
 
 import java.awt.BorderLayout;
 import java.awt.Graphics;
@@ -6,7 +6,8 @@ import java.awt.image.BufferedImage;
 
 import controller.Inicializa;
 import controller.TratamentoException;
-import model.ButtonsMainMenu;
+import view.F1;
+import view.MainMenu;
 
 public class Menu {
 	private Inicializa init;

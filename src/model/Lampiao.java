@@ -13,10 +13,13 @@ public class Lampiao extends Sprite{
 	private int menu;
 	private Tela fase;
 	private boolean andarMaria=false;
-
-	public Lampiao(int aparencia,int columns, int rows, int posX, int posY,String caminho,Tela fase,int vida) throws TratamentoException {
+	private double fome;
+	private Status saude;
+	public Lampiao(int aparencia,int columns, int rows, int posX, int posY,String caminho,Tela fase,double vida,double fome) throws TratamentoException {
 		super(aparencia, columns, rows, posX, posY, caminho,vida);
-		this.fase = fase;		
+		this.fase = fase;
+		this.fome = fome;
+		saude = new Status(0, 14, 1, getX(), getY()-20, "Arquivos/Imagens/saude.png", getVida(), this);
 		andarMaria = true;
 	}
 	
@@ -74,6 +77,10 @@ public class Lampiao extends Sprite{
 				e.printStackTrace();
 			}
 		}
+		saude.setX(getX());
+		saude.setY(getY()-20);
+		saude.setVida(getVida());
+		saude.draw(g);
 	}
 
 
@@ -92,12 +99,25 @@ public class Lampiao extends Sprite{
 				setAparencia(0);
 			}
 			animacaoAndandoDireita();
-
+			
+			if(getFome()>0)
+				setFome(getFome()-0.08);
+			if(getFome()<=0) {
+				setVida(getVida()-getFase().getInit().getConfig().getNivel()/10);
+			} else if(getFome()>60 && getVida() <= getFase().getInit().getVidaInicial()-getFase().getInit().getConfig().getNivel())
+				setVida(getVida()+getFase().getInit().getConfig().getNivel()/10);
 			break;
 		}
 		case KeyEvent.VK_A:{
-			setDireita(false);;
 			
+			if(getFome()>0)
+				setFome(getFome()-0.05);
+			if(getFome()<10) {
+				setVida(getVida()-(getFase().getInit().getConfig().getNivel()/10));
+			} else if(getFome()>60 && getVida() <= getFase().getInit().getVidaInicial()-getFase().getInit().getConfig().getNivel())
+				setVida(getVida()+getFase().getInit().getConfig().getNivel()/10);
+			
+			setDireita(false);;
 			setX(getX()-4);
 			if(getAparencia()<23 || getAparencia()>=37) {
 				setAparencia(24);
@@ -111,7 +131,7 @@ public class Lampiao extends Sprite{
 				try {
 						new Tiro(0, 2, 1, getX(), getY()+40, "Arquivos/Imagens/tiro.png", this,fase.getCamera().getInimigos(), 10).draw(fase.getCamera().getGraphics());;
 					
-					Thread.sleep(1000/(getFase().getFPS()-58));	
+					Thread.sleep(1000/2);	
 
 				} catch (TratamentoException e) {
 					e.printStackTrace();
@@ -124,7 +144,7 @@ public class Lampiao extends Sprite{
 				try {
 						new Tiro(1, 2, 1, getX(), getY()+40, "Arquivos/Imagens/tiro.png", this,fase.getCamera().getInimigos(), 10).draw(fase.getCamera().getGraphics());	
 					
-					Thread.sleep(1000/(getFase().getFPS()-58));				
+					Thread.sleep(1000/3);				
 				} catch (TratamentoException e) {
 					e.printStackTrace();
 				}catch (InterruptedException e) {
@@ -233,6 +253,16 @@ public class Lampiao extends Sprite{
 
 	public void setFase(Tela fase) {
 		this.fase = fase;
+	}
+
+	public double getFome() {
+		return fome;
+	}
+
+
+
+	public void setFome(double fome) {
+		this.fome = fome;
 	}
 
 

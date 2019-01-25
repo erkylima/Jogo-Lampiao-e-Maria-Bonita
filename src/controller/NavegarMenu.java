@@ -3,7 +3,7 @@ package controller;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-import view.Menu;
+import model.Menu;
 
 public class NavegarMenu extends KeyAdapter {
 	

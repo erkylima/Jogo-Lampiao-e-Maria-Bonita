@@ -1,4 +1,4 @@
-package view;
+package model;
 
 import java.awt.Graphics;
 import java.awt.Image;
@@ -9,9 +9,8 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import controller.Inicializa;
-import model.Lampiao;
 
-public class FimCam {
+public class InvStatus {
 	private int x,y;
 
 	private BufferedImage tela;
@@ -21,12 +20,12 @@ public class FimCam {
 
 //	private Status status;
 	Inicializa ini;
-	public FimCam(Lampiao lampiao,Inicializa ini) {
+	public InvStatus(Inicializa ini) {
 		this.ini = ini;
-		tela = new BufferedImage(1024, 640, BufferedImage.TYPE_4BYTE_ABGR);
+		tela = new BufferedImage(1024, 118, BufferedImage.TYPE_4BYTE_ABGR);
 		g = tela.getGraphics();
 		try {
-			icon = ImageIO.read(new File("Arquivos/Imagens/fim.jpg"));
+			icon = ImageIO.read(new File("Arquivos/Imagens/inventario.png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -35,11 +34,15 @@ public class FimCam {
 	
 	
 	public void renderizar() {
-
-		Image img = icon.getScaledInstance(icon.getWidth(null), icon.getHeight(null), Image.SCALE_SMOOTH);
-
+		int scaleX = (int) (icon.getWidth(null));
+		int scaleY = (int) (icon.getHeight(null));
+		Image img = icon.getScaledInstance(scaleX, scaleY, Image.SCALE_SMOOTH);
+		ini.getStatus().setVida(ini.getLampiao().getVida());
 		g.drawImage(img, 0, 0, null);
-		
+		ini.getStatus().draw(this.g);
+		ini.getFomeStatus().setVida((int)ini.getLampiao().getFome());
+		ini.getFomeStatus().setX(ini.getStatus().getLarguraPersonagem()+30);
+		ini.getFomeStatus().draw(this.g);
 
 		
 		
@@ -47,6 +50,7 @@ public class FimCam {
 	
 	public void draw(Graphics g) {
 
+		
 		g.drawImage(tela, x, y, null);	
 
 	}
@@ -67,5 +71,5 @@ public class FimCam {
 
 	public Graphics getGraphics() {
 		return g;
-	}
+	}	
 }

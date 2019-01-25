@@ -29,12 +29,13 @@ public class Inicializa {
 	private TileMap enteite;
 	private JFrame jogo;
 	private ImageIcon backgroundMain,lampiaoVolante,passaro1,passaro2,mariaimg,sobreimg,configimg,morreu, voltarInicio;
-	private int xInicial = 6000;
+	private int xInicial = 40;
 	private int yInicial = 450;
 	private int vidaInicial = 120;
 	private ArrayList<TileMap> camadas = new ArrayList<TileMap>();
 	private ArrayList<Sprite> inimigos = new ArrayList<Sprite>();
 	private Status status;
+	private Status fome;
 	private int LARGURA = 1024;
 	private int ALTURA = 768;
 	private Inventario inventario;
@@ -42,10 +43,11 @@ public class Inicializa {
 
 	public Inicializa() {
 		try {
-			lampiao = new Lampiao(15, 48, 1, getxInicial(), getyInicial(),"Arquivos/Imagens/lampiaosprite.png",null,getVidaInicial());
+			lampiao = new Lampiao(15, 48, 1, getxInicial(), getyInicial(),"Arquivos/Imagens/lampiaosprite.png",null,getVidaInicial(),120);
 			gerarConfigXlm(conf,false);
 			maria = new Maria(10,28,1,7000,100,"Arquivos/Imagens/mariasprite.png",lampiao,this,lampiao.getVida()/2);
 			status = new Status(0, 14, 1, 20, 5, "Arquivos/Imagens/status.png", lampiao.getVida(), lampiao);
+			fome = new Status(0, 14, 1, 20, 5, "Arquivos/Imagens/fomeSede.png", (int)lampiao.getFome(), lampiao);
 			backgroundMain = new ImageIcon("Arquivos/Imagens/backgroundMain.jpg");
 			lampiaoVolante = new ImageIcon("Arquivos/Imagens/lampiaoVolante.png");
 			passaro1 = new ImageIcon("Arquivos/Imagens/passaro1.png");
@@ -148,6 +150,10 @@ public class Inicializa {
 		return sobreimg;
 	}
 	
+	public Status getFomeStatus() {
+		return fome;
+	}
+
 	public ImageIcon getConfigimg() {
 		configimg = new ImageIcon("Arquivos/Imagens/config.png");
 		return configimg;
@@ -237,10 +243,9 @@ public class Inicializa {
 		getLampiao().setAcao(0);
 		getLampiao().setX(getxInicial());
 		getLampiao().setY(getyInicial());
+		getLampiao().setFome(getVidaInicial()-getConfig().getNivel());
 		getStatus().setAparencia(0);
 		getMaria().setVida((getVidaInicial()-getConfig().getNivel())/2);
-		getMaria().setX(xInicial);
-		getMaria().setY(yInicial);
 		getLampiao().getFase().getCamera().setX(0);
 		getLampiao().setVida(getVidaInicial()-getConfig().getNivel());
 		getLampiao().getFase().iniciaInimigos();
@@ -264,6 +269,7 @@ public class Inicializa {
 	    
 	    Config config = (Config) xStream.fromXML(reader);
 	    lampiao.setVida(lampiao.getVida()-config.getNivel());
+	    lampiao.setFome(getVidaInicial()-getConfig().getNivel());
 	    conf = config;
 	}
 	

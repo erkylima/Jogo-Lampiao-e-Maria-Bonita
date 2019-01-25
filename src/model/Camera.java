@@ -1,4 +1,4 @@
-package view;
+package model;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -8,10 +8,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-
-import model.Lampiao;
-import model.Sprite;
-import model.TileMap;
 
 public class Camera {
 	private ArrayList<TileMap> camadas;
@@ -99,7 +95,7 @@ public class Camera {
 				e1.printStackTrace();
 			}   
 			g.drawString(segundos+"", xDialog+lampiao.getFase().getInit().getMorreu(1).getIconWidth()/2-15, lampiao.getFase().getInit().getALTURA()/3+lampiao.getFase().getInit().getMorreu(1).getIconHeight()/2+30);
-
+			
 			try {
 				Thread.sleep(1400);
 				segundos-=1;

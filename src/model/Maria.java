@@ -13,7 +13,7 @@ public class Maria extends Sprite implements Runnable{
 	private Lampiao lampiao;
 	private Inicializa init;
 
-	public Maria(int aparencia, int colunas, int linhas, int x, int y, String endereco,Lampiao lampiao,Inicializa init, int vida)
+	public Maria(int aparencia, int colunas, int linhas, int x, int y, String endereco,Lampiao lampiao,Inicializa init, double vida)
 			throws TratamentoException {
 		super(aparencia, colunas, linhas, x, y, endereco, vida);
 		this.init = init;

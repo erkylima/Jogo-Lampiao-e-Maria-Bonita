@@ -1,6 +1,7 @@
 package view;
 
 import controller.Inicializa;
+import model.InvStatus;
 
 public class Inventario extends Tela{
 	/**

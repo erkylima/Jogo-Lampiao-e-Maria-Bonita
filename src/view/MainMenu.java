@@ -2,6 +2,7 @@ package view;
 
 import controller.Inicializa;
 import controller.NavegarMenu;
+import model.Menu;
 
 public class MainMenu extends Tela {
 	

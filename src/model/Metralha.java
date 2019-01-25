@@ -114,14 +114,14 @@ public class Metralha extends Sprite implements Runnable{
 				animacaoParadoEsquerda();
 				
 			}
-			if(inimigo.getVida()>0){
+			if(inimigo.getVida()>0 && inimigo.getFase().isTopo(this)){
 				try {
 					ArrayList<Sprite> alvo = new ArrayList<Sprite>();
 					alvo.add(inimigo);
 					alvo.add(this);
 					alvo.add(inimigo.getFase().getInit().getMaria());
 					new Tiro(0, 2, 1, getX(), getY()+40, "Arquivos/Imagens/tiro.png", inimigo, alvo, 5).draw(inimigo.getFase().getCamera().getGraphics());
-					Thread.sleep(1000/(inimigo.getFase().getFPS()-57));
+					Thread.sleep(1000/2);
 				} catch (TratamentoException e) {
 					e.printStackTrace();
 				}catch (InterruptedException e) {
@@ -198,8 +198,8 @@ public class Metralha extends Sprite implements Runnable{
 
 	@Override
 	public void run() {
-		while(threadOn) {
-			if((inimigo.getX()>getX()-distanciaAndar) || (inimigo.getX()>getX()-distanciaAndar) && inimigo.isVivo()) {
+		while(threadOn && inimigo.isVivo()) {
+			if((inimigo.getX()>getX()-distanciaAndar) || (inimigo.getX()>getX()-distanciaAndar) && inimigo.isVivo() ) {
 				mover();
 			}
 			if(inimigo.getX() < getX()) {
@@ -214,7 +214,8 @@ public class Metralha extends Sprite implements Runnable{
 			if(getY()>640) {
 				setVida(getVida()-20);
 			}
-			if(inimigo.getFase().isPulo(this)&& inimigo.isVivo()) {
+			if(inimigo.getFase().isPulo(this)&& inimigo.isVivo() &&
+					!((inimigo.getX()>getX()-distanciaTiro) || (inimigo.getX()>getX()-distanciaTiro))) {
 				pular();
 			}
 			try {

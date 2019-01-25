@@ -80,7 +80,7 @@ public class Movimento extends KeyAdapter implements Runnable{
 			
 			try {
 				if(!t.isInterrupted()) {
-					Thread.sleep(1000/(lampiao.getFase().getFPS()+50));
+					Thread.sleep(1000/(lampiao.getFase().getFPS()));
 				}
 			} catch (Exception e) {
 				e.printStackTrace();

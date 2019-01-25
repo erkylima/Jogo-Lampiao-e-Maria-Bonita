@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 
 import controller.Inicializa;
 import controller.Movimento;
+import model.Camera;
 import model.Metralha;
 import model.Volante;
 
@@ -50,6 +51,7 @@ public class F1 extends Tela {
 			getInit().getLampiao().getFase().zerarInimigos();
 			getInit().getLampiao().setAcao(0);
 			getInit().getLampiao().getFase().getCamera().destroier(getInit().getLampiao().getFase().getCamera());
+			getInit().getLampiao().setFome(getInit().getLampiao().getFome()+(30-getInit().getConfig().getNivel()));
 			this.setVisible(false);
 			removeKeyListener(m);
 			m.destroier(m);

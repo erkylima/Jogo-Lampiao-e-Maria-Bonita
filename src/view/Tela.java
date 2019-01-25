@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 
 import controller.Inicializa;
 import controller.Som;
+import model.Camera;
 import model.Metralha;
 import model.Sprite;
 import model.Volante;

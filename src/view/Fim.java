@@ -1,6 +1,7 @@
 package view;
 
 import controller.Inicializa;
+import model.FimCam;
 
 
 public class Fim extends Tela{
@@ -38,14 +39,15 @@ public class Fim extends Tela{
 		if(count<5) {
 			count++;
 			System.out.println(count);
-		}else {
-
+		}else if (count==5){
+			count++;
 			try {
 				Thread.sleep(5000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			destroier(this);
 			init.getJogo().remove(init.getJogo());
 			init.getJogo().dispose();
 			Inicializa init = new Inicializa();		

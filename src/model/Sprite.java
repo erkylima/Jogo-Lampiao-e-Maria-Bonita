@@ -53,7 +53,7 @@ public abstract class Sprite {
 
 	private int acao;
 	
-	private int vida;
+	private double vida;
 	
 
 	/**
@@ -67,7 +67,7 @@ public abstract class Sprite {
 	 * @param endereco
 	 * @throws IOException
 	 */
-	protected Sprite(int aparencia, int colunas, int linhas, int x, int y, String endereco,int vida) throws TratamentoException {
+	protected Sprite(int aparencia, int colunas, int linhas, int x, int y, String endereco,double vida) throws TratamentoException {
 
 		try {
 
@@ -187,11 +187,11 @@ public abstract class Sprite {
 		this.acao = acao;
 	}
 	
-	public int getVida() {
+	public double getVida() {
 		return vida;
 	}
 
-	public void setVida(int vida) {
+	public void setVida(double vida) {
 		this.vida = vida;
 	}
 	

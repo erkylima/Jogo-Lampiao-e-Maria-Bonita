@@ -6,14 +6,12 @@ import controller.TratamentoException;
 
 public class Status extends Sprite implements Runnable{
 
-	private Lampiao lampiao;
 	private int controlaVelocidade = 5;
 	private int velocidade = 5;
-	public Status(int aparencia, int colunas, int linhas, int x, int y, String endereco, int vida,Lampiao lampiao)
+	public Status(int aparencia, int colunas, int linhas, int x, int y, String endereco, double vida,Lampiao lampiao)
 			throws TratamentoException {
 		super(aparencia, colunas, linhas, x, y, endereco, vida);
-		this.lampiao = lampiao;
-		setVida(lampiao.getVida());
+		setVida(vida);
 		
 		Thread status = new Thread(this);
 		status.start();
@@ -59,30 +57,30 @@ public class Status extends Sprite implements Runnable{
 	@Override
 	public void run() {
 		while(true) {
-			if(lampiao.getVida()<=110 && lampiao.getVida()>100) {
+			if(getVida()<=110 && getVida()>100) {
 				setAparencia(1);
-			}else if(lampiao.getVida()<=100 && lampiao.getVida()>90) {
+			}else if(getVida()<=100 && getVida()>90) {
 				setAparencia(2);
-			}else if(lampiao.getVida()<=90 && lampiao.getVida()>80) {
+			}else if(getVida()<=90 && getVida()>80) {
 				setAparencia(3);
-			}else if(lampiao.getVida()<=80 && lampiao.getVida()>70) {
+			}else if(getVida()<=80 && getVida()>70) {
 				setAparencia(4);
-			}else if(lampiao.getVida()<=70 && lampiao.getVida()>60) {
+			}else if(getVida()<=70 && getVida()>60) {
 				setAparencia(5);
-			}else if(lampiao.getVida()<=60 && lampiao.getVida()>50) {
+			}else if(getVida()<=60 && getVida()>50) {
 				setAparencia(6);
-			}else if(lampiao.getVida()<=50 && lampiao.getVida()>40) {
+			}else if(getVida()<=50 && getVida()>40) {
 				setAparencia(7);
-			}else if(lampiao.getVida()<=40 && lampiao.getVida()>30) {
+			}else if(getVida()<=40 && getVida()>30) {
 				setAparencia(8);
-			}else if(lampiao.getVida()<=30 && lampiao.getVida()>20) {
+			}else if(getVida()<=30 && getVida()>20) {
 				setAparencia(9);
-			}else if(lampiao.getVida()<=20 && lampiao.getVida()>10) {
+			}else if(getVida()<=20 && getVida()>10) {
 				setAparencia(10);
-			}else if(lampiao.getVida()<=10 && lampiao.getVida()>0) {
+			}else if(getVida()<=10 && getVida()>0) {
 				setAparencia(11);
 				animacaoAndandoEsquerda();
-			}else if(lampiao.getVida()<=0) {
+			}else if(getVida()<=0) {
 				setAparencia(13);
 			}	
 			
