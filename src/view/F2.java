@@ -15,6 +15,8 @@ public class F2 extends Tela {
 	private static final long serialVersionUID = 1L;
 	private Movimento m;
 	private Camera camera;
+	private boolean respawna = false;
+	
 	public F2(String titulo, int largura, int altura, Inicializa init) {
 		super(titulo, largura, altura,init);
 		getSom().fundo();
@@ -35,8 +37,10 @@ public class F2 extends Tela {
 		camera = new Camera(getInit().getLampiao(), getInit().getInimigos(), getInit().getCamadasF1());
 		getInit().getLampiao().getFase().setCamera(camera);
 		
-		
-		iniciaInimigos();
+		if(getInit().getConfig().getNivel()>10) {
+			respawna = true;
+		}
+		iniciaInimigos(respawna);
 	}
 
 	@Override
@@ -74,25 +78,24 @@ public class F2 extends Tela {
 
 
 	@Override
-	public void iniciaInimigos() {
+	public void iniciaInimigos(boolean respawna) {
 		try {
 
-			getInit().getInimigos().add(new Volante(0, 40, 1, 1333, 463, "Arquivos/Imagens/volantesprite.png", getInit().getLampiao(), 0));
-			getInit().getInimigos().add(new Volante(0, 40, 1, 2090, 400, "Arquivos/Imagens/volantesprite.png", getInit().getLampiao(), 20));
-			getInit().getInimigos().add(new Metralha(0, 22, 1, 2966, 335, "Arquivos/Imagens/metralhasprite.png",getInit().getLampiao(),20));
-			getInit().getInimigos().add(new Metralha(0, 22, 1, 3070, 460, "Arquivos/Imagens/metralhasprite.png",getInit().getLampiao(),20));
+			getInit().getInimigos().add(new Volante(0, 40, 1, 2090, 400, "Arquivos/Imagens/volantesprite.png", getInit().getLampiao(), 20,respawna));
+			getInit().getInimigos().add(new Metralha(0, 22, 1, 2966, 335, "Arquivos/Imagens/metralhasprite.png",getInit().getLampiao(),20,respawna));
+			getInit().getInimigos().add(new Metralha(0, 22, 1, 3070, 460, "Arquivos/Imagens/metralhasprite.png",getInit().getLampiao(),20,respawna));
 
-			getInit().getInimigos().add(new Volante(0, 40, 1, 5456, 527, "Arquivos/Imagens/volantesprite.png", getInit().getLampiao(), 20));
-			getInit().getInimigos().add(new Volante(0, 40, 1, 5616, 527, "Arquivos/Imagens/volantesprite.png", getInit().getLampiao(), 20));
-			getInit().getInimigos().add(new Volante(0, 40, 1, 5808, 527, "Arquivos/Imagens/volantesprite.png", getInit().getLampiao(), 20));
+			getInit().getInimigos().add(new Volante(0, 40, 1, 5456, 527, "Arquivos/Imagens/volantesprite.png", getInit().getLampiao(), 20,respawna));
+			getInit().getInimigos().add(new Volante(0, 40, 1, 5616, 527, "Arquivos/Imagens/volantesprite.png", getInit().getLampiao(), 20,respawna));
+			getInit().getInimigos().add(new Volante(0, 40, 1, 5808, 527, "Arquivos/Imagens/volantesprite.png", getInit().getLampiao(), 20,respawna));
 
-			getInit().getInimigos().add(new Volante(0, 40, 1, 6784, 527, "Arquivos/Imagens/volantesprite.png", getInit().getLampiao(), 20));
-			getInit().getInimigos().add(new Metralha(0, 22, 1, 6800, 527, "Arquivos/Imagens/metralhasprite.png",getInit().getLampiao(),20));
+			getInit().getInimigos().add(new Volante(0, 40, 1, 6784, 527, "Arquivos/Imagens/volantesprite.png", getInit().getLampiao(), 20,respawna));
+			getInit().getInimigos().add(new Metralha(0, 22, 1, 6800, 527, "Arquivos/Imagens/metralhasprite.png",getInit().getLampiao(),20,respawna));
 
-			getInit().getInimigos().add(new Volante(0, 40, 1, 6650, 527, "Arquivos/Imagens/volantesprite.png", getInit().getLampiao(), 20));
-			getInit().getInimigos().add(new Metralha(0, 22, 1, 6830, 527, "Arquivos/Imagens/metralhasprite.png",getInit().getLampiao(),20));
-			getInit().getInimigos().add(new Metralha(0, 22, 1, 6500, 527, "Arquivos/Imagens/metralhasprite.png",getInit().getLampiao(),20));
-			getInit().getInimigos().add(new Metralha(0, 22, 1, 6500, 527, "Arquivos/Imagens/metralhasprite.png",getInit().getLampiao(),20));
+			getInit().getInimigos().add(new Volante(0, 40, 1, 6650, 527, "Arquivos/Imagens/volantesprite.png", getInit().getLampiao(), 20,respawna));
+			getInit().getInimigos().add(new Metralha(0, 22, 1, 6830, 527, "Arquivos/Imagens/metralhasprite.png",getInit().getLampiao(),20,respawna));
+			getInit().getInimigos().add(new Metralha(0, 22, 1, 6500, 527, "Arquivos/Imagens/metralhasprite.png",getInit().getLampiao(),20,respawna));
+			getInit().getInimigos().add(new Metralha(0, 22, 1, 6500, 527, "Arquivos/Imagens/metralhasprite.png",getInit().getLampiao(),20,respawna));
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

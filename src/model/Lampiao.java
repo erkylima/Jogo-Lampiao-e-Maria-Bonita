@@ -68,6 +68,10 @@ public class Lampiao extends Sprite{
 	@Override
 	public void draw(Graphics g) {
 		g.drawImage(getSprites()[getAparencia()], getX(), getY(), null);
+		saude.setX(getX());
+		saude.setY(getY()-20);
+		saude.setVida(getVida());
+		saude.draw(g);
 		if(getVida()>0 && getMenu()!=0) {
 			g.drawImage(getFase().getInit().getVoltarInicio(getMenu()).getImage(), getX()-(getLarguraPersonagem()), getFase().getInit().getALTURA()/3, null);
 			try {
@@ -77,10 +81,7 @@ public class Lampiao extends Sprite{
 				e.printStackTrace();
 			}
 		}
-		saude.setX(getX());
-		saude.setY(getY()-20);
-		saude.setVida(getVida());
-		saude.draw(g);
+		
 	}
 
 
@@ -103,9 +104,16 @@ public class Lampiao extends Sprite{
 			if(getFome()>0)
 				setFome(getFome()-0.08);
 			if(getFome()<=0) {
-				setVida(getVida()-getFase().getInit().getConfig().getNivel()/10);
+				setVida(getVida()-(getFase().getInit().getConfig().getNivel()+1)/15);
 			} else if(getFome()>60 && getVida() <= getFase().getInit().getVidaInicial()-getFase().getInit().getConfig().getNivel())
-				setVida(getVida()+getFase().getInit().getConfig().getNivel()/10);
+				if(getFase().getInit().getConfig().getNivel() <10) {
+					setVida(getVida()+(getFase().getInit().getConfig().getNivel()+1)/14);
+
+				}else if(getFase().getInit().getConfig().getNivel() > 10) {
+					setVida(getVida()+(getFase().getInit().getConfig().getNivel()+1)/300);
+					System.out.println("up" + (getFase().getInit().getConfig().getNivel())/300);
+
+				}
 			break;
 		}
 		case KeyEvent.VK_A:{
@@ -113,10 +121,17 @@ public class Lampiao extends Sprite{
 			if(getFome()>0)
 				setFome(getFome()-0.05);
 			if(getFome()<10) {
-				setVida(getVida()-(getFase().getInit().getConfig().getNivel()/10));
-			} else if(getFome()>60 && getVida() <= getFase().getInit().getVidaInicial()-getFase().getInit().getConfig().getNivel())
-				setVida(getVida()+getFase().getInit().getConfig().getNivel()/10);
-			
+				setVida(getVida()-((getFase().getInit().getConfig().getNivel()+1)/15));
+			} else if(getFome()>60 && getVida() <= (getFase().getInit().getVidaInicial()-getFase().getInit().getConfig().getNivel())) {
+				if(getFase().getInit().getConfig().getNivel() <10) {
+					setVida(getVida()+(getFase().getInit().getConfig().getNivel()+1)/5);
+
+				}else if(getFase().getInit().getConfig().getNivel() > 10) {
+
+					setVida(getVida()+(getFase().getInit().getConfig().getNivel())/150);
+
+				}
+			}
 			setDireita(false);;
 			setX(getX()-4);
 			if(getAparencia()<23 || getAparencia()>=37) {

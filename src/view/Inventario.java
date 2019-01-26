@@ -35,7 +35,7 @@ public class Inventario extends Tela{
 	}
 
 	@Override
-	public void iniciaInimigos() {
+	public void iniciaInimigos(boolean respawna) {
 		// TODO Auto-generated method stub
 		
 	}

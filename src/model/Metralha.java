@@ -14,10 +14,12 @@ public class Metralha extends Sprite implements Runnable{
 	private int velocidade = 10;
 	private Thread metralhaThread;
 	private boolean threadOn = true;
-	public Metralha(int aparencia, int colunas, int linhas, int x, int y, String endereco,Lampiao inimigo,int vida)
+	private boolean respawna;
+	public Metralha(int aparencia, int colunas, int linhas, int x, int y, String endereco,Lampiao inimigo,int vida,boolean respawna)
 			throws TratamentoException {
 		super(aparencia,  colunas, linhas, x, y, endereco,vida);
 		this.inimigo = inimigo;
+		this.respawna = respawna;
 		setDireita(false);
         Random gerador = new Random();		
         distanciaTiro = gerador.nextInt(400)+100;
@@ -209,12 +211,20 @@ public class Metralha extends Sprite implements Runnable{
 				setDireita(true);
 			}
 			if(getVida()<10) {
+				if(respawna) {
+					try {
+						inimigo.getFase().getInit().getInimigos().add(new Metralha(0, 22, 1, inimigo.getX()+700, inimigo.getY()-100, "Arquivos/Imagens/metralhasprite.png",inimigo,20,false));
+					} catch (TratamentoException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
 				destroier(this);
 			}
 			if(getY()>640) {
 				setVida(getVida()-20);
 			}
-			if(inimigo.getFase().isPulo(this)&& inimigo.isVivo() &&
+			if(inimigo.getFase().isPulo(this) && inimigo.getFase().isTopo(this) && inimigo.isVivo() &&
 					!((inimigo.getX()>getX()-distanciaTiro) || (inimigo.getX()>getX()-distanciaTiro))) {
 				pular();
 			}
@@ -233,6 +243,7 @@ public class Metralha extends Sprite implements Runnable{
 	}
 
 	public void destroier(Metralha metralha){
+		
 		threadOn = false;
 		metralha.setY(getY()+500);
 		metralha = null;

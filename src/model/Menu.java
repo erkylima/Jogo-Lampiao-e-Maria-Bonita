@@ -108,7 +108,7 @@ public class Menu {
 				fps.setAparencia(3);
 				break;
 			}
-			switch (init.getConfig().getNivel()) {
+			switch ((int)init.getConfig().getNivel()) {
 			case 0:
 				nivel.setAparencia(0);
 				break;

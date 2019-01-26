@@ -14,12 +14,12 @@ public class Volante extends Sprite implements Runnable{
 	private int velocidade = 10;
 	private Thread volanteThread;
 	private boolean threadOn = true;
-	
-	public Volante(int aparencia, int colunas, int linhas, int x, int y, String endereco,Lampiao inimigo,int vida)
+	private boolean respawna = false;
+	public Volante(int aparencia, int colunas, int linhas, int x, int y, String endereco,Lampiao inimigo,int vida,boolean respawna)
 			throws TratamentoException {
 		super(aparencia,  colunas, linhas, x, y, endereco,vida);
 		this.inimigo = inimigo;
-		
+		this.respawna = respawna;
 
 		setDireita(false);
         Random gerador = new Random();		
@@ -213,6 +213,14 @@ public class Volante extends Sprite implements Runnable{
 				setDireita(true);
 			}
 			if(getVida()<10) {
+				if(respawna) {
+					try {
+						inimigo.getFase().getInit().getInimigos().add(new Volante(0, 22, 1, inimigo.getX()+700, inimigo.getY()-100, "Arquivos/Imagens/metralhasprite.png",inimigo,20,false));
+					} catch (TratamentoException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
 				destroier(this);
 			}
 			if(getY()>640) {

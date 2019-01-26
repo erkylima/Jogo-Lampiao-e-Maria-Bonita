@@ -259,5 +259,5 @@ public abstract class Tela extends JPanel implements Runnable{
 	}
 
 
-	public abstract void iniciaInimigos() ;
+	public abstract void iniciaInimigos(boolean respawna) ;
 }

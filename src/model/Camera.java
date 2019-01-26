@@ -37,13 +37,17 @@ public class Camera {
 		
 		lampiao.getFase().getInit().getMaria().draw(g);
 		printarMorreu();
-		
-		for(Sprite v : inimigos) {
-			if(v.getVida()>=0) {
-				v.draw(this.g);
-				
+		try {
+			for(Sprite v : inimigos) {
+				if(v.getVida()>=0) {
+					v.draw(this.g);
+					
+				}
 			}
+		} catch (Exception e) {
+			System.out.println("Crasharia");
 		}
+		
 		
 	}
 	

@@ -43,7 +43,7 @@ public class Inicializa {
 
 	public Inicializa() {
 		try {
-			lampiao = new Lampiao(15, 48, 1, getxInicial(), getyInicial(),"Arquivos/Imagens/lampiaosprite.png",null,getVidaInicial(),120);
+			lampiao = new Lampiao(15, 96, 1, getxInicial(), getyInicial(),"Arquivos/Imagens/lampiaosprite.png",null,getVidaInicial(),120);
 			gerarConfigXlm(conf,false);
 			maria = new Maria(10,28,1,7000,100,"Arquivos/Imagens/mariasprite.png",lampiao,this,lampiao.getVida()/2);
 			status = new Status(0, 14, 1, 20, 5, "Arquivos/Imagens/status.png", lampiao.getVida(), lampiao);
@@ -248,7 +248,7 @@ public class Inicializa {
 		getMaria().setVida((getVidaInicial()-getConfig().getNivel())/2);
 		getLampiao().getFase().getCamera().setX(0);
 		getLampiao().setVida(getVidaInicial()-getConfig().getNivel());
-		getLampiao().getFase().iniciaInimigos();
+		getLampiao().getFase().iniciaInimigos(true);
 
 		return true;
 	}

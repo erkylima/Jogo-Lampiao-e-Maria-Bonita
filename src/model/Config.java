@@ -6,7 +6,7 @@ public class Config {
 	@XStreamAlias("FPS")
 	private int fps = 30;
 	@XStreamAlias("NIVEL")
-	private int nivel=0;
+	private double nivel=0;
 
 	public int getFPS() {
 		return fps;
@@ -16,11 +16,11 @@ public class Config {
 		this.fps = fps;
 	}
 
-	public int getNivel() {
+	public double getNivel() {
 		return nivel;
 	}
 
-	public void setNivel(int nivel) {
+	public void setNivel(double nivel) {
 		this.nivel = nivel;
 	}
 	
