@@ -29,7 +29,6 @@ public abstract class Tela extends JPanel implements Runnable{
 	private BufferedImage image;
 	protected Graphics2D g;
 	private int FPS = 30;
-	@SuppressWarnings("unused")
 	private Inicializa init;
 	private Camera camera;	
 	private Som som = new Som();
@@ -116,6 +115,13 @@ public abstract class Tela extends JPanel implements Runnable{
 		gameDraw();
 	}
 
+	
+	
+	public Thread getThread() {
+		return thread;
+	}
+
+
 	public abstract void gameUpdate();
 	
 	public abstract void gameRender();
@@ -161,7 +167,7 @@ public abstract class Tela extends JPanel implements Runnable{
 
 
 	public boolean isColidindo(Sprite player) {
-		for(Rectangle entidade : init.getCamadasF1().get(1).montarColisao()) // camada de objetos
+		for(Rectangle entidade : init.getCamadasF1().get(1).montarColisao()) // camada de tiles
 			if(player.getBounds().intersects(entidade)) {
 
 				return true;				
@@ -171,7 +177,7 @@ public abstract class Tela extends JPanel implements Runnable{
 
 	public boolean isTopo(Sprite player) {
 
-		for(Rectangle entidade : init.getCamadasF1().get(1).montarColisao()) // camada de objetos
+		for(Rectangle entidade : init.getCamadasF1().get(1).montarColisao()) // camada de tiles
 			if(player.getBounds().intersects(entidade)) {
 				if(entidade.getMaxY()>=player.getBounds().getMinY()) {
 					return true;	
@@ -183,7 +189,7 @@ public abstract class Tela extends JPanel implements Runnable{
 	
 	public boolean isButtom(Sprite player) {
 
-		for(Rectangle entidade : init.getCamadasF1().get(1).montarColisao()) // camada de objetos
+		for(Rectangle entidade : init.getCamadasF1().get(1).montarColisao()) // camada de tiles
 			if(player.getBounds().intersects(entidade)) {
 				if(entidade.getMinY()<=player.getBounds().getMaxY()) {
 					return true;	
@@ -195,7 +201,7 @@ public abstract class Tela extends JPanel implements Runnable{
 
 	public boolean isCantoDireito(Sprite player) {
 
-		for(Rectangle entidade : init.getCamadasF1().get(1).montarColisao()) // camada de objetos
+		for(Rectangle entidade : init.getCamadasF1().get(1).montarColisao()) // camada de tiles
 			if(player.getBounds().intersects(entidade)) {
 				if(entidade.getMinX()-10<=player.getBounds().getBounds().getMaxX()) {					
 					return true;
@@ -226,6 +232,8 @@ public abstract class Tela extends JPanel implements Runnable{
 			}		
 		return false;		
 	}
+	
+	
 	public void zerarInimigos() {
 		if(!getInit().getInimigos().isEmpty()) {
 			for (Sprite g : getInit().getInimigos()) {
@@ -244,6 +252,7 @@ public abstract class Tela extends JPanel implements Runnable{
 			getInit().getInimigos().clear();
 		}
 	}
+	
 	public boolean completou() {
 		for (Sprite inimigo : getInit().getInimigos()) {
 			if(inimigo.getVida()>0) {

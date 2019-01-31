@@ -30,13 +30,22 @@ public class Movimento extends KeyAdapter implements Runnable{
 	@Override
 	public void keyReleased(KeyEvent e) {
 //		acao = 0;
-		if(e.getKeyCode() == e.VK_E) {
-			lampiao.mariaAndaToggle();
+		if(!lampiao.getFase().isRequestFocusEnabled() || lampiao.getFase().getInit().getJogo().getMostRecentFocusOwner() != lampiao.getFase()) {
+			lampiao.getFase().requestFocus();
+			System.out.println("Chamou na bota");
 		}
-		if(e.getKeyCode() == e.VK_X) {
-			System.out.println(lampiao.getX());
+		switch(e.getKeyCode()) {
+		case KeyEvent.VK_E:
+			
+			break;
+		case KeyEvent.VK_X:
+			lampiao.getFase().getInit().getInventario().requestFocus();
+			System.out.println(lampiao.getX() + " X Y " +lampiao.getY());
+			break;
+		default:
+			lampiao.parar();
+			break;
 		}
-		lampiao.parar();
 	}
 
 	@Override

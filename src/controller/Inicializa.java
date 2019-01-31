@@ -1,5 +1,6 @@
 package controller;
 
+import java.awt.BorderLayout;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -18,6 +19,7 @@ import model.Maria;
 import model.Sprite;
 import model.Status;
 import model.TileMap;
+import view.Fim;
 import view.IniciarJogo;
 import view.Inventario;
 
@@ -35,7 +37,7 @@ public class Inicializa {
 	private ArrayList<TileMap> camadas = new ArrayList<TileMap>();
 	private ArrayList<Sprite> inimigos = new ArrayList<Sprite>();
 	private Status status;
-	private Status fome;
+	private Status fome,sede;
 	private int LARGURA = 1024;
 	private int ALTURA = 768;
 	private Inventario inventario;
@@ -43,11 +45,12 @@ public class Inicializa {
 
 	public Inicializa() {
 		try {
-			lampiao = new Lampiao(15, 96, 1, getxInicial(), getyInicial(),"Arquivos/Imagens/lampiaosprite.png",null,getVidaInicial(),120);
+			lampiao = new Lampiao(15, 96, 1, getxInicial(), getyInicial(),"Arquivos/Imagens/lampiaosprite.png",null,getVidaInicial(),120,120,120);
 			gerarConfigXlm(conf,false);
 			maria = new Maria(10,28,1,7000,100,"Arquivos/Imagens/mariasprite.png",lampiao,this,lampiao.getVida()/2);
-			status = new Status(0, 14, 1, 20, 5, "Arquivos/Imagens/status.png", lampiao.getVida(), lampiao);
-			fome = new Status(0, 14, 1, 20, 5, "Arquivos/Imagens/fomeSede.png", (int)lampiao.getFome(), lampiao);
+			status = new Status(0, 14, 1, 20, 5, "Arquivos/Imagens/status.png", lampiao.getChance(), lampiao);
+			fome = new Status(0, 14, 1, 20, 5, "Arquivos/Imagens/fome.png", (int)lampiao.getFome(), lampiao);
+			sede = new Status(0, 14, 1, 20, 5, "Arquivos/Imagens/sede.png", (int)lampiao.getSede(), lampiao);
 			backgroundMain = new ImageIcon("Arquivos/Imagens/backgroundMain.jpg");
 			lampiaoVolante = new ImageIcon("Arquivos/Imagens/lampiaoVolante.png");
 			passaro1 = new ImageIcon("Arquivos/Imagens/passaro1.png");
@@ -153,6 +156,10 @@ public class Inicializa {
 	public Status getFomeStatus() {
 		return fome;
 	}
+	
+	public Status getSedeStatus() {
+		return sede;
+	}
 
 	public ImageIcon getConfigimg() {
 		configimg = new ImageIcon("Arquivos/Imagens/config.png");
@@ -239,18 +246,41 @@ public class Inicializa {
 	}
 	
 	public boolean retornarInicio() {
-		getLampiao().getFase().zerarInimigos();
-		getLampiao().setAcao(0);
-		getLampiao().setX(getxInicial());
-		getLampiao().setY(getyInicial());
-		getLampiao().setFome(getVidaInicial()-getConfig().getNivel());
-		getStatus().setAparencia(0);
-		getMaria().setVida((getVidaInicial()-getConfig().getNivel())/2);
-		getLampiao().getFase().getCamera().setX(0);
-		getLampiao().setVida(getVidaInicial()-getConfig().getNivel());
-		getLampiao().getFase().iniciaInimigos(true);
-
-		return true;
+		if(getLampiao().getChance()>20) {
+			getLampiao().getFase().zerarInimigos();
+			getLampiao().setAcao(0);
+			getLampiao().setX(getxInicial());
+			getLampiao().setY(getyInicial());
+			if(getLampiao().getChance()>100) {
+				getLampiao().setChance(getLampiao().getChance()-10);
+			}else if(getLampiao().getChance()<=100) {
+				System.out.println(getLampiao().getChance());
+				getLampiao().setChance(0);
+				getStatus().setVida(getLampiao().getChance());
+				getStatus().setAparencia(13);
+			}
+			getLampiao().setFome(getVidaInicial()-getConfig().getNivel());
+			getLampiao().setSede(getVidaInicial()-getConfig().getNivel());
+			getMaria().setVida((getVidaInicial()-getConfig().getNivel())/2);
+			getLampiao().getFase().getCamera().setX(0);
+			getLampiao().setVida(getVidaInicial()-getConfig().getNivel());
+			getLampiao().getFase().iniciaInimigos(true);
+			return true;
+		}else {
+			getLampiao().getFase().zerarInimigos();
+			getLampiao().setAcao(0);
+			getLampiao().getFase().getCamera().destroier(getLampiao().getFase().getCamera());
+			getLampiao().getFase().setVisible(false);
+			getMaria().destroier(getMaria());
+			zerarCamadas();
+			getInimigos().clear();
+			getLampiao().getFase().getSom().destroier(getLampiao().getFase().getSom());
+			new Fim(1024,640,this);
+			getJogo().remove(getLampiao().getFase());
+			getLampiao().getFase().destroier(getLampiao().getFase());
+			getJogo().add(getLampiao().getFase(),BorderLayout.PAGE_START);
+		}
+		return false;
 	}
 	
 	private void lerXml() {

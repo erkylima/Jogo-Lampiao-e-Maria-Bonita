@@ -57,31 +57,31 @@ public class Status extends Sprite implements Runnable{
 	@Override
 	public void run() {
 		while(true) {
-			if(getVida()<=120 && getVida()>100) {
+			if(getVida()<=120 && getVida()>110) {
 				setAparencia(0);
-			}else if(getVida()<=100 && getVida()>90) {
+			}else if(getVida()<=110 && getVida()>100) {
 				setAparencia(1);
-			}else if(getVida()<=90 && getVida()>80) {
+			}else if(getVida()<=100 && getVida()>90) {
 				setAparencia(2);
-			}else if(getVida()<=80 && getVida()>70) {
+			}else if(getVida()<=90 && getVida()>80) {
 				setAparencia(3);
-			}else if(getVida()<=70 && getVida()>60) {
+			}else if(getVida()<=80 && getVida()>70) {
 				setAparencia(4);
-			}else if(getVida()<=60 && getVida()>50) {
+			}else if(getVida()<=70 && getVida()>60) {
 				setAparencia(5);
-			}else if(getVida()<=50 && getVida()>40) {
+			}else if(getVida()<=60 && getVida()>50) {
 				setAparencia(6);
-			}else if(getVida()<=40 && getVida()>30) {
+			}else if(getVida()<=50 && getVida()>40) {
 				setAparencia(7);
-			}else if(getVida()<=30 && getVida()>20) {
+			}else if(getVida()<=40 && getVida()>30) {
 				setAparencia(8);
 			}else if(getVida()<=20 && getVida()>10) {
-				setAparencia(9);
+				setAparencia(10);
 			}else if(getVida()<=10 && getVida()>0) {
-				setAparencia(12);
+				setAparencia(11);
 				animacaoAndandoEsquerda();
 			}else if(getVida()<=0) {
-				setAparencia(13);
+				setAparencia(12);
 			}	
 			
 			try {

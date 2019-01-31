@@ -25,7 +25,11 @@ public class FimCam {
 		tela = new BufferedImage(1024, 640, BufferedImage.TYPE_4BYTE_ABGR);
 		g = tela.getGraphics();
 		try {
-			icon = ImageIO.read(new File("Arquivos/Imagens/fim.jpg"));
+			if(ini.getLampiao().getChance()>0) {
+				icon = ImageIO.read(new File("Arquivos/Imagens/fim.jpg"));
+			}else {
+				icon = ImageIO.read(new File("Arquivos/Imagens/gameover.jpg"));
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

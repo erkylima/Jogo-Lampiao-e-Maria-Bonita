@@ -2,6 +2,8 @@ package model;
 
 import java.awt.Graphics;
 
+import com.sun.glass.events.KeyEvent;
+
 import controller.Inicializa;
 import controller.TratamentoException;
 
@@ -139,31 +141,26 @@ public class Maria extends Sprite implements Runnable{
 	}
 	@Override
 	public void run() {
+		boolean libertou=false;
 		while(threadOn ) {
-			if(lampiao.getFase()!=null && lampiao.getFase().getInit().getCamadasF1().size()>1) {
+			if(init.getLampiao().getBounds().intersects(getBounds()) && init.getLampiao().getAcao() == KeyEvent.VK_E || libertou == true) {
+				libertou = true;
+				if(getAparencia()<20 ) {
+					setAparencia(20);
+				}
+				animacaoAndandoDireita();
+			}
+			else if(lampiao.getFase()!=null && lampiao.getFase().getInit().getCamadasF1().size()>1) {
 				if(getAparencia() <10 || getAparencia()>19)
 					setAparencia(10);
 				animacaoAndandoEsquerda();
 				cair();
+				
 				if(getVida()<10) {
 					destroier(this);
 				}
 				if(getY()>640) {
 					setVida(getVida()-10);
-				}
-				if(lampiao.isAndarMaria() && lampiao.getFase().isPulo(this) && lampiao.isVivo() && getX()<lampiao.getFase().getInit().getCamadasF1().get(0).getLarguraTela()-130) {
-					try{
-						pular();
-					}catch (Exception e) {
-
-					}
-					setAparencia(10);
-					try {
-						if(!mariaThread.isInterrupted()) 
-							Thread.sleep(800);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
 				}
 			}
 			try {

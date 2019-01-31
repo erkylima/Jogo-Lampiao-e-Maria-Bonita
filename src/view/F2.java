@@ -5,6 +5,7 @@ import java.awt.BorderLayout;
 import controller.Inicializa;
 import controller.Movimento;
 import model.Camera;
+import model.Item;
 import model.Metralha;
 import model.Volante;
 
@@ -96,8 +97,16 @@ public class F2 extends Tela {
 			getInit().getInimigos().add(new Metralha(0, 22, 1, 6830, 527, "Arquivos/Imagens/metralhasprite.png",getInit().getLampiao(),20,respawna));
 			getInit().getInimigos().add(new Metralha(0, 22, 1, 6500, 527, "Arquivos/Imagens/metralhasprite.png",getInit().getLampiao(),20,respawna));
 			getInit().getInimigos().add(new Metralha(0, 22, 1, 6500, 527, "Arquivos/Imagens/metralhasprite.png",getInit().getLampiao(),20,respawna));
-			
+			getInit().getInimigos().add(new Item(1, 4, 5, 1373, 460, "Arquivos/Imagens/coletaveis.png", 20, getInit(),false));
+			getInit().getInimigos().add(new Item(0, 4, 5, 3525, 432, "Arquivos/Imagens/coletaveis.png", 20, getInit(),true));
+			getInit().getInimigos().add(new Item(1, 4, 5, 3600, 432, "Arquivos/Imagens/coletaveis.png", 20, getInit(),false));
+			getInit().getInimigos().add(new Item(1, 4, 5, 4864, 525, "Arquivos/Imagens/coletaveis.png", 20, getInit(),false));
+			getInit().getInimigos().add(new Item(0, 4, 5, 4752, 533, "Arquivos/Imagens/coletaveis.png", 20, getInit(),true));
+			getInit().getInimigos().add(new Item(0, 4, 5, 4188, 325, "Arquivos/Imagens/coletaveis.png", 20, getInit(),true));
+			getInit().getInimigos().add(new Item(0, 4, 5, 4604, 390, "Arquivos/Imagens/coletaveis.png", 20, getInit(),true));
+
 		} catch (Exception e) {
+			
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

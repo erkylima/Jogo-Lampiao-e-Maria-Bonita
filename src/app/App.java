@@ -1,7 +1,6 @@
 package app;
 
 import controller.Inicializa;
-import model.Config;
 import view.IniciarJogo;
      
 public class App {

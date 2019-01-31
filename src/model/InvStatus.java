@@ -37,13 +37,15 @@ public class InvStatus {
 		int scaleX = (int) (icon.getWidth(null));
 		int scaleY = (int) (icon.getHeight(null));
 		Image img = icon.getScaledInstance(scaleX, scaleY, Image.SCALE_SMOOTH);
-		ini.getStatus().setVida(ini.getLampiao().getVida());
 		g.drawImage(img, 0, 0, null);
+		ini.getStatus().setVida(ini.getLampiao().getChance());
 		ini.getStatus().draw(this.g);
 		ini.getFomeStatus().setVida((int)ini.getLampiao().getFome());
 		ini.getFomeStatus().setX(ini.getStatus().getLarguraPersonagem()+30);
 		ini.getFomeStatus().draw(this.g);
-
+		ini.getSedeStatus().setVida(ini.getLampiao().getSede());
+		ini.getSedeStatus().setX(ini.getStatus().getLarguraPersonagem() + ini.getFomeStatus().getLarguraPersonagem()+30);
+		ini.getSedeStatus().draw(this.g);
 		
 		
 	}

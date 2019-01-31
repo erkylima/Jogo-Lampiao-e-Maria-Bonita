@@ -119,7 +119,7 @@ public class Volante extends Sprite implements Runnable{
 				animacaoParadoEsquerda();
 				
 			}
-			if(inimigo.getVida()>0 && !inimigo.getFase().isTopo(this)){
+			if(inimigo.getVida()>0 && inimigo.getFase().isTopo(this)){
 				try {
 					ArrayList<Sprite> alvo = new ArrayList<Sprite>();
 					alvo.add(inimigo);
@@ -215,7 +215,7 @@ public class Volante extends Sprite implements Runnable{
 			if(getVida()<10) {
 				if(respawna) {
 					try {
-						inimigo.getFase().getInit().getInimigos().add(new Volante(0, 22, 1, inimigo.getX()+700, inimigo.getY()-100, "Arquivos/Imagens/metralhasprite.png",inimigo,20,false));
+						inimigo.getFase().getInit().getInimigos().add(new Volante(0, 40, 1, inimigo.getX()+700, inimigo.getY()-100, "Arquivos/Imagens/volantesprite.png",inimigo,20,false));
 					} catch (TratamentoException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

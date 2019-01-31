@@ -208,7 +208,7 @@ public abstract class Sprite {
 	 */
 	public Rectangle getBounds()
 	{
-		return new Rectangle(x, y, larguraPersonagem, alturaPersonagem);
+		return new Rectangle(x+5, y+5, larguraPersonagem, alturaPersonagem);
 	}
 	
 	public void destroier(Sprite sprite) {

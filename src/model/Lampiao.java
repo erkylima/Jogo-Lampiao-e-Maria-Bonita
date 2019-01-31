@@ -12,15 +12,17 @@ public class Lampiao extends Sprite{
 	public int velocidade = 10;
 	private int menu;
 	private Tela fase;
-	private boolean andarMaria=false;
-	private double fome;
+	private double fome,sede;
 	private Status saude;
-	public Lampiao(int aparencia,int columns, int rows, int posX, int posY,String caminho,Tela fase,double vida,double fome) throws TratamentoException {
+	private double chance;
+	
+	public Lampiao(int aparencia,int columns, int rows, int posX, int posY,String caminho,Tela fase,double vida,double fome,double sede,double chance) throws TratamentoException {
 		super(aparencia, columns, rows, posX, posY, caminho,vida);
+		this.chance = chance;
 		this.fase = fase;
+		this.sede = sede;
 		this.fome = fome;
 		saude = new Status(0, 14, 1, getX(), getY()-20, "Arquivos/Imagens/saude.png", getVida(), this);
-		andarMaria = true;
 	}
 	
 
@@ -72,7 +74,7 @@ public class Lampiao extends Sprite{
 		saude.setY(getY()-20);
 		saude.setVida(getVida());
 		saude.draw(g);
-		if(getVida()>0 && getMenu()!=0) {
+		if(getVida()>0 && getMenu()!=0 && getChance()>10) {
 			g.drawImage(getFase().getInit().getVoltarInicio(getMenu()).getImage(), getX()-(getLarguraPersonagem()), getFase().getInit().getALTURA()/3, null);
 			try {
 				Thread.sleep(500);
@@ -103,7 +105,9 @@ public class Lampiao extends Sprite{
 			
 			if(getFome()>0)
 				setFome(getFome()-0.08);
-			if(getFome()<=0) {
+			if(getSede()>0)
+				setSede(getSede()-0.09);
+			if(getFome()<10 || getSede() <15) {
 				setVida(getVida()-(getFase().getInit().getConfig().getNivel()+1)/15);
 			} else if(getFome()>60 && getVida() <= getFase().getInit().getVidaInicial()-getFase().getInit().getConfig().getNivel())
 				if(getFase().getInit().getConfig().getNivel() <10) {
@@ -111,18 +115,19 @@ public class Lampiao extends Sprite{
 
 				}else if(getFase().getInit().getConfig().getNivel() > 10) {
 					setVida(getVida()+(getFase().getInit().getConfig().getNivel()+1)/300);
-					System.out.println("up" + (getFase().getInit().getConfig().getNivel())/300);
-
 				}
 			break;
 		}
 		case KeyEvent.VK_A:{
 			
 			if(getFome()>0)
-				setFome(getFome()-0.05);
-			if(getFome()<10) {
+				setFome(getFome()-0.03);
+			if(getSede()>0)
+				setSede(getSede()-0.04);
+			
+			if(getFome()<10 || getSede() <15) {
 				setVida(getVida()-((getFase().getInit().getConfig().getNivel()+1)/15));
-			} else if(getFome()>60 && getVida() <= (getFase().getInit().getVidaInicial()-getFase().getInit().getConfig().getNivel())) {
+			} else if((getFome()>60 && getSede() > 65) && getVida() <= (getFase().getInit().getVidaInicial()-getFase().getInit().getConfig().getNivel())) {
 				if(getFase().getInit().getConfig().getNivel() <10) {
 					setVida(getVida()+(getFase().getInit().getConfig().getNivel()+1)/5);
 
@@ -275,12 +280,31 @@ public class Lampiao extends Sprite{
 	}
 
 
-
 	public void setFome(double fome) {
 		this.fome = fome;
 	}
 
+	public double getSede() {
+		return sede;
+	}
 
+
+
+	public double getChance() {
+		return chance;
+	}
+
+
+
+	public void setChance(double chance) {
+		this.chance = chance;
+	}
+
+
+
+	public void setSede(double sede) {
+		this.sede = sede;
+	}
 
 	public int getMenu() {
 		return menu;
@@ -292,20 +316,9 @@ public class Lampiao extends Sprite{
 		this.menu = menu;
 	}
 	
-	public boolean isAndarMaria() {
-		return andarMaria;
-	}
 
-	public boolean mariaAndaToggle() {
-		if(andarMaria) {
-			andarMaria = false;
-			
-		}else {
-			andarMaria = true;
-		}
-		System.out.println(andarMaria);
-		return andarMaria;
-	}
+
+
 
 
 

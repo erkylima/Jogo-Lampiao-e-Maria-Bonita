@@ -82,7 +82,6 @@ public class TileMap {
 		this.mapaLargura = mapaLargura;
 		this.tileLargura = tileLargura;
 		this.tileAltura = tileAltura;
-		
 		/*
 		 * Calcula Largura e Altura totais da tela
 		 */
@@ -127,7 +126,6 @@ public class TileMap {
 		int tileRow;
 		int tileCol;
 		int colunasTileSet=tileSet.getWidth()/tileLargura; //quantidade de colunas do seu tileset
-		System.out.println(colunasTileSet);
 		for (int i = 0; i < mapaAltura; i++) {
 			for (int j = 0; j < mapaLargura; j++) {
 				tile = (camada[i][j] != 0) ? (camada[i][j] - 1) : 55;
@@ -140,7 +138,20 @@ public class TileMap {
 			}
 		}
 	}
+	public void refazMapa() {
+		System.out.println("BUIDING");
+		/*
+		 *Inicializa a imagem de fundo com aa largura e altura totais do mapa 
+		 */
+		mapa = new BufferedImage(larguraTela, AlturaTela, BufferedImage.TYPE_4BYTE_ABGR);
+		/*
+		 * O Graphics dbg recebe o Graphics a imagem de fundo
+		 * ou seja ao utilizar ele você ira desenhar em cima dessa imagem de fundo
+		 */
+		dbg = mapa.createGraphics();
 
+		montarMapa();
+	}
 	/**
 	 * @return lista de Rectangle para calculo da colisão 
 	 */
@@ -222,6 +233,10 @@ public class TileMap {
 		return mapa;
 	}
 	
+	public void setCamadaVazia(int i, int j) {
+		camada[i][j] = 17;
+	}
+
 	public int getLarguraTela() {
 		return larguraTela;
 	}
