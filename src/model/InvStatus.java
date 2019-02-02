@@ -47,7 +47,11 @@ public class InvStatus {
 		ini.getSedeStatus().setX(ini.getStatus().getLarguraPersonagem() + ini.getFomeStatus().getLarguraPersonagem()+30);
 		ini.getSedeStatus().draw(this.g);
 		
-		
+		if(ini.getLampiao().isPistola()) {
+			
+		}else {
+			
+		}
 	}
 	
 	public void draw(Graphics g) {

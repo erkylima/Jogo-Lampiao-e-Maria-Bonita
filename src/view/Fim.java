@@ -17,7 +17,7 @@ public class Fim extends Tela{
 		getInit().getLampiao().setFase(this);
 		this.init = init;
 		inv = new FimCam(init.getLampiao(), init);
-
+		getSom().venceu();
 
 	}
 

@@ -19,18 +19,12 @@ public class Tiro extends Sprite implements Runnable{
 		super(aparencia, colunas, linhas, x, y, endereco, vida);
 		this.alvo = alvo;
 		this.personagem = personagem;
-		aux = personagem.isDireita();
-		
+		aux=personagem.isDireita();
 		som = new Som();
 		som.tiroSom();
 		running = true;
 
-		if(aux) {
-			setX(getX()+50);
-		}
-		else {
-			setX(getX()-50);
-		}
+		
 		if(!alvo.isEmpty()) {
 			if(personagem==alvo.get(0)) {
 				aux2=alvo.get(1).isDireita();
@@ -90,11 +84,12 @@ public class Tiro extends Sprite implements Runnable{
 					setVida(0);
 					setY(790);
 
-				}else if(personagem.getBounds().intersects(a.getBounds())) {
-					a.setVida(a.getVida()-getVida());
-					setY(790);
-					setVida(0);
 				}
+//				else if(personagem.getBounds().intersects(a.getBounds())) {
+//					a.setVida(a.getVida()-getVida());
+//					setY(790);
+//					setVida(0);
+//				}
 				else if(personagem.getX() > getX()+900 ||personagem.getX() < getX()-900){
 					destroier(this);
 				}else {
@@ -110,10 +105,11 @@ public class Tiro extends Sprite implements Runnable{
 			if(getBounds().intersects(alvo.get(0).getBounds())) {
 				alvo.get(0).setVida(alvo.get(0).getVida()-getVida());
 				setVida(0);
-			}else if(alvo.get(2) != null && getBounds().intersects(alvo.get(2).getBounds())){
-				alvo.get(2).setVida(alvo.get(0).getVida()-getVida());
-				setVida(0);
 			}
+//			else if(alvo.get(2) != null && getBounds().intersects(alvo.get(2).getBounds())){
+//				alvo.get(2).setVida(alvo.get(0).getVida()-getVida());
+//				setVida(0);
+//			}
 			else if(isColidindo()) {
 				setVida(0);
 				

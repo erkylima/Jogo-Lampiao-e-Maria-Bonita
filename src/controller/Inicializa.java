@@ -24,7 +24,7 @@ import view.IniciarJogo;
 import view.Inventario;
 
 public class Inicializa {
-	private Lampiao lampiao;
+	private Lampiao lampiao,mariamultiplayer;
 	private Maria maria;
 	private TileMap tile;
 	private TileMap bg;
@@ -83,8 +83,25 @@ public class Inicializa {
 		camadas.add(enteite);
 	}
 	
+	public void multiplayer() {
+		try {
+			mariamultiplayer = new Lampiao(15, 48, 1, getxInicial(), getyInicial(),"Arquivos/Imagens/mariaspritemultiplayer.png",null,getVidaInicial(),120,120,120);
+		} catch (TratamentoException e) {
+			e.printStackTrace();
+		}
+		bg = new TileMap(8, 1, 1024, 1024, "Arquivos/Imagens/BGFloresta.png", "Arquivos/Camadas/BGFlorestaTile.txt");
+		tile = new TileMap(224, 20, 32, 32, "Arquivos/Imagens/Tile.png", "Arquivos/Camadas/FlorestaTile.txt");
+		enteite = new TileMap(224,20,32,32,"Arquivos/Imagens/objetos.png","Arquivos/Camadas/EnfeiteFloresta.txt");
+		camadas.add(bg);
+		camadas.add(tile);
+		camadas.add(enteite);
+	}
 	public Lampiao getLampiao() {
 		return lampiao;
+	}
+	
+	public Lampiao getMariamultiplayer() {
+		return mariamultiplayer;
 	}
 
 	public Maria getMaria() {
@@ -251,6 +268,7 @@ public class Inicializa {
 			getLampiao().setAcao(0);
 			getLampiao().setX(getxInicial());
 			getLampiao().setY(getyInicial());
+			getLampiao().setPistola(true);
 			if(getLampiao().getChance()>100) {
 				getLampiao().setChance(getLampiao().getChance()-10);
 			}else if(getLampiao().getChance()<=100) {

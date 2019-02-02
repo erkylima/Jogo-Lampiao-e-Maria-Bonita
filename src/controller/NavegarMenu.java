@@ -44,7 +44,7 @@ public class NavegarMenu extends KeyAdapter {
 				menu.iniciarJogo();
 				break;
 			case 1:
-				
+				menu.iniciaMultiplayer();
 				break;
 			case 2:
 				config = menu.configToggle();

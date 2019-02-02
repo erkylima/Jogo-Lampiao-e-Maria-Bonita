@@ -8,6 +8,7 @@ import controller.Inicializa;
 import controller.TratamentoException;
 import view.F1;
 import view.MainMenu;
+import view.Multiplayer;
 
 public class Menu {
 	private Inicializa init;
@@ -21,6 +22,7 @@ public class Menu {
 	private F1 fase1;
 	private MainMenu main;
 	private int sobrePage;
+	private Multiplayer multi;
 	
 	public Menu(int largura,int altura,Inicializa init, MainMenu main) {
 		this.init = init;
@@ -53,7 +55,6 @@ public class Menu {
 				// TODO: handle exception
 			}
 		}
-		g.drawString("FPS: "+init.getConfig().getFPS(), 40, 40);
 		g.drawImage(init.getPassaro1().getImage(),200,350,null);
 		g.drawImage(init.getPassaro2().getImage(),880,30,null);
 		g.drawImage(init.getMariaImg().getImage(),840,440,null);
@@ -175,7 +176,19 @@ public class Menu {
 		init.getLampiao().getFase().requestFocus();
 
 	}
+	
+	public void iniciaMultiplayer() {
+		multi = new Multiplayer("Lampião e Maria Bonita",1024,640,init);
+		init.getLampiao().setFase(multi);
+		main.setVisible(false);
+		init.getJogo().remove(main);
+		main.destroier(main);
+		init.getJogo().add(init.getInventario(),BorderLayout.PAGE_END);
 
+		init.getJogo().add(init.getLampiao().getFase(),BorderLayout.PAGE_START);	
+		init.getLampiao().getFase().requestFocus();
+
+	}
 	public void configFPS() {
 		if(init.getConfig().getFPS()<45) {
 			init.getConfig().setFPS(init.getConfig().getFPS()+5);

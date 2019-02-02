@@ -74,23 +74,29 @@ public class F1 extends Tela {
 	public void iniciaInimigos(boolean respawna) {
 		try {
 			
-			getInit().getInimigos().add(new Volante(0, 40, 1, 2044, 500, "Arquivos/Imagens/volantesprite.png", getInit().getLampiao(), 20,respawna));
-			getInit().getInimigos().add(new Volante(0, 40, 1, 2200, 500, "Arquivos/Imagens/volantesprite.png", getInit().getLampiao(), 20,respawna));
-			getInit().getInimigos().add(new Volante(0, 40, 1, 3000, 630, "Arquivos/Imagens/volantesprite.png", getInit().getLampiao(), 20,respawna));
-			getInit().getInimigos().add(new Volante(0, 40, 1, 3000, 500, "Arquivos/Imagens/volantesprite.png",getInit().getLampiao(),20,respawna));
-			getInit().getInimigos().add(new Volante(0, 40, 1, 2800, 500, "Arquivos/Imagens/volantesprite.png",getInit().getLampiao(),20,respawna));
+			getInit().getInimigos().add(new Volante(0, 40, 1, 2090, 400, "Arquivos/Imagens/volantesprite.png", getInit().getLampiao(), 20,respawna));
+			getInit().getInimigos().add(new Metralha(0, 22, 1, 2966, 335, "Arquivos/Imagens/metralhasprite.png",getInit().getLampiao(),20,respawna));
+			getInit().getInimigos().add(new Metralha(0, 22, 1, 3070, 460, "Arquivos/Imagens/metralhasprite.png",getInit().getLampiao(),20,respawna));
 
-			getInit().getInimigos().add(new Volante(0, 40, 1, 3631, 390, "Arquivos/Imagens/volantesprite.png", getInit().getLampiao(), 20,respawna));
-			getInit().getInimigos().add(new Volante(0, 40, 1, 3200, 630, "Arquivos/Imagens/volantesprite.png", getInit().getLampiao(), 20,respawna));
-			getInit().getInimigos().add(new Volante(0, 40, 1, 4804, 325, "Arquivos/Imagens/volantesprite.png",getInit().getLampiao(),20,respawna));
-			getInit().getInimigos().add(new Volante(0, 40, 1, 4804, 325, "Arquivos/Imagens/volantesprite.png",getInit().getLampiao(),20,respawna));
-			
-			getInit().getInimigos().add(new Volante(0, 40, 1, 6048, 520, "Arquivos/Imagens/volantesprite.png", getInit().getLampiao(), 20,respawna));
-			getInit().getInimigos().add(new Volante(0, 40, 1, 6048, 520, "Arquivos/Imagens/volantesprite.png",getInit().getLampiao(),20,respawna));
-			getInit().getInimigos().add(new Volante(0, 40, 1, 6987, 320, "Arquivos/Imagens/volantesprite.png",getInit().getLampiao(),20,respawna));
-			getInit().getInimigos().add(new Item(0, 4, 5, 6987, 320, "Arquivos/Imagens/coletaveis.png", 20, getInit(),true));
-			getInit().getInimigos().add(new Item(0, 4, 5, 2678, 460, "Arquivos/Imagens/coletaveis.png", 20, getInit(),true));
-			getInit().getInimigos().add(new Item(1, 4, 5, 5262, 490, "Arquivos/Imagens/coletaveis.png", 40, getInit(),false));
+			getInit().getInimigos().add(new Volante(0, 40, 1, 5456, 527, "Arquivos/Imagens/volantesprite.png", getInit().getLampiao(), 20,respawna));
+			getInit().getInimigos().add(new Volante(0, 40, 1, 5616, 527, "Arquivos/Imagens/volantesprite.png", getInit().getLampiao(), 20,respawna));
+			getInit().getInimigos().add(new Volante(0, 40, 1, 5808, 527, "Arquivos/Imagens/volantesprite.png", getInit().getLampiao(), 20,respawna));
+
+			getInit().getInimigos().add(new Volante(0, 40, 1, 6784, 527, "Arquivos/Imagens/volantesprite.png", getInit().getLampiao(), 20,respawna));
+			getInit().getInimigos().add(new Metralha(0, 22, 1, 6800, 527, "Arquivos/Imagens/metralhasprite.png",getInit().getLampiao(),20,respawna));
+
+			getInit().getInimigos().add(new Volante(0, 40, 1, 6650, 527, "Arquivos/Imagens/volantesprite.png", getInit().getLampiao(), 20,respawna));
+			getInit().getInimigos().add(new Metralha(0, 22, 1, 6830, 527, "Arquivos/Imagens/metralhasprite.png",getInit().getLampiao(),20,respawna));
+			getInit().getInimigos().add(new Metralha(0, 22, 1, 6500, 527, "Arquivos/Imagens/metralhasprite.png",getInit().getLampiao(),20,respawna));
+			getInit().getInimigos().add(new Metralha(0, 22, 1, 6500, 527, "Arquivos/Imagens/metralhasprite.png",getInit().getLampiao(),20,respawna));
+			getInit().getInimigos().add(new Item(1, 4, 5, 1373, 460, "Arquivos/Imagens/coletaveis.png", 20, getInit(),false));
+			getInit().getInimigos().add(new Item(0, 4, 5, 3525, 432, "Arquivos/Imagens/coletaveis.png", 40, getInit(),true));
+			getInit().getInimigos().add(new Item(1, 4, 5, 3600, 432, "Arquivos/Imagens/coletaveis.png", 40, getInit(),false));
+			getInit().getInimigos().add(new Item(1, 4, 5, 4864, 525, "Arquivos/Imagens/coletaveis.png", 20, getInit(),false));
+			getInit().getInimigos().add(new Item(0, 4, 5, 4752, 533, "Arquivos/Imagens/coletaveis.png", 20, getInit(),true));
+			getInit().getInimigos().add(new Item(0, 4, 5, 4188, 325, "Arquivos/Imagens/coletaveis.png", 20, getInit(),true));
+			getInit().getInimigos().add(new Item(0, 4, 5, 4604, 390, "Arquivos/Imagens/coletaveis.png", 20, getInit(),true));
+			getInit().getInimigos().add(new Item(3, 4, 5, 3362, 426, "Arquivos/Imagens/coletaveis.png", 1, getInit(),true));
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

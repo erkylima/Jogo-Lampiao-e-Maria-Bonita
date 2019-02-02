@@ -35,9 +35,6 @@ public class Movimento extends KeyAdapter implements Runnable{
 			System.out.println("Chamou na bota");
 		}
 		switch(e.getKeyCode()) {
-		case KeyEvent.VK_E:
-			
-			break;
 		case KeyEvent.VK_X:
 			lampiao.getFase().getInit().getInventario().requestFocus();
 			System.out.println(lampiao.getX() + " X Y " +lampiao.getY());
@@ -51,6 +48,7 @@ public class Movimento extends KeyAdapter implements Runnable{
 	@Override
 	public void run() {
 		while(threadOn) {
+			
 			if(fase.isTopo(lampiao))
 				lampiao.setY(lampiao.getY()-8);
 			

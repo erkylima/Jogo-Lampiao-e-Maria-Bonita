@@ -34,10 +34,13 @@ public class Camera {
 			
 			this.g.drawImage(t.getMapa(), 0, 0, null);
 		}
-		lampiao.draw(this.g);
 		
 		lampiao.getFase().getInit().getMaria().draw(g);
 		printarMorreu();
+		
+		if(lampiao.isMultiplayer()) {
+			lampiao.getFase().getInit().getMariamultiplayer().draw(g);
+		}
 		try {
 			for(Sprite v : inimigos) {
 				if(v.getVida()>=0) {
@@ -48,7 +51,8 @@ public class Camera {
 		} catch (Exception e) {
 			System.out.println("Crasharia");
 		}
-		
+		lampiao.draw(this.g);
+
 		
 	}
 	

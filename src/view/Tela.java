@@ -30,7 +30,7 @@ public abstract class Tela extends JPanel implements Runnable{
 	protected Graphics2D g;
 	private int FPS = 30;
 	private Inicializa init;
-	private Camera camera;	
+	private Camera camera;
 	private Som som = new Som();
 
 	@SuppressWarnings("unused")
