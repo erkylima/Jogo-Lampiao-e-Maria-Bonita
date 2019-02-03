@@ -7,7 +7,11 @@ public class Config {
 	private int fps = 30;
 	@XStreamAlias("NIVEL")
 	private double nivel=0;
-
+	@XStreamAlias("RECORD")
+	private double record=0;
+	@XStreamAlias("RECORDMPLAYER")
+	private double recordmplayer=0;
+	
 	public int getFPS() {
 		return fps;
 	}
@@ -22,6 +26,22 @@ public class Config {
 
 	public void setNivel(double nivel) {
 		this.nivel = nivel;
+	}
+
+	public double getRecord() {
+		return record;
+	}
+
+	public void setRecord(double record) {
+		this.record = record;
+	}
+
+	public double getRecordmplayer() {
+		return recordmplayer;
+	}
+
+	public void setRecordmplayer(double recordmplayer) {
+		this.recordmplayer = recordmplayer;
 	}
 	
 	

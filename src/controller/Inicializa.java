@@ -1,11 +1,13 @@
 package controller;
 
 import java.awt.BorderLayout;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -46,6 +48,12 @@ public class Inicializa {
 	public Inicializa() {
 		try {
 			lampiao = new Lampiao(15, 96, 1, getxInicial(), getyInicial(),"Arquivos/Imagens/lampiaosprite.png",null,getVidaInicial(),120,120,120);
+			List<Integer> teclasPlayer1 = new ArrayList<>();
+			teclasPlayer1.add(KeyEvent.VK_A );
+			teclasPlayer1.add(KeyEvent.VK_D);
+			teclasPlayer1.add(KeyEvent.VK_SPACE);
+			teclasPlayer1.add(KeyEvent.VK_T);
+			lampiao.setTeclas(teclasPlayer1);
 			gerarConfigXlm(conf,false);
 			maria = new Maria(10,28,1,7000,100,"Arquivos/Imagens/mariasprite.png",lampiao,this,lampiao.getVida()/2);
 			status = new Status(0, 14, 1, 20, 5, "Arquivos/Imagens/status.png", lampiao.getChance(), lampiao);
@@ -86,6 +94,13 @@ public class Inicializa {
 	public void multiplayer() {
 		try {
 			mariamultiplayer = new Lampiao(15, 48, 1, getxInicial(), getyInicial(),"Arquivos/Imagens/mariaspritemultiplayer.png",null,getVidaInicial(),120,120,120);
+			mariamultiplayer.setPistola(false);
+			List<Integer> teclasP2 = new ArrayList<>();
+			teclasP2.add(KeyEvent.VK_LEFT);
+			teclasP2.add(KeyEvent.VK_RIGHT);
+			teclasP2.add(KeyEvent.VK_UP);
+			teclasP2.add(KeyEvent.VK_P);
+			mariamultiplayer.setTeclas(teclasP2);
 		} catch (TratamentoException e) {
 			e.printStackTrace();
 		}
@@ -255,6 +270,7 @@ public class Inicializa {
 		getLampiao().getFase().getSom().destroier(getLampiao().getFase().getSom());
 		getJogo().remove(getJogo());
 		getLampiao().getFase().destroier(getLampiao().getFase());
+		getInventario().getInv().setRunning(false);
 		getLampiao().getFase().getInit().getMaria().destroier(getLampiao().getFase().getInit().getMaria());
 		getLampiao().getFase().getInit().getJogo().dispose();
 		getLampiao().setAcao(0);
@@ -313,11 +329,14 @@ public class Inicializa {
 	    xStream.alias("Config", Config.class);
 	    xStream.aliasField("FPS", Config.class, "fps");
 	    xStream.aliasField("NIVEL", Config.class, "nivel");
-	    
+	    xStream.aliasField("RECORD", Config.class, "record");
+	    xStream.aliasField("RECORDMPLAYER", Config.class, "recordmplayer");
+
 	    
 	    Config config = (Config) xStream.fromXML(reader);
 	    lampiao.setVida(lampiao.getVida()-config.getNivel());
 	    lampiao.setFome(getVidaInicial()-getConfig().getNivel());
+	    
 	    conf = config;
 	}
 	
@@ -328,7 +347,9 @@ public class Inicializa {
 
 	    xStream.aliasField("FPS", Config.class, "fps");
 	    xStream.aliasField("NIVEL", Config.class, "nivel");
-	    
+	    xStream.aliasField("RECORD", Config.class, "record");
+	    xStream.aliasField("RECORDMPLAYER", Config.class, "recordmplayer");
+
 	    @SuppressWarnings("unused")
 		String documento = xStream.toXML(conf);
 	    salvarConfig(xStream.toXML(conf), "config.xml",muda);

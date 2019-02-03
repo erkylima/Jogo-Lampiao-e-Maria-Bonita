@@ -13,35 +13,40 @@ public class Movimento extends KeyAdapter implements Runnable{
 	private Thread t;
 	private boolean threadOn = true;
 	private boolean voltarMenu = false;
+	
 	public Movimento(Lampiao lampiao,Tela fase) {
 		this.lampiao = lampiao;
 		this.fase = fase;
+		fase.addKeyListener(this);
 		t = new Thread(this);
 		t.start();
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-//		acao = e.getKeyCode();
-		lampiao.setAcao(e.getKeyCode());
+		if(lampiao.getTeclas().contains(e.getKeyCode()) || 
+				e.getKeyCode() == KeyEvent.VK_T ||
+				e.getKeyCode() == KeyEvent.VK_ESCAPE ||
+				e.getKeyCode() == KeyEvent.VK_ENTER) {
+			lampiao.setAcao(e.getKeyCode());
+		}
 	}
 
-	@SuppressWarnings("static-access")
 	@Override
 	public void keyReleased(KeyEvent e) {
-//		acao = 0;
 		if(!lampiao.getFase().isRequestFocusEnabled() || lampiao.getFase().getInit().getJogo().getMostRecentFocusOwner() != lampiao.getFase()) {
 			lampiao.getFase().requestFocus();
-			System.out.println("Chamou na bota");
 		}
 		switch(e.getKeyCode()) {
 		case KeyEvent.VK_X:
 			lampiao.getFase().getInit().getInventario().requestFocus();
 			System.out.println(lampiao.getX() + " X Y " +lampiao.getY());
 			break;
-		default:
-			lampiao.parar();
-			break;
+
+			
+		}
+		if(lampiao.getTeclas().contains(e.getKeyCode())) {
+			lampiao.setAcao(-1);
 		}
 	}
 
@@ -61,13 +66,9 @@ public class Movimento extends KeyAdapter implements Runnable{
 			if(!fase.isColidindo(lampiao)) {
 				lampiao.cair();
 			}
-			if(KeyEvent.VK_SPACE == lampiao.getAcao() && !voltarMenu && lampiao.isVivo() && lampiao.getFase().isTopo(lampiao)) {
-				lampiao.pular();
-				
-			}
-			else if(lampiao.getAcao() != KeyEvent.VK_SPACE && lampiao.isVivo() && !voltarMenu) {
-				lampiao.andar();
 
+			if(lampiao.isVivo() && !voltarMenu) {
+				lampiao.andar();
 			}
 
 			if(lampiao.getAcao() == KeyEvent.VK_ESCAPE && lampiao.getMenu()==0 && !voltarMenu) {

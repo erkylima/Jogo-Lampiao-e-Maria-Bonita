@@ -25,6 +25,11 @@ public class Inventario extends Tela implements KeyListener{
 		
 	}
 
+	public InvStatus getInv() {
+		return inv;
+	}
+
+
 	@Override
 	public void gameUpdate() {
 		

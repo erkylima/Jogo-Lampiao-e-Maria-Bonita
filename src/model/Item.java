@@ -91,9 +91,7 @@ public class Item extends Sprite implements Runnable{
 			}else {
 				if(init.getLampiao().getSede() + getVida() <= 120) {
 					init.getLampiao().setSede(init.getLampiao().getSede()+getVida());
-					System.out.println("enxeu um tiquinho até " + init.getLampiao().getFome());
 				}else {
-					System.out.println("Já topou");
 					init.getLampiao().setSede(120);
 				}
 				setVida(0);

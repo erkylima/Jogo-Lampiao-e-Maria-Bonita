@@ -9,8 +9,7 @@ import java.io.IOException;
 import controller.Inicializa;
 import model.FimCam;
 
-
-public class Fim extends Tela{
+public class FimMultiplayer extends Tela{
 	/**
 	 * 
 	 */
@@ -19,7 +18,7 @@ public class Fim extends Tela{
 	private Inicializa init ;
 	private int count;
 	private String msg;
-	public Fim(int largura, int altura, Inicializa init) {
+	public FimMultiplayer(int largura, int altura, Inicializa init) {
 		super("",largura,altura,init);
 		getInit().getLampiao().setFase(this);
 		this.init = init;
@@ -33,10 +32,10 @@ public class Fim extends Tela{
 		getInit().getInventario().getInv().setRunning(false);
 		if(getInit().getInventario().getInv().getSegundos() < getInit().getConfig().getRecord()) {
 			getInit().getConfig().setRecord(getInit().getInventario().getInv().getSegundos());
-			msg = "Parabéns! O novo recorde agora é: ";
+			msg = "O novo recorde multiplayer é: ";
 			getInit().gerarConfigXlm(getInit().getConfig(), true);
 		}else {
-			msg = "Precisa melhorar. Seu tempo foi: ";
+			msg = "Seu tempo foi em multiplayer foi: ";
 		}
 	}
 

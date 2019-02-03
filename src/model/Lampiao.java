@@ -1,6 +1,7 @@
 package model;
 
 import java.awt.Graphics;
+import java.util.List;
 
 import com.sun.glass.events.KeyEvent;
 
@@ -18,6 +19,7 @@ public class Lampiao extends Sprite{
 	private boolean pistola,multiplayer;
 	private int arma=48; //distância entre a aparencia pistola 38 e aparencia espingarda
 	private int dano;
+	private List<Integer> teclas;
 
 	public Lampiao(int aparencia,int columns, int rows, int posX, int posY,String caminho,Tela fase,double vida,double fome,double sede,double chance) throws TratamentoException {
 		super(aparencia, columns, rows, posX, posY, caminho,vida);
@@ -25,7 +27,7 @@ public class Lampiao extends Sprite{
 		this.fase = fase;
 		this.sede = sede;
 		this.fome = fome;
-		pistola = false;
+		pistola = true;
 		saude = new Status(0, 14, 1, getX(), getY()-20, "Arquivos/Imagens/saude.png", getVida(), this);
 	}
 
@@ -136,113 +138,118 @@ public class Lampiao extends Sprite{
 	}
 
 	public void andar(){
-		switch(getAcao()) {
-		case KeyEvent.VK_D:{
-			setDireita(true);
-			setX(getX()+4);
-			if(pistola) {
-				if(getAparencia()<=arma ||getAparencia()>=arma+14) {
-					setAparencia(arma);
+		int esquerdaT = teclas.get(0);
+		int direitaT = teclas.get(1);
+		int pulaT = teclas.get(2);
+		int atiraT = teclas.get(3);
+		if(getAcao()!=-1) {
+			if(direitaT == getAcao()) {
+				setDireita(true);
+				setX(getX()+4);
+				if(pistola) {
+					if(getAparencia()<=arma ||getAparencia()>=arma+14) {
+						setAparencia(arma);
+					}
+				}else {
+					if(getAparencia()>=14) {
+						setAparencia(0);
+					}
 				}
-			}else {
-				if(getAparencia()>=14) {
-					setAparencia(0);
-				}
+				animacaoAndandoDireita();
+
+				if(getFome()>0)
+					setFome(getFome()-0.08);
+				if(getSede()>0)
+					setSede(getSede()-0.09);
+
+				if(getFome()<10 || getSede() <15) {
+					setVida(getVida()-(getFase().getInit().getConfig().getNivel()+1)/15);
+				} else if(getFome()>60 && getVida() <= getFase().getInit().getVidaInicial()-getFase().getInit().getConfig().getNivel())
+					if(getFase().getInit().getConfig().getNivel() <10) {
+						setVida(getVida()+(getFase().getInit().getConfig().getNivel()+1)/14);
+
+					}else if(getFase().getInit().getConfig().getNivel() > 10) {
+						setVida(getVida()+(getFase().getInit().getConfig().getNivel()+1)/300);
+					}
 			}
-			animacaoAndandoDireita();
+			else if(esquerdaT == getAcao()){
 
-			if(getFome()>0)
-				setFome(getFome()-0.08);
-			if(getSede()>0)
-				setSede(getSede()-0.09);
-			
-			if(getFome()<10 || getSede() <15) {
-				setVida(getVida()-(getFase().getInit().getConfig().getNivel()+1)/15);
-			} else if(getFome()>60 && getVida() <= getFase().getInit().getVidaInicial()-getFase().getInit().getConfig().getNivel())
-				if(getFase().getInit().getConfig().getNivel() <10) {
-					setVida(getVida()+(getFase().getInit().getConfig().getNivel()+1)/14);
+				if(getFome()>0)
+					setFome(getFome()-0.03);
+				if(getSede()>0)
+					setSede(getSede()-0.04);
 
-				}else if(getFase().getInit().getConfig().getNivel() > 10) {
-					setVida(getVida()+(getFase().getInit().getConfig().getNivel()+1)/300);
+				if(getFome()<10 || getSede() <15) {
+					setVida(getVida()-((getFase().getInit().getConfig().getNivel()+1)/15));
+				} else if((getFome()>60 && getSede() > 65) && getVida() <= (getFase().getInit().getVidaInicial()-getFase().getInit().getConfig().getNivel())) {
+					if(getFase().getInit().getConfig().getNivel() <10) {
+						setVida(getVida()+(getFase().getInit().getConfig().getNivel()+1)/5);
+
+					}else if(getFase().getInit().getConfig().getNivel() > 10) {
+
+						setVida(getVida()+(getFase().getInit().getConfig().getNivel())/150);
+
+					}
 				}
-			break;
+				setDireita(false);;
+				setX(getX()-4);
+				if(pistola) {
+					if(getAparencia()< arma + 23 || getAparencia()>= arma + 37) {
+						setAparencia( arma + 24);
+					}
+				}else {
+					if(getAparencia()<23 || getAparencia()>=37) {
+						setAparencia(24);
+					}
+				}
+				animacaoAndandoEsquerda();		
+			}
+			else if(atiraT == getAcao()){
+				if(isPistola()) {
+					setDano(10);
+				}else {
+					setDano(18);
+				}
+				if(isDireita()) {
+					if(pistola)
+						setAparencia(arma+46);
+					else 
+						setAparencia(46);
+					try {
+						new Tiro(0, 2, 1, getX()+70, getY()+40, "Arquivos/Imagens/tiro.png", this,fase.getCamera().getInimigos(), dano).draw(fase.getCamera().getGraphics());;
+
+						Thread.sleep(1000/2);	
+
+					} catch (TratamentoException e) {
+						e.printStackTrace();
+					}catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}else {
+					if(pistola)
+						setAparencia(arma+47);
+					else
+						setAparencia(47);
+					try {
+						new Tiro(1, 2, 1, getX(), getY()+40, "Arquivos/Imagens/tiro.png", this,fase.getCamera().getInimigos(), dano).draw(fase.getCamera().getGraphics());	
+
+						Thread.sleep(1000/3);				
+					} catch (TratamentoException e) {
+						e.printStackTrace();
+					}catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
+
+			}
+			else if(pulaT == getAcao()) {
+				pular();
+			}
 		}
-		case KeyEvent.VK_A:{
-
-			if(getFome()>0)
-				setFome(getFome()-0.03);
-			if(getSede()>0)
-				setSede(getSede()-0.04);
-
-			if(getFome()<10 || getSede() <15) {
-				setVida(getVida()-((getFase().getInit().getConfig().getNivel()+1)/15));
-			} else if((getFome()>60 && getSede() > 65) && getVida() <= (getFase().getInit().getVidaInicial()-getFase().getInit().getConfig().getNivel())) {
-				if(getFase().getInit().getConfig().getNivel() <10) {
-					setVida(getVida()+(getFase().getInit().getConfig().getNivel()+1)/5);
-
-				}else if(getFase().getInit().getConfig().getNivel() > 10) {
-
-					setVida(getVida()+(getFase().getInit().getConfig().getNivel())/150);
-
-				}
-			}
-			setDireita(false);;
-			setX(getX()-4);
-			if(pistola) {
-				if(getAparencia()< arma + 23 || getAparencia()>= arma + 37) {
-					setAparencia( arma + 24);
-				}
-			}else {
-				if(getAparencia()<23 || getAparencia()>=37) {
-					setAparencia(24);
-				}
-			}
-			animacaoAndandoEsquerda();		
-			break;
-		}
-		case KeyEvent.VK_T:{
-			if(isPistola()) {
-				setDano(10);
-			}else {
-				setDano(18);
-			}
-			if(isDireita()) {
-				if(pistola)
-					setAparencia(arma+46);
-				else 
-					setAparencia(46);
-				try {
-					new Tiro(0, 2, 1, getX()+70, getY()+40, "Arquivos/Imagens/tiro.png", this,fase.getCamera().getInimigos(), dano).draw(fase.getCamera().getGraphics());;
-
-					Thread.sleep(1000/2);	
-
-				} catch (TratamentoException e) {
-					e.printStackTrace();
-				}catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}else {
-				if(pistola)
-					setAparencia(arma+47);
-				else
-					setAparencia(47);
-				try {
-					new Tiro(1, 2, 1, getX(), getY()+40, "Arquivos/Imagens/tiro.png", this,fase.getCamera().getInimigos(), dano).draw(fase.getCamera().getGraphics());	
-
-					Thread.sleep(1000/3);				
-				} catch (TratamentoException e) {
-					e.printStackTrace();
-				}catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-
-
-			break;
-		}
-		case 0:{
+		else{
 			if(isDireita()) {
 				if(pistola) {
 					if(getAparencia() >=arma+0 && getAparencia() <=arma+14 || getAparencia() == arma+46) {
@@ -266,12 +273,11 @@ public class Lampiao extends Sprite{
 				}
 				animacaoParadoEsquerda();
 			}
-			break;
 
 		}
-		}
-
 	}
+
+
 
 	public void pular(){
 		int anguloDoPulo = 25;
@@ -346,7 +352,7 @@ public class Lampiao extends Sprite{
 	}
 
 	public void parar() {
-		setAcao(0);
+		setAcao(-1);
 	}
 
 	public boolean isVivo() {
@@ -443,7 +449,12 @@ public class Lampiao extends Sprite{
 		this.multiplayer = multiplayer;
 	}
 
-
+	public List<Integer> getTeclas() {
+		return teclas;
+	}
+	public void setTeclas(List<Integer> teclas) {
+		this.teclas = teclas;
+	}
 
 
 

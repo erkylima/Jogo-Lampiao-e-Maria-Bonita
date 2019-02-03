@@ -2,6 +2,9 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.ComponentOrientation;
+import java.awt.DisplayMode;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -36,6 +39,7 @@ public class IniciarJogo extends JFrame implements KeyListener{
 //		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
 //		GraphicsDevice device = env.getScreenDevices()[0];
 //
+		
 //		DisplayMode oldMode = device.getDisplayMode();
 //		DisplayMode newMode = new DisplayMode(1024,768,oldMode.getBitDepth(),oldMode.getRefreshRate());
 //		device.setFullScreenWindow(this);
