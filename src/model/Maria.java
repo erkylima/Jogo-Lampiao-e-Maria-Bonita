@@ -14,6 +14,7 @@ public class Maria extends Sprite implements Runnable{
 	private boolean threadOn = true;
 	private Lampiao lampiao;
 	private Inicializa init;
+	private boolean libertou=false;
 
 	public Maria(int aparencia, int colunas, int linhas, int x, int y, String endereco,Lampiao lampiao,Inicializa init, double vida)
 			throws TratamentoException {
@@ -141,26 +142,33 @@ public class Maria extends Sprite implements Runnable{
 	}
 	@Override
 	public void run() {
-		boolean libertou=false;
 		while(threadOn ) {
 			if(init.getLampiao().getBounds().intersects(getBounds()) && init.getLampiao().getAcao() == KeyEvent.VK_E || libertou == true) {
 				libertou = true;
 				if(getAparencia()<20 ) {
+					setY(getY()+10);
 					setAparencia(20);
 				}
 				animacaoAndandoDireita();
 			}
-			else if(lampiao.getFase()!=null && lampiao.getFase().getInit().getCamadasF1().size()>1) {
+			if(lampiao.getFase()!=null && lampiao.getFase().getInit().getCamadasF1().size()>1 && !libertou) {
 				if(getAparencia() <10 || getAparencia()>19)
 					setAparencia(10);
 				animacaoAndandoEsquerda();
-				cair();
 				
 				if(getVida()<10) {
 					destroier(this);
 				}
 				if(getY()>640) {
 					setVida(getVida()-10);
+				}
+			}
+			if(lampiao.getFase()!=null && !libertou) {
+				try {
+					cair();
+
+				} catch (Exception e) {
+					System.out.println("Sem fase definida");
 				}
 			}
 			try {
@@ -171,6 +179,16 @@ public class Maria extends Sprite implements Runnable{
 			}
 		}		
 	}
+
+	public boolean isLibertou() {
+		return libertou;
+	}
+
+
+	public void setThreadOn(boolean threadOn) {
+		this.threadOn = threadOn;
+	}
+
 
 	public void destroier(Volante volante){
 		volante.setY(getY()+500);

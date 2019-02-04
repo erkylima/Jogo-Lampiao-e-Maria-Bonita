@@ -55,7 +55,7 @@ public class Inicializa {
 			teclasPlayer1.add(KeyEvent.VK_T);
 			lampiao.setTeclas(teclasPlayer1);
 			gerarConfigXlm(conf,false);
-			maria = new Maria(10,28,1,7000,100,"Arquivos/Imagens/mariasprite.png",lampiao,this,lampiao.getVida()/2);
+			maria = new Maria(10,28,1,7100,100,"Arquivos/Imagens/mariasprite.png",lampiao,this,lampiao.getVida()/2);
 			status = new Status(0, 14, 1, 20, 5, "Arquivos/Imagens/status.png", lampiao.getChance(), lampiao);
 			fome = new Status(0, 14, 1, 20, 5, "Arquivos/Imagens/fome.png", (int)lampiao.getFome(), lampiao);
 			sede = new Status(0, 14, 1, 20, 5, "Arquivos/Imagens/sede.png", (int)lampiao.getSede(), lampiao);

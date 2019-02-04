@@ -31,9 +31,7 @@ public class FimMultiplayer extends Tela{
 	public void init() {
 		getInit().getInventario().getInv().setRunning(false);
 		if(getInit().getInventario().getInv().getSegundos() < getInit().getConfig().getRecord()) {
-			getInit().getConfig().setRecord(getInit().getInventario().getInv().getSegundos());
 			msg = "O novo recorde multiplayer é: ";
-			getInit().gerarConfigXlm(getInit().getConfig(), true);
 		}else {
 			msg = "Seu tempo foi em multiplayer foi: ";
 		}
@@ -42,7 +40,7 @@ public class FimMultiplayer extends Tela{
 	@Override
 	public void gameUpdate() {
 		inv.draw(g);
-		
+
 	}
 
 	@Override
@@ -57,10 +55,17 @@ public class FimMultiplayer extends Tela{
 		g.setColor(Color.BLACK);
 		g.setFont(font); 
 		g.drawString(msg+getInit().getInventario().getInv().getSegundos()+" segundos", 250, 420);
+		if(!(getInit().getInventario().getInv().getSegundos() <= getInit().getConfig().getRecord())) {
+			g.drawString("O recorde atual é "+getInit().getConfig().getRecord()+" segundos", 320, 445);
+		}
+		if(getInit().getInventario().getInv().getSegundos() < getInit().getConfig().getRecord()) {
+			getInit().getConfig().setRecord(getInit().getInventario().getInv().getSegundos());
+			getInit().gerarConfigXlm(getInit().getConfig(), true);
+		}
 		inv.renderizar();
 		if(count<5) {
 			count++;
-			
+
 			System.out.println(count);
 		}else if (count==5){
 			count++;
@@ -71,25 +76,29 @@ public class FimMultiplayer extends Tela{
 				e.printStackTrace();
 			}
 			destroier(this);
+			getInit().getMaria().destroier(getInit().getMaria());
+
 			init.getJogo().remove(init.getJogo());
 			init.getJogo().dispose();
 			Inicializa init = new Inicializa();		
 			new IniciarJogo("Lampião e Maria Bonita", init);
 		}
-		
+
 	}
 
 	@Override
 	public void iniciaInimigos(boolean respawna) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	@Override
 	public void destroier(Tela tela) {
 		if(getInit().getInventario() != null && getInit().getInventario().getInv().isRunning()) {
 			getInit().getInventario().getInv().setRunning(false);
 		}
+
+		
 		super.destroier(tela);
 	}
 }

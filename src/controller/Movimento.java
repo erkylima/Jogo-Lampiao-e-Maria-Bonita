@@ -27,7 +27,7 @@ public class Movimento extends KeyAdapter implements Runnable{
 		if(lampiao.getTeclas().contains(e.getKeyCode()) || 
 				e.getKeyCode() == KeyEvent.VK_T ||
 				e.getKeyCode() == KeyEvent.VK_ESCAPE ||
-				e.getKeyCode() == KeyEvent.VK_ENTER) {
+				e.getKeyCode() == KeyEvent.VK_ENTER ) {
 			lampiao.setAcao(e.getKeyCode());
 		}
 	}
@@ -43,7 +43,9 @@ public class Movimento extends KeyAdapter implements Runnable{
 			System.out.println(lampiao.getX() + " X Y " +lampiao.getY());
 			break;
 
-			
+		case KeyEvent.VK_E:
+			lampiao.setAcao(KeyEvent.VK_E);
+			break;
 		}
 		if(lampiao.getTeclas().contains(e.getKeyCode())) {
 			lampiao.setAcao(-1);
@@ -64,7 +66,10 @@ public class Movimento extends KeyAdapter implements Runnable{
 				lampiao.setX(lampiao.getX()+10);
 			}
 			if(!fase.isColidindo(lampiao)) {
-				lampiao.cair();
+				try {
+					lampiao.cair();
+				} catch (Exception e) {
+				}
 			}
 
 			if(lampiao.isVivo() && !voltarMenu) {

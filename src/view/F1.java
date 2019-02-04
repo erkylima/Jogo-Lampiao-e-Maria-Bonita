@@ -6,7 +6,6 @@ import controller.Inicializa;
 import controller.Movimento;
 import model.Camera;
 import model.Item;
-import model.Metralha;
 import model.Volante;
 
 public class F1 extends Tela {
@@ -52,7 +51,6 @@ public class F1 extends Tela {
 		camera.renderizar();
 		
 		if(getInit().getLampiao().getX()>=6987 && completou() && getInit().getMaria().getX()>=6987) {
-			getInit().getLampiao().getFase().zerarInimigos();
 			getInit().getLampiao().setAcao(0);
 			getInit().getLampiao().getFase().getCamera().destroier(getInit().getLampiao().getFase().getCamera());
 			getInit().getLampiao().setFome(getInit().getLampiao().getFome()+(30-getInit().getConfig().getNivel()));
@@ -60,7 +58,6 @@ public class F1 extends Tela {
 			removeKeyListener(m);
 			m.destroier(m);
 			getInit().zerarCamadas();
-			getInit().getInimigos().clear();
 			getSom().destroier(getSom());
 			new F2("Lampião e Maria Bonita",1024,640,getInit());
 			destroier(this);
@@ -78,7 +75,7 @@ public class F1 extends Tela {
 			getInit().getInimigos().add(new Volante(0, 40, 1, 2044, 500, "Arquivos/Imagens/volantesprite.png", getInit().getLampiao(), 20,respawna));
 			getInit().getInimigos().add(new Volante(0, 40, 1, 2200, 500, "Arquivos/Imagens/volantesprite.png", getInit().getLampiao(), 20,respawna));
 			getInit().getInimigos().add(new Volante(0, 40, 1, 3000, 630, "Arquivos/Imagens/volantesprite.png", getInit().getLampiao(), 20,respawna));
-			getInit().getInimigos().add(new Volante(0, 40, 1, 3000, 500, "Arquivos/Imagens/volantesprite.png",getInit().getLampiao(),20,respawna));
+			getInit().getInimigos().add(new Volante(0, 40, 1, 3000, 500, "Arquivos/Imagens/volantesprite.png",getInit().getLampiao(),50,respawna));
 			getInit().getInimigos().add(new Volante(0, 40, 1, 2800, 500, "Arquivos/Imagens/volantesprite.png",getInit().getLampiao(),20,respawna));
 
 			getInit().getInimigos().add(new Volante(0, 40, 1, 3631, 390, "Arquivos/Imagens/volantesprite.png", getInit().getLampiao(), 20,respawna));

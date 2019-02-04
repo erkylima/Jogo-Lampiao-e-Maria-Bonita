@@ -26,7 +26,7 @@ public class Multiplayer extends Tela {
 		getInit().getLampiao().setMultiplayer(true);
 		getInit().getMariamultiplayer().setFase(this);
 		getInit().getLampiao().setFase(this);
-		
+		getInit().getInventario().getInv().getThread().start();
 		camera = new Camera(getInit().getLampiao(), getInit().getInimigos(), getInit().getCamadasF1());
 
 		getInit().getLampiao().getFase().setCamera(camera);
@@ -77,6 +77,8 @@ public class Multiplayer extends Tela {
 			getInit().getMaria().destroier(getInit().getMaria());
 			getInit().zerarCamadas();
 			getInit().getInimigos().clear();
+			getInit().getMaria().destroier(getInit().getMaria());
+			getInit().getMaria().setThreadOn(false);
 			getSom().destroier(getSom());
 			new FimMultiplayer(1024,640,getInit());
 			getInit().getJogo().remove(this);

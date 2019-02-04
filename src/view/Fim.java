@@ -32,9 +32,7 @@ public class Fim extends Tela{
 	public void init() {
 		getInit().getInventario().getInv().setRunning(false);
 		if(getInit().getInventario().getInv().getSegundos() < getInit().getConfig().getRecord()) {
-			getInit().getConfig().setRecord(getInit().getInventario().getInv().getSegundos());
 			msg = "Parabéns! O novo recorde agora é: ";
-			getInit().gerarConfigXlm(getInit().getConfig(), true);
 		}else {
 			msg = "Precisa melhorar. Seu tempo foi: ";
 		}
@@ -58,6 +56,12 @@ public class Fim extends Tela{
 		g.setColor(Color.BLACK);
 		g.setFont(font); 
 		g.drawString(msg+getInit().getInventario().getInv().getSegundos()+" segundos", 250, 420);
+		if(!(getInit().getInventario().getInv().getSegundos() < getInit().getConfig().getRecord())) {
+			g.drawString("O recorde atual é "+getInit().getConfig().getRecord()+" segundos", 320, 445);
+		}
+		getInit().getConfig().setRecord(getInit().getInventario().getInv().getSegundos());
+		getInit().gerarConfigXlm(getInit().getConfig(), true);
+
 		inv.renderizar();
 		if(count<5) {
 			count++;

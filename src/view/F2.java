@@ -7,6 +7,7 @@ import controller.Movimento;
 import model.Camera;
 import model.Item;
 import model.Metralha;
+import model.Sprite;
 import model.Volante;
 
 public class F2 extends Tela {
@@ -28,7 +29,7 @@ public class F2 extends Tela {
 		addKeyListener(m);
 		
 		getInit().getMaria().setX(6800);
-		getInit().getMaria().setY(100);
+		getInit().getMaria().setY(521);
 	}
 
 	@Override
@@ -55,18 +56,17 @@ public class F2 extends Tela {
 	public void gameRender() {
 		camera.renderizar();
 		
-		if(getInit().getLampiao().getX()>=6987 && completou()) {
-//			getInit().getLampiao().getFase().getInit().retornarMenu();
+		if(getInit().getLampiao().getX()>=6987 && completou() && getInit().getMaria().isLibertou()) {
 			
-			getInit().getLampiao().getFase().zerarInimigos();
 			getInit().getLampiao().setAcao(0);
 			getInit().getLampiao().getFase().getCamera().destroier(getInit().getLampiao().getFase().getCamera());
 			this.setVisible(false);
 			removeKeyListener(m);
 			m.destroier(m);
+			getInit().getInventario().getInv().setRunning(false);
 			getInit().getMaria().destroier(getInit().getMaria());
+			getInit().getMaria().setThreadOn(false);
 			getInit().zerarCamadas();
-			getInit().getInimigos().clear();
 			getSom().destroier(getSom());
 			new Fim(1024,640,getInit());
 			getInit().getJogo().remove(this);
@@ -77,6 +77,18 @@ public class F2 extends Tela {
 		}
 	}
 
+	@Override
+	public boolean completou() {
+		for (Sprite inimigo : getInit().getInimigos()) {
+			if(inimigo.getVida()>0) {
+				if(inimigo instanceof Item) {
+					inimigo.setVida(0);
+				}
+				return false;
+			}
+		}
+		return true;
+	}
 
 	@Override
 	public void iniciaInimigos(boolean respawna) {
